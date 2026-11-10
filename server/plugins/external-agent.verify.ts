@@ -173,11 +173,11 @@ async function readBootstrap(response: Response): Promise<BootstrapValue> {
   return { mcpToken: value.mcpToken };
 }
 
-const originalToken = process.env.OPENCHATCUT_MCP_TOKEN;
-const originalEditorUrl = process.env.OPENCHATCUT_EDITOR_URL;
+const originalToken = process.env.ALWAYSCUT_MCP_TOKEN;
+const originalEditorUrl = process.env.ALWAYSCUT_EDITOR_URL;
 try {
-  process.env.OPENCHATCUT_MCP_TOKEN = 'mcp-secret';
-  delete process.env.OPENCHATCUT_EDITOR_URL;
+  process.env.ALWAYSCUT_MCP_TOKEN = 'mcp-secret';
+  delete process.env.ALWAYSCUT_EDITOR_URL;
   assert.equal(trustedEditorRequest(editorRequestShape('127.0.0.1'), true), true,
     'an actual IPv4 loopback socket with matching Host and Origin stays trusted');
   assert.equal(trustedEditorRequest(editorRequestShape('::1'), true), true,
@@ -186,13 +186,13 @@ try {
     'an IPv4-mapped loopback socket with matching Host and Origin stays trusted');
   assert.equal(trustedEditorRequest(editorRequestShape('192.0.2.10'), true), false,
     'matching Host and Origin cannot spoof a non-loopback socket');
-  process.env.OPENCHATCUT_EDITOR_URL = 'https://editor.example';
+  process.env.ALWAYSCUT_EDITOR_URL = 'https://editor.example';
   assert.equal(trustedEditorRequest(editorRequestShape(
     '192.0.2.10',
     'https://editor.example',
     'editor.example',
   ), true), false, 'a configured remote editor URL cannot authorize a non-loopback socket');
-  delete process.env.OPENCHATCUT_EDITOR_URL;
+  delete process.env.ALWAYSCUT_EDITOR_URL;
 
   // The bridge is authorized purely by the loopback editor request shape:
   // registration works with NO credential headers; the rest of the endpoints
@@ -390,25 +390,25 @@ try {
     body: '{}',
   })).status, 415);
 
-  process.env.OPENCHATCUT_EDITOR_URL = origin;
+  process.env.ALWAYSCUT_EDITOR_URL = origin;
   assert.equal((await bootstrap()).status, 200);
   assert.equal((await bootstrap({
     origin: `http://localhost:${address.port}`,
     host: `localhost:${address.port}`,
   })).status, 403);
 
-  delete process.env.OPENCHATCUT_MCP_TOKEN;
-  delete process.env.OPENCHATCUT_EDITOR_URL;
+  delete process.env.ALWAYSCUT_MCP_TOKEN;
+  delete process.env.ALWAYSCUT_EDITOR_URL;
   const tokenlessBootstrap = await readBootstrap(await bootstrap());
   assert.equal((await fetch(`${origin}/api/external-mcp/mcp`)).status, 401);
   assert.equal((await fetch(`${origin}/api/external-mcp/mcp`, {
     headers: { Authorization: `Bearer ${tokenlessBootstrap.mcpToken}` },
   })).status, 204);
 } finally {
-  if (originalToken === undefined) delete process.env.OPENCHATCUT_MCP_TOKEN;
-  else process.env.OPENCHATCUT_MCP_TOKEN = originalToken;
-  if (originalEditorUrl === undefined) delete process.env.OPENCHATCUT_EDITOR_URL;
-  else process.env.OPENCHATCUT_EDITOR_URL = originalEditorUrl;
+  if (originalToken === undefined) delete process.env.ALWAYSCUT_MCP_TOKEN;
+  else process.env.ALWAYSCUT_MCP_TOKEN = originalToken;
+  if (originalEditorUrl === undefined) delete process.env.ALWAYSCUT_EDITOR_URL;
+  else process.env.ALWAYSCUT_EDITOR_URL = originalEditorUrl;
   server.close();
   await once(server, 'close');
 }

@@ -18,7 +18,7 @@ import { genericCloudTranscribePath } from './generic-cloud-asr';
 export const TRANSCRIPTION_PROVIDER_KEY = 'cc.transcriptionProvider';
 export const TRANSCRIPTION_LANGUAGE_KEY = 'cc.transcriptionLanguage';
 export const TRANSCRIPTION_DIARIZATION_KEY = 'cc.transcriptionDiarization';
-export const TRANSCRIPTION_PROVIDER_CHANGE_EVENT = 'openchatcut:transcription-provider-change';
+export const TRANSCRIPTION_PROVIDER_CHANGE_EVENT = 'alwayscut:transcription-provider-change';
 
 /** Ingestion auto-transcribe policy. `local` transcribes only on the free
  *  on-device engine; `all` also fires on paid cloud providers; `off` never.

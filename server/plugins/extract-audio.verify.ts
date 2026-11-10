@@ -9,8 +9,8 @@ import { extractAudioPlugin } from './extract-audio.ts';
 const source = await readFile(new URL('./extract-audio.ts', import.meta.url), 'utf8');
 assert.doesNotMatch(source, /\bspawn\(ffprobeBin\(\)/, 'ffprobe must use the shared low-priority process launcher');
 
-const directory = await mkdtemp(join(tmpdir(), 'openchatcut-extract-audio-'));
-const previousProbe = process.env.OPENCHATCUT_FFPROBE;
+const directory = await mkdtemp(join(tmpdir(), 'alwayscut-extract-audio-'));
+const previousProbe = process.env.ALWAYSCUT_FFPROBE;
 let server: ViteDevServer | undefined;
 
 try {
@@ -54,7 +54,7 @@ try {
     error: 'source has no audio track: silent.png',
   });
 
-  process.env.OPENCHATCUT_FFPROBE = join(directory, 'missing-ffprobe');
+  process.env.ALWAYSCUT_FFPROBE = join(directory, 'missing-ffprobe');
   response = await fetch(`${origin}/api/extract-audio`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
@@ -72,8 +72,8 @@ try {
   if (server) {
     await server.close();
   }
-  if (previousProbe === undefined) delete process.env.OPENCHATCUT_FFPROBE;
-  else process.env.OPENCHATCUT_FFPROBE = previousProbe;
+  if (previousProbe === undefined) delete process.env.ALWAYSCUT_FFPROBE;
+  else process.env.ALWAYSCUT_FFPROBE = previousProbe;
   await rm(directory, { recursive: true, force: true });
 }
 

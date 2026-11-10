@@ -37,7 +37,7 @@ const desktopBridge = {
     return { imported: [], errors: [], unsupportedFiles: [], duplicateCount: 0 };
   },
 };
-(globalThis as unknown as { window?: unknown }).window = { openChatCutDesktop: desktopBridge };
+(globalThis as unknown as { window?: unknown }).window = { alwaysCutDesktop: desktopBridge };
 try {
   const empty = await execAgentPathImportTool('import_asset', { path: '   ' }, {} as AgentContext);
   assert.match(String(empty.error), /path is required/, 'blank path rejected');
@@ -69,7 +69,7 @@ const projectCtx = {
   commands: { addAsset: (asset: { id: string; name: string }) => { addedAssets.push(asset); } },
 } as unknown as AgentContext;
 (globalThis as unknown as { window?: unknown }).window = {
-  openChatCutDesktop: {
+  alwaysCutDesktop: {
     async importAgentPaths(_request: { paths: readonly string[]; projectId: string; knownHashes: readonly string[] }) {
       return { imported: [{ ...importedFile, importId: 'import-1' }], errors: [], unsupportedFiles: [], duplicateCount: 0 };
     },
@@ -88,7 +88,7 @@ try {
 
 // ── Missing roots are actionable and never reported as a successful import ──
 (globalThis as unknown as { window?: unknown }).window = {
-  openChatCutDesktop: {
+  alwaysCutDesktop: {
     async importAgentPaths() {
       return {
         imported: [], unsupportedFiles: [], duplicateCount: 0,
@@ -112,7 +112,7 @@ try {
 
 // ── Unsupported documents are distinguished from known media ──
 (globalThis as unknown as { window?: unknown }).window = {
-  openChatCutDesktop: {
+  alwaysCutDesktop: {
     async importAgentPaths() {
       return { imported: [], errors: [], unsupportedFiles: ['说明.md'], duplicateCount: 2 };
     },
@@ -128,7 +128,7 @@ try {
 }
 
 // ── Desktop without an open project ──
-(globalThis as unknown as { window?: unknown }).window = { openChatCutDesktop: desktopBridge };
+(globalThis as unknown as { window?: unknown }).window = { alwaysCutDesktop: desktopBridge };
 try {
   const noProject = await execAgentPathImportTool('import_folder', { path: '/Volumes/素材盘' }, { getProjectId: () => undefined } as unknown as AgentContext);
   assert.match(String(noProject.error), /no open project/, 'missing project rejected');
@@ -138,7 +138,7 @@ try {
 
 // ── Bridge failure surfaces the message ──
 (globalThis as unknown as { window?: unknown }).window = {
-  openChatCutDesktop: {
+  alwaysCutDesktop: {
     async importAgentPaths() { throw new Error('scan failed: EACCES'); },
   },
 };
@@ -153,7 +153,7 @@ console.log('agent-path-import-tools.verify: schema, host resolution, and pool l
 
 const localCalls: unknown[] = [];
 (globalThis as unknown as { window?: unknown }).window = {
-  openChatCutDesktop: {
+  alwaysCutDesktop: {
     async browseLocalMedia(request: unknown) {
       localCalls.push(request);
       return { path: '/media', entries: [{ path: '/media/take.mp4', name: 'take.mp4', kind: 'video' }], nextOffset: null, truncated: false, errors: [] };
@@ -265,7 +265,7 @@ try {
 const bridgeFetch = globalThis.fetch;
 let bridgeCalls = 0;
 (globalThis as unknown as { window?: unknown }).window = {
-  openChatCutDesktop: {
+  alwaysCutDesktop: {
     async browseLocalMedia() {
       bridgeCalls += 1;
       return { path: '/media', entries: [], nextOffset: null, truncated: false, errors: [] };

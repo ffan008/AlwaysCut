@@ -27,6 +27,6 @@ if (existsSync(moduleUrl)) {
 }
 
 const mainSource = readFileSync(new URL('./main.ts', import.meta.url), 'utf8');
-assert.match(mainSource, /openchatcut:window-action/, 'main process must register window actions');
+assert.match(mainSource, /alwayscut:window-action/, 'main process must register window actions');
 
 console.log('desktop window-frame verification passed');

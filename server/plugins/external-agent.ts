@@ -129,7 +129,7 @@ export async function handleExternalAgentBridge(
 
 export function externalAgentPlugin(): Plugin {
   return {
-    name: 'openchatcut-external-agent',
+    name: 'alwayscut-external-agent',
     configureServer(server) {
       server.middlewares.use('/api/external-agent', (req, res) => {
         void handleExternalAgentBridge(req, res).catch((error) => {

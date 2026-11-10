@@ -15,7 +15,7 @@ const CATEGORIES = [
   'other',
 ] as const;
 
-const STORAGE_KEY = 'openchatcut.friction.log';
+const STORAGE_KEY = 'alwayscut.friction.log';
 const MAX_ENTRIES = 50;
 
 export interface FrictionEntry {

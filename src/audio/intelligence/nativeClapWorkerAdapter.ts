@@ -27,7 +27,7 @@ const nativeClapWorkers = new WeakSet<Worker>();
 
 export function createNativeClapWorker(): Worker | null {
   if (!nativeClapAvailable || !desktopNativeInferenceEnabled() || typeof window === 'undefined') return null;
-  const inference = window.openChatCutDesktop?.inference as unknown as Partial<DesktopClapApi> | undefined;
+  const inference = window.alwaysCutDesktop?.inference as unknown as Partial<DesktopClapApi> | undefined;
   if (typeof inference?.clap !== 'function'
     || typeof inference.cancel !== 'function'
     || typeof inference.subscribeProgress !== 'function') return null;
@@ -49,7 +49,7 @@ export async function warmUpDesktopNativeClap(): Promise<boolean> {
   if (!nativeClapAvailable || !desktopNativeInferenceEnabled() || typeof window === 'undefined') {
     return false;
   }
-  const inference = window.openChatCutDesktop?.inference as unknown as Partial<DesktopClapApi> | undefined;
+  const inference = window.alwaysCutDesktop?.inference as unknown as Partial<DesktopClapApi> | undefined;
   if (typeof inference?.clap !== 'function') return false;
   const requestId = nextDesktopRequestId();
   try {

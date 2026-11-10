@@ -79,7 +79,7 @@ assert.equal(
 const legacy = headersOf(claudeCodeMcpConfig('http://127.0.0.1:5199/mcp', 'tok'));
 assert.equal(BUILTIN_APPROVAL_MODE_HEADER in legacy, false,
   'a run that declares no mode sends no approval header at all');
-assert.deepEqual(Object.keys(legacy), ['Authorization', 'x-openchatcut-mcp-client'],
+assert.deepEqual(Object.keys(legacy), ['Authorization', 'x-alwayscut-mcp-client'],
   'the unset case keeps the original header set exactly');
 
 // Round-trip: what the turn writes is what the server reads back.

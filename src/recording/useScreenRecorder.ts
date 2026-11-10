@@ -4,7 +4,7 @@ import type { DesktopRecordingSourceInfo } from '../../shared/desktop-recording'
 // Minimum viable screen-recording slice (renderer side).
 //
 // It reuses the two contracts already wired by the main process:
-//   - `window.openChatCutDesktop.recording.listSources()` to enumerate capturable
+//   - `window.alwaysCutDesktop.recording.listSources()` to enumerate capturable
 //     screens/windows (see shared/desktop-recording.ts).
 //   - the MediaRecorder WebM blob is handed back to the caller, which turns it into
 //     a `File` and lands it in the media pool via `importLocalMedia` (RecordPanel).
@@ -86,7 +86,7 @@ export function useScreenRecorder(): ScreenRecorderState {
   }, []);
 
   const refreshSources = useCallback(async () => {
-    const bridge = window.openChatCutDesktop?.recording;
+    const bridge = window.alwaysCutDesktop?.recording;
     if (!bridge) {
       setError('Screen recording is only available in the desktop app.');
       return;
@@ -110,7 +110,7 @@ export function useScreenRecorder(): ScreenRecorderState {
 
   const start = useCallback(async () => {
     if (phase !== 'idle') return;
-    const bridge = window.openChatCutDesktop?.recording;
+    const bridge = window.alwaysCutDesktop?.recording;
     if (!bridge) {
       setError('Screen recording is only available in the desktop app.');
       return;

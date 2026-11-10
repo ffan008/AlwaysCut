@@ -7,7 +7,7 @@ import {
   serverToolCatalogForGeneration,
 } from './tool-catalog-generation.ts';
 
-const outputUrl = new URL('../../assets/agent/openchatcut-tool-schemas.json', import.meta.url);
+const outputUrl = new URL('../../assets/agent/alwayscut-tool-schemas.json', import.meta.url);
 const content = `${JSON.stringify({
   version: 1,
   edit: await serverToolCatalogForGeneration(TOOL_SCHEMAS),

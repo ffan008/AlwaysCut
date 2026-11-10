@@ -64,7 +64,7 @@ await assert.rejects(
 );
 const resultRequest = Object.assign(Readable.from([largeResultBody]), {
   method: 'POST',
-  headers: { 'x-openchatcut-editor-registration': 'r'.repeat(43) },
+  headers: { 'x-alwayscut-editor-registration': 'r'.repeat(43) },
 }) as IncomingMessage;
 let responseBody = '';
 const resultResponse = {
@@ -83,7 +83,7 @@ const resultOperations = {
 await routeExternalAgentBridge(
   resultRequest,
   resultResponse,
-  new URL('http://openchatcut.local/result'),
+  new URL('http://alwayscut.local/result'),
   resultOperations,
 );
 assert.equal(resultResponse.statusCode, 200);

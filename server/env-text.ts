@@ -2,7 +2,7 @@ import { MODEL_CAPABILITY_OVERRIDES_KEY } from '../shared/model-capabilities.ts'
 
 /** One .env line. dotenv-expand interpolates unescaped dollars, while dotenv
  * strips matching outer delimiters and treats an unquoted `#` as a comment. */
-const ENCODED_VALUE_PREFIX = '__OPENCHATCUT_URI__:';
+const ENCODED_VALUE_PREFIX = '__ALWAYSCUT_URI__:';
 function envLine(name: string, value: string): string {
   const escaped = value.replace(/\$/g, '\\$');
   const fullyQuoted = escaped.length >= 2

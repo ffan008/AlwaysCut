@@ -46,7 +46,7 @@ export function DesktopWindowControlButtons({
 
 export function DesktopWindowControls() {
   const t = useT();
-  const desktop = window.openChatCutDesktop;
+  const desktop = window.alwaysCutDesktop;
   if (desktop?.platform !== 'darwin') return null;
 
   return (

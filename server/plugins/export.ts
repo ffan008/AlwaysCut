@@ -39,7 +39,7 @@ export function exportPlugin(): Plugin {
   });
   registerGenerationRetentionGuard('server-export', retainUnresolvedExportRecovery);
   return {
-    name: 'openchatcut-export',
+    name: 'alwayscut-export',
     configureServer(server) {
       setUploadsDirProvider(uploadDir);
       const cleanStaleExports = () => cleanupStaleExportFiles(uploadDir(), {

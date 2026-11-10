@@ -258,7 +258,7 @@ export const SETTINGS_CATEGORIES: readonly SettingsCategory[] = [
             note: '新建工程、历史版本和应用生成的素材保存在这里。桌面端从外部拖入的文件和文件夹保留在原位置，'
               + '工程只建立引用；浏览器运行时会上传托管副本。修改后重启应用生效。',
             fields: [
-              directory('OPENCHATCUT_DATA_DIR', '默认工程位置', '应用默认数据目录',
+              directory('ALWAYSCUT_DATA_DIR', '默认工程位置', '应用默认数据目录',
                 '桌面端点击“选择目录”；也可手动输入绝对路径（可用 ~/ 开头）。清除后回到默认目录。'),
             ] },
           { key: 'storage/r2', vendor: 'r2', title: 'Cloudflare R2',

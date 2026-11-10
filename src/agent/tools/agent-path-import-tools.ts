@@ -97,9 +97,9 @@ export type PathImportApi = Pick<DesktopPathImportApi, 'importAgentPaths'>;
 
 function desktopApi(): DesktopPathImportApi | null {
   const bridge = (typeof window === 'undefined' ? undefined : window) as unknown as {
-    openChatCutDesktop?: DesktopPathImportApi;
+    alwaysCutDesktop?: DesktopPathImportApi;
   };
-  return bridge?.openChatCutDesktop ?? null;
+  return bridge?.alwaysCutDesktop ?? null;
 }
 
 /** The same-origin server routes a plain browser tab can reach (issue #185). */

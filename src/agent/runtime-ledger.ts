@@ -39,7 +39,7 @@ export { TOOL_ARTIFACT_THRESHOLD, digestAgentToolArgs };
 const TERMINAL = new Set<AgentRunStatus>(['completed', 'failed', 'aborted', 'interrupted']);
 const AGENT_RUN_LEASE_MS = 120_000;
 const AGENT_RUN_HEARTBEAT_MS = 30_000;
-const RUN_OWNER_KEY = 'openchatcut.agent-run-owner';
+const RUN_OWNER_KEY = 'alwayscut.agent-run-owner';
 
 function runOwnerInstanceId(): string {
   try {

@@ -40,12 +40,12 @@ export async function runDesktopRendererRecoverySmoke(win: BrowserWindow): Promi
     entries: [{ id: 'recovery-smoke', name: 'Transcript recovery initial', transcript: [{ text: 'recovered speech', start: 0, end: 1000 }] }],
     index: 0,
   };
-  await win.webContents.executeJavaScript(`window.openChatCutDesktop.openTranscriptWindow(${JSON.stringify(payload)})`);
+  await win.webContents.executeJavaScript(`window.alwaysCutDesktop.openTranscriptWindow(${JSON.stringify(payload)})`);
   const floating = BrowserWindow.getAllWindows().find((candidate) => candidate !== win);
   if (!floating) throw new Error('floating transcript window was not created');
   await waitForTranscript(floating, payload.entries[0]!.name);
   const latest = { ...payload, entries: [{ ...payload.entries[0]!, name: 'Transcript recovery latest' }] };
-  await win.webContents.executeJavaScript(`window.openChatCutDesktop.openTranscriptWindow(${JSON.stringify(latest)})`);
+  await win.webContents.executeJavaScript(`window.alwaysCutDesktop.openTranscriptWindow(${JSON.stringify(latest)})`);
   await waitForTranscript(floating, latest.entries[0]!.name);
   await crashAndWait(floating);
   await waitForTranscript(floating, latest.entries[0]!.name);

@@ -1,7 +1,7 @@
 import type { ModelMessage } from 'ai';
 
-const CHECKPOINT_MARKER_OPEN = '<openchatcut_checkpoint>';
-const CHECKPOINT_MARKER_CLOSE = '</openchatcut_checkpoint>';
+const CHECKPOINT_MARKER_OPEN = '<alwayscut_checkpoint>';
+const CHECKPOINT_MARKER_CLOSE = '</alwayscut_checkpoint>';
 const SHA256_HEX = /^[0-9a-f]{64}$/;
 const CHECKPOINT_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 const CHECKPOINT_SUMMARY_PREFIX =

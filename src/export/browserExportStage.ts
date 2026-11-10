@@ -25,7 +25,7 @@ export async function stageBrowserExport(
 }
 
 export async function removeStagedBrowserExport(path: string): Promise<void> {
-  const prefix = '/media/uploads/openchatcut-export-stage-';
+  const prefix = '/media/uploads/alwayscut-export-stage-';
   if (!path.startsWith(prefix)) return;
   const name = path.slice('/media/uploads/'.length);
   const response = await fetch(`/export/stage/${encodeURIComponent(name)}`, { method: 'DELETE' });

@@ -10,8 +10,8 @@ import { isolateVerifyHome } from '../../shared/verify-home.ts';
 async function main(): Promise<void> {
   const root = mkdtempSync(join(tmpdir(), 'occ-fts-verify-'));
   const restoreHome = isolateVerifyHome(root);
-  const previousSwitch = process.env.OPENCHATCUT_SQLITE_STORE;
-  delete process.env.OPENCHATCUT_SQLITE_STORE;
+  const previousSwitch = process.env.ALWAYSCUT_SQLITE_STORE;
+  delete process.env.ALWAYSCUT_SQLITE_STORE;
 
   try {
     // Runtime profile is cached at module load; install the isolated HOME first.
@@ -108,7 +108,7 @@ async function main(): Promise<void> {
       'rebuild must restore hits');
 
     // Persisted search is available after restart without any backend switch.
-    process.env.OPENCHATCUT_SQLITE_STORE = '0';
+    process.env.ALWAYSCUT_SQLITE_STORE = '0';
     resetSqliteStoreForTests();
     assert.deepEqual(searchContent('重建索引'), [], 'cached search connections respect readiness');
     resetSearchForTests();
@@ -120,8 +120,8 @@ async function main(): Promise<void> {
 
     console.log('✓ fulltext-search verify: tokenizer/index/search/ranking/scoping/delete-sync/rebuild all passed');
   } finally {
-    if (previousSwitch === undefined) delete process.env.OPENCHATCUT_SQLITE_STORE;
-    else process.env.OPENCHATCUT_SQLITE_STORE = previousSwitch;
+    if (previousSwitch === undefined) delete process.env.ALWAYSCUT_SQLITE_STORE;
+    else process.env.ALWAYSCUT_SQLITE_STORE = previousSwitch;
     restoreHome();
     rmSync(root, { recursive: true, force: true });
   }

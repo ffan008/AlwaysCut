@@ -11,7 +11,7 @@ import { join } from 'node:path';
 import { promisify } from 'node:util';
 
 // The upload root comes from the runtime profile, which is resolved when media-dir loads.
-process.env.OPENCHATCUT_DATA_DIR = mkdtempSync(join(tmpdir(), 'probe-media-verify-'));
+process.env.ALWAYSCUT_DATA_DIR = mkdtempSync(join(tmpdir(), 'probe-media-verify-'));
 
 const { ffmpegBin } = await import('../media-binaries.ts');
 const { uploadDir } = await import('../media-dir.ts');
@@ -132,7 +132,7 @@ try {
     server.close();
   }
 } finally {
-  await rmAsync(process.env.OPENCHATCUT_DATA_DIR!, { recursive: true, force: true });
+  await rmAsync(process.env.ALWAYSCUT_DATA_DIR!, { recursive: true, force: true });
 }
 
 console.log('probe-media checks passed (local ffprobe: audio-only, silent clip, traversal, unreadable, route)');

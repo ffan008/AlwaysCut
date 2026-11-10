@@ -51,7 +51,7 @@ async function verifyCorruptEntryIsolation(root: string): Promise<void> {
   process.env.HOME = root;
   process.env.USERPROFILE = root;
   try {
-    const storeDir = join(root, '.openchatcut', 'project-store-v1');
+    const storeDir = join(root, '.alwayscut', 'project-store-v1');
     await mkdir(storeDir, { recursive: true });
     await writeFile(join(storeDir, '.ready'), '1\n');
     await writeFile(join(storeDir, `${encodeURIComponent('project:healthy')}.json`), JSON.stringify({ healthy: true }));
@@ -89,7 +89,7 @@ async function verifyConcurrentProjectIndexUpdates(): Promise<void> {
   assert.deepEqual(ids, new Set([first.id, second.id]));
 }
 
-const storeRoot = await mkdtemp(join(tmpdir(), 'openchatcut-project-store-'));
+const storeRoot = await mkdtemp(join(tmpdir(), 'alwayscut-project-store-'));
 try {
   await verifyAtomicWriteOrdering();
   await verifyCorruptEntryIsolation(storeRoot);

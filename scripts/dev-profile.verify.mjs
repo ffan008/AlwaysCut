@@ -11,7 +11,7 @@ import {
 
 const UUID_A = 'dddddddd-dddd-4ddd-8ddd-dddddddddddd';
 const UUID_B = 'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee';
-const fixture = await mkdtemp(join(tmpdir(), 'openchatcut-dev-profile-'));
+const fixture = await mkdtemp(join(tmpdir(), 'alwayscut-dev-profile-'));
 
 async function fixturePaths(name) {
   const root = join(fixture, name);
@@ -41,7 +41,7 @@ try {
   const reused = await loadOrCreateDevProfile({ ...stablePaths, randomId: () => UUID_B });
   assert.equal(first.id, UUID_A);
   assert.deepEqual(reused, first);
-  assert.equal(first.rootDir, join(stablePaths.homeDir, '.openchatcut', 'dev-profiles', UUID_A));
+  assert.equal(first.rootDir, join(stablePaths.homeDir, '.alwayscut', 'dev-profiles', UUID_A));
   assert.deepEqual(
     JSON.parse(await readFile(join(stablePaths.gitDir, DEV_PROFILE_METADATA), 'utf8')),
     { version: 1, profileId: UUID_A, repoRoot: stablePaths.repoRoot },
@@ -54,7 +54,7 @@ try {
   const childEnvironment = await profileChildEnvironment(first, {
     OPENAI_API_KEY: 'checkout-secret',
     UNRELATED: 'inherited',
-    OPENCHATCUT_DEV_PROFILE_ID: UUID_B,
+    ALWAYSCUT_DEV_PROFILE_ID: UUID_B,
     ASSEMBLYAI_API_KEY: 'checkout-transcription-secret',
   });
   assert.equal(childEnvironment.OPENAI_API_KEY, 'profile#secret');
@@ -62,7 +62,7 @@ try {
   assert.equal(childEnvironment.UNRELATED, 'inherited');
   assert.equal(childEnvironment.ASSEMBLYAI_API_KEY, '',
     'an isolated empty-value tombstone must suppress an inherited checkout secret');
-  assert.equal(childEnvironment.OPENCHATCUT_DEV_PROFILE_ID, UUID_A);
+  assert.equal(childEnvironment.ALWAYSCUT_DEV_PROFILE_ID, UUID_A);
 
   const shellExecutable = join(fixture, 'headless-shell');
   await writeFile(shellExecutable, 'test shell', { mode: 0o755 });
@@ -139,13 +139,13 @@ try {
   const crlf = await loadOrCreateDevProfile({ ...(await fixturePaths('crlf')), randomId: () => UUID_A });
   await writeFile(
     crlf.keystorePath,
-    'OPENCHATCUT_H264_ENCODER=libx264\r\nOPENAI_API_KEY=crlf-secret\r\n',
+    'ALWAYSCUT_H264_ENCODER=libx264\r\nOPENAI_API_KEY=crlf-secret\r\n',
     { mode: 0o600 },
   );
   const crlfEnvironment = await profileChildEnvironment(crlf, {}, async () => {
     throw new Error('the headless-shell lookup is not under test here');
   });
-  assert.equal(crlfEnvironment.OPENCHATCUT_H264_ENCODER, 'libx264');
+  assert.equal(crlfEnvironment.ALWAYSCUT_H264_ENCODER, 'libx264');
   assert.equal(crlfEnvironment.OPENAI_API_KEY, 'crlf-secret');
 
   const movedPaths = await fixturePaths('moved');

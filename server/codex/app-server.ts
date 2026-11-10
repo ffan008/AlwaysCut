@@ -9,7 +9,7 @@ import { codexCommand } from './command.ts';
 const INITIALIZE_TIMEOUT_MS = 10_000;
 const MAX_REQUEST_TIMEOUT_MS = 60_000;
 const MAX_PROTOCOL_LINE_BYTES = 8 * 1024 * 1024;
-const CODEX_HOME = join(homedir(), '.openchatcut', 'codex');
+const CODEX_HOME = join(homedir(), '.alwayscut', 'codex');
 /** System Codex home that AlwaysCut's isolated CODEX_HOME inherits credentials from. */
 const SYSTEM_CODEX_HOME = join(homedir(), '.codex');
 export const CODEX_DISABLED_FEATURES = [
@@ -263,7 +263,7 @@ export class CodexAppServerClient {
   private async startProcess(): Promise<void> {
     await mkdir(CODEX_HOME, { recursive: true, mode: 0o700 });
     await this.seedCredentials();
-    const runtimeCwd = await mkdtemp(join(tmpdir(), 'openchatcut-codex-runtime-'));
+    const runtimeCwd = await mkdtemp(join(tmpdir(), 'alwayscut-codex-runtime-'));
     const command = codexCommand(this.executablePath, [...this.argsPrefix, ...APP_SERVER_ARGS]);
     const child = spawn(command.executable, command.args, {
       cwd: runtimeCwd,

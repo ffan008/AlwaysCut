@@ -5,8 +5,8 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 const fixture = await mkdtemp(join(tmpdir(), 'occ-mcp-recovery-'));
-const previousDataDir = process.env.OPENCHATCUT_DATA_DIR;
-process.env.OPENCHATCUT_DATA_DIR = fixture;
+const previousDataDir = process.env.ALWAYSCUT_DATA_DIR;
+process.env.ALWAYSCUT_DATA_DIR = fixture;
 
 // Store paths are captured at import time; keep the real SQLite store isolated.
 const { setStoredEntry } = await import('../plugins/project-store.ts');
@@ -83,8 +83,8 @@ try {
   // The search index keeps a second connection to the store file; Windows
   // cannot unlink it until that connection closes too.
   resetSearchForTests();
-  if (previousDataDir === undefined) delete process.env.OPENCHATCUT_DATA_DIR;
-  else process.env.OPENCHATCUT_DATA_DIR = previousDataDir;
+  if (previousDataDir === undefined) delete process.env.ALWAYSCUT_DATA_DIR;
+  else process.env.ALWAYSCUT_DATA_DIR = previousDataDir;
   await rm(fixture, { recursive: true, force: true });
 }
 

@@ -1,5 +1,5 @@
 // One-click external client connection: writes the AlwaysCut MCP endpoint
-// and token into well-known local client config files. Only the `openchatcut`
+// and token into well-known local client config files. Only the `alwayscut`
 // entry is touched; every other server in each file is preserved. JSON files
 // are merged atomically (write-to-temp + rename) and never clobbered when the
 // existing content fails to parse.
@@ -47,7 +47,7 @@ export interface ClientConnectOptions {
 }
 
 const TOKEN_PATTERN = /^[A-Za-z0-9_-]+$/;
-const TOKEN_ENV_VAR = 'OPENCHATCUT_MCP_TOKEN';
+const TOKEN_ENV_VAR = 'ALWAYSCUT_MCP_TOKEN';
 const CODEX_BIN_FALLBACKS = ['.local/bin/codex', '/Applications/ChatGPT.app/Contents/Resources/codex'];
 /** Reported in place of a file path when the token becomes a Windows user variable. */
 const WINDOWS_USER_ENV_LOCATION = `HKCU\\Environment\\${TOKEN_ENV_VAR}`;
@@ -181,7 +181,7 @@ function spawnCommand(command: ConnectCommand): Promise<{ code: number | null; s
 }
 
 /** Codex CLIs to try in order. Windows reuses the built-in Codex agent's lookup,
- *  which knows OPENCHATCUT_CODEX_PATH, the npm `codex.cmd` shim and the `.exe`
+ *  which knows ALWAYSCUT_CODEX_PATH, the npm `codex.cmd` shim and the `.exe`
  *  installs; elsewhere a `codex` on PATH comes first, then ~/.local/bin and the
  *  CLI bundled in the macOS ChatGPT app. */
 async function codexCandidates(baseDir: string, platform: NodeJS.Platform, options: ClientConnectOptions): Promise<string[]> {
@@ -205,7 +205,7 @@ async function saveTokenToZshrc(token: string, baseDir: string, codexConfig: str
       /* first connection - file does not exist yet */
     }
     const lines = text.split('\n');
-    const idx = lines.findIndex((line) => /^\s*(export\s+)?OPENCHATCUT_MCP_TOKEN=/.test(line));
+    const idx = lines.findIndex((line) => /^\s*(export\s+)?ALWAYSCUT_MCP_TOKEN=/.test(line));
     if (idx >= 0) {
       if (lines[idx].trim() !== wanted) lines[idx] = wanted;
       await writeAtomic(zshrc, lines.join('\n'));

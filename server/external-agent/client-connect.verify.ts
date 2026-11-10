@@ -12,7 +12,7 @@ import { connectExternalClient, type ConnectCommand, type ConnectCommandRunner }
 
 const ENDPOINT = 'http://localhost:5199/api/external-mcp/mcp';
 const TOKEN = 'tok_AbC123-_xyz';
-const CODEX_ARGS = ['mcp', 'add', 'alwayscut', '--url', ENDPOINT, '--bearer-token-env-var', 'OPENCHATCUT_MCP_TOKEN'];
+const CODEX_ARGS = ['mcp', 'add', 'alwayscut', '--url', ENDPOINT, '--bearer-token-env-var', 'ALWAYSCUT_MCP_TOKEN'];
 
 /** Records every command; `reply` decides each exit code (default: success). */
 function recordingRunner(
@@ -118,15 +118,15 @@ async function main(): Promise<void> {
     const stubArgs = (await readFile(path.join(home, '.codex/stub-args'), 'utf8')).trim();
     assert.equal(
       stubArgs,
-      `mcp add alwayscut --url ${ENDPOINT} --bearer-token-env-var OPENCHATCUT_MCP_TOKEN`,
+      `mcp add alwayscut --url ${ENDPOINT} --bearer-token-env-var ALWAYSCUT_MCP_TOKEN`,
     );
     const zshrcFirst = await readFile(path.join(home, '.zshrc'), 'utf8');
-    assert.match(zshrcFirst, /# AlwaysCut MCP token \(added by AlwaysCut\)\nexport OPENCHATCUT_MCP_TOKEN='tok_AbC123-_xyz'\n$/);
+    assert.match(zshrcFirst, /# AlwaysCut MCP token \(added by AlwaysCut\)\nexport ALWAYSCUT_MCP_TOKEN='tok_AbC123-_xyz'\n$/);
     const rotated = await connectExternalClient('codex', ENDPOINT, 'tok_NEW456', { baseDir: home, codexBin: stub });
     assert.equal(rotated.ok, true);
     const zshrcSecond = await readFile(path.join(home, '.zshrc'), 'utf8');
-    assert.match(zshrcSecond, /export OPENCHATCUT_MCP_TOKEN='tok_NEW456'/);
-    assert.equal((zshrcSecond.match(/OPENCHATCUT_MCP_TOKEN=/g) ?? []).length, 1, 'no duplicate export');
+    assert.match(zshrcSecond, /export ALWAYSCUT_MCP_TOKEN='tok_NEW456'/);
+    assert.equal((zshrcSecond.match(/ALWAYSCUT_MCP_TOKEN=/g) ?? []).length, 1, 'no duplicate export');
 
     // 8. Codex CLI failure surfaces as codex-cli-failed.
     const failStub = path.join(stubDir, 'codex-fail');
@@ -160,13 +160,13 @@ async function main(): Promise<void> {
       assert.equal(call.windowsVerbatimArguments, undefined);
       assert.equal(call.env.CODEX_HOME, path.join(unixHome, '.codex'));
     }
-    assert.match(await readFile(path.join(unixHome, '.zshrc'), 'utf8'), /^export OPENCHATCUT_MCP_TOKEN='tok_AbC123-_xyz'$/m);
+    assert.match(await readFile(path.join(unixHome, '.zshrc'), 'utf8'), /^export ALWAYSCUT_MCP_TOKEN='tok_AbC123-_xyz'$/m);
 
     // 10. Windows: the CLI comes from the shared lookup, an npm `codex.cmd`
     //     shim runs through cmd.exe, and the token becomes a user environment
     //     variable via PowerShell. It travels only in that child's environment,
     //     never on a command line, and ~/.zshrc is not written.
-    const envBefore = process.env.OPENCHATCUT_MCP_TOKEN;
+    const envBefore = process.env.ALWAYSCUT_MCP_TOKEN;
     const winHome = path.join(home, 'win');
     const shim = 'C:\\Users\\me\\AppData\\Roaming\\npm\\codex.cmd';
     const win = recordingRunner();
@@ -178,7 +178,7 @@ async function main(): Promise<void> {
     });
     assert.deepEqual(winCodex, {
       ok: true,
-      paths: ['~/.codex/config.toml', 'HKCU\\Environment\\OPENCHATCUT_MCP_TOKEN'],
+      paths: ['~/.codex/config.toml', 'HKCU\\Environment\\ALWAYSCUT_MCP_TOKEN'],
       notice: 'restart-codex',
     });
     assert.equal(win.calls.length, 2, 'codex mcp add, then the user environment write');
@@ -186,20 +186,20 @@ async function main(): Promise<void> {
     assert.match(winAdd.executable, /cmd\.exe$/i, 'a .cmd shim needs cmd.exe');
     assert.equal(winAdd.windowsVerbatimArguments, true);
     assert.match(winAdd.args[3], /codex\.cmd \^"mcp\^" \^"add\^" \^"alwayscut\^"/);
-    assert.match(winAdd.args[3], /\^"--bearer-token-env-var\^" \^"OPENCHATCUT_MCP_TOKEN\^"/);
+    assert.match(winAdd.args[3], /\^"--bearer-token-env-var\^" \^"ALWAYSCUT_MCP_TOKEN\^"/);
     assert.equal(winAdd.env.CODEX_HOME, path.join(winHome, '.codex'));
     assert.match(winSave.executable, /^[A-Z]:\\Windows\\System32\\WindowsPowerShell\\v1\.0\\powershell\.exe$/i,
       'Windows PowerShell by absolute path, not whatever PATH offers');
     assert.deepEqual(winSave.args.slice(0, 3), ['-NoProfile', '-NonInteractive', '-Command']);
     const script = winSave.args[3] ?? '';
-    assert.match(script, /\[Environment\]::SetEnvironmentVariable\('OPENCHATCUT_MCP_TOKEN', \$token, 'User'\)/);
-    assert.match(script, /GetEnvironmentVariable\('OPENCHATCUT_MCP_TOKEN', 'User'\) -cne \$token\) \{ exit 3 \}/,
+    assert.match(script, /\[Environment\]::SetEnvironmentVariable\('ALWAYSCUT_MCP_TOKEN', \$token, 'User'\)/);
+    assert.match(script, /GetEnvironmentVariable\('ALWAYSCUT_MCP_TOKEN', 'User'\) -cne \$token\) \{ exit 3 \}/,
       'the saved value is read back before reporting success');
-    assert.equal(winSave.env.OPENCHATCUT_MCP_TOKEN, TOKEN, 'the token is handed over through the environment');
+    assert.equal(winSave.env.ALWAYSCUT_MCP_TOKEN, TOKEN, 'the token is handed over through the environment');
     for (const call of win.calls) {
       assert.ok(call.args.every((arg) => !arg.includes(TOKEN)), `${call.executable} never gets the token as an argument`);
     }
-    assert.equal(process.env.OPENCHATCUT_MCP_TOKEN, envBefore, 'the server process environment is left alone');
+    assert.equal(process.env.ALWAYSCUT_MCP_TOKEN, envBefore, 'the server process environment is left alone');
     await assertMissing(path.join(winHome, '.zshrc'), 'no ~/.zshrc on Windows');
 
     // 11. Windows: a failed save (PowerShell error) or an unverified one (the

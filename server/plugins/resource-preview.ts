@@ -61,7 +61,7 @@ function readJsonBody(req: IncomingMessage): Promise<unknown> {
 
 function authorized(req: IncomingMessage, expected?: string): boolean {
   if (!expected) return true;
-  const actual = String(req.headers["x-openchatcut-preview-token"] || "");
+  const actual = String(req.headers["x-alwayscut-preview-token"] || "");
   const left = Buffer.from(actual);
   const right = Buffer.from(expected);
   return left.length === right.length && timingSafeEqual(left, right);
@@ -95,7 +95,7 @@ async function renderPreview(
   server: ViteDevServer,
   input: ReturnType<typeof parseRequest>,
 ) {
-  const output = join(tmpdir(), `openchatcut-preview-${randomUUID()}.webm`);
+  const output = join(tmpdir(), `alwayscut-preview-${randomUUID()}.webm`);
   let poster = Buffer.alloc(0);
   try {
     await withExportPermit(async () => {
@@ -139,7 +139,7 @@ export function resourcePreviewPlugin(
   options: ResourcePreviewOptions = {},
 ): Plugin {
   return {
-    name: "openchatcut-resource-preview",
+    name: "alwayscut-resource-preview",
     configureServer(server) {
       server.middlewares.use(
         "/api/resource-preview/render",

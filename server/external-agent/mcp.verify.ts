@@ -176,7 +176,7 @@ try {
     new Promise((_, reject) => setTimeout(() => reject(new Error('tools/list_changed timeout')), 30_000)),
   ]);
   assert.ok((await boundA.client.listTools()).tools.some((tool) => tool.name === extraTool.name));
-  const exposureHeaders = { 'x-openchatcut-tool-exposure': 'progressive' };
+  const exposureHeaders = { 'x-alwayscut-tool-exposure': 'progressive' };
   const progressiveA = await connectClient(mcpUrl, 'alwayscut-progressive-a', exposureHeaders);
   const progressiveB = await connectClient(mcpUrl, 'alwayscut-progressive-b', exposureHeaders);
   clients.push(progressiveA, progressiveB);

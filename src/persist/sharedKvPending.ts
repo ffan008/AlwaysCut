@@ -1,7 +1,7 @@
 import { localDel, localGet, localKeys, localSet } from './sharedKvLocal';
 
-export const MIGRATION_KEY = '__openchatcut_shared_store_v1__';
-export const PENDING_KEYS_KEY = '__openchatcut_shared_pending_v1__';
+export const MIGRATION_KEY = '__alwayscut_shared_store_v1__';
+export const PENDING_KEYS_KEY = '__alwayscut_shared_pending_v1__';
 export const locallyPendingKeys = new Set<string>();
 export const isProjectDocumentKey = (key: string): boolean => /^project:[a-zA-Z0-9_-]{1,160}$/.test(key);
 

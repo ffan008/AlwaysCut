@@ -10,11 +10,11 @@ import { LLM_PROVIDER_PRESETS } from '../shared/llm-providers.ts';
 // out of HOME and the profile environment. Pin both to a throwaway home before importing
 // the module under test: otherwise a developer's own storage root, or an exported dev
 // profile id, decides the outcome of the directory assertions below.
-const fixtureHome = mkdtempSync(join(tmpdir(), 'openchatcut-key-probes-'));
+const fixtureHome = mkdtempSync(join(tmpdir(), 'alwayscut-key-probes-'));
 process.env.HOME = fixtureHome;
 process.env.USERPROFILE = fixtureHome;
-delete process.env.OPENCHATCUT_DEV_PROFILE_ID;
-delete process.env.OPENCHATCUT_DATA_DIR;
+delete process.env.ALWAYSCUT_DEV_PROFILE_ID;
+delete process.env.ALWAYSCUT_DATA_DIR;
 process.on('exit', () => rmSync(fixtureHome, { recursive: true, force: true }));
 
 const {
@@ -237,25 +237,25 @@ assert.match(networkMessage(Object.assign(new Error('The operation was aborted d
 // default root (legal), relative path rejected, writable folder accepted, and a root
 // pinned by the environment refuses the change instead of pretending to accept it.
 {
-  const unset = await runProbe('storage/projects', { OPENCHATCUT_DATA_DIR: '' });
+  const unset = await runProbe('storage/projects', { ALWAYSCUT_DATA_DIR: '' });
   assert.equal(unset.ok, true);
-  assert.match(unset.message, /默认目录 .*\.openchatcut/); // machine-dependent absolute path, anchor the tail only
+  assert.match(unset.message, /默认目录 .*\.alwayscut/); // machine-dependent absolute path, anchor the tail only
 
-  const relative = await runProbe('storage/projects', { OPENCHATCUT_DATA_DIR: 'relative/saves' });
+  const relative = await runProbe('storage/projects', { ALWAYSCUT_DATA_DIR: 'relative/saves' });
   assert.equal(relative.ok, false);
   assert.match(relative.message, /绝对路径/);
   assert.doesNotMatch(relative.message, /HTTP/);
 
   const target = join(fixtureHome, 'Saves');
-  const writable = await runProbe('storage/projects', { OPENCHATCUT_DATA_DIR: target });
+  const writable = await runProbe('storage/projects', { ALWAYSCUT_DATA_DIR: target });
   assert.equal(writable.ok, true);
   assert.match(writable.message, /目录可写/);
 
   // Without the field in the payload, the probe tests the root already recorded by the
   // settings UI, so "test connection" answers for the storage actually in use.
-  mkdirSync(join(fixtureHome, '.openchatcut'), { recursive: true });
+  mkdirSync(join(fixtureHome, '.alwayscut'), { recursive: true });
   writeFileSync(
-    join(fixtureHome, '.openchatcut', 'data-dir.json'),
+    join(fixtureHome, '.alwayscut', 'data-dir.json'),
     JSON.stringify({ version: 1, dataDir: target }),
   );
   const recorded = await runProbe('storage/projects', {});
@@ -267,13 +267,13 @@ assert.match(networkMessage(Object.assign(new Error('The operation was aborted d
     `expected the recorded root to be reported, got: ${recorded.message}`,
   );
 
-  process.env.OPENCHATCUT_DATA_DIR = target;
+  process.env.ALWAYSCUT_DATA_DIR = target;
   try {
-    const pinned = await runProbe('storage/projects', { OPENCHATCUT_DATA_DIR: join(fixtureHome, 'Elsewhere') });
+    const pinned = await runProbe('storage/projects', { ALWAYSCUT_DATA_DIR: join(fixtureHome, 'Elsewhere') });
     assert.equal(pinned.ok, false);
     assert.match(pinned.message, /固定/);
   } finally {
-    delete process.env.OPENCHATCUT_DATA_DIR;
+    delete process.env.ALWAYSCUT_DATA_DIR;
   }
 }
 

@@ -224,7 +224,7 @@ export async function analyzeExportFile(file: string, options: AnalyzeExportFile
 
 export function exportQaPlugin(): Plugin {
   return {
-    name: 'openchatcut-export-qa',
+    name: 'alwayscut-export-qa',
     configureServer(server) {
       server.middlewares.use('/api/export-qa', async (req, res) => {
         if (req.method !== 'POST') {

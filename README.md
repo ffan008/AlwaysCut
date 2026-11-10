@@ -14,18 +14,18 @@
 
 <p align="center">
   Let Codex, Claude Code, and the built-in agent read, edit, and export real video projects that remain fully editable.
-  Website: <a href="https://openchatcut.com">openchatcut.com</a>
+  Website: <a href="https://alwayscut.com">alwayscut.com</a>
 </p>
 
 <p align="center">
-  <a href="https://openchatcut.com/pro"><strong>AlwaysCut Pro</strong></a> · Desktop edition: install it and start cutting
+  <a href="https://alwayscut.com/pro"><strong>AlwaysCut Pro</strong></a> · Desktop edition: install it and start cutting
 </p>
 
 <p align="center">
-  <a href="#what-is-openchatcut">Introduction</a> ·
+  <a href="#what-is-alwayscut">Introduction</a> ·
   <a href="#product-tour">Product Tour</a> ·
   <a href="#quick-start">Quick Start</a> ·
-  <a href="#using-openchatcut-with-codex--claude-code">Agent / MCP</a> ·
+  <a href="#using-alwayscut-with-codex--claude-code">Agent / MCP</a> ·
   <a href="#community">Community</a> ·
   <a href="#sponsors">Sponsors</a> ·
   <a href="#changelog">Changelog</a> ·
@@ -43,7 +43,7 @@
   <img alt="Remotion" src="https://img.shields.io/badge/Remotion-4-0B84F3?style=flat" />
   <img alt="Electron" src="https://img.shields.io/badge/Electron-43-47848F?style=flat&logo=electron&logoColor=white" />
   <img alt="MCP" src="https://img.shields.io/badge/MCP-Agent_native-7C3AED?style=flat" />
-  <a href="https://atomgit.com/Oxsline/openchatcut"><img alt="AtomGit G-Star" src="https://img.shields.io/badge/AtomGit-G--Star-DA203E?logo=gitcode&logoColor=white" /></a>
+  <a href="https://atomgit.com/Oxsline/alwayscut"><img alt="AtomGit G-Star" src="https://img.shields.io/badge/AtomGit-G--Star-DA203E?logo=gitcode&logoColor=white" /></a>
 </p>
 
 <p align="center">
@@ -51,7 +51,7 @@
 </p>
 
 <p align="center">
-  <a href="https://www.producthunt.com/products/openchatcut?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-openchatcut" target="_blank" rel="noopener noreferrer"><img alt="AlwaysCut - Open-source AI agent video editor with a real timeline | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1201995&amp;theme=light&amp;t=1784645557617" /></a>
+  <a href="https://www.producthunt.com/products/alwayscut?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-alwayscut" target="_blank" rel="noopener noreferrer"><img alt="AlwaysCut - Open-source AI agent video editor with a real timeline | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1201995&amp;theme=light&amp;t=1784645557617" /></a>
 </p>
 
 <p align="center">
@@ -66,13 +66,13 @@
 ## Sponsors
 
 <p align="center">
-  <a href="https://ofox.ai/?utm_source=github&utm_medium=sponsorship&utm_content=openchatcut"><img src="assets/readme-pic/ofox-logo.svg" width="300" alt="OfoxAI" /></a>
+  <a href="https://ofox.ai/?utm_source=github&utm_medium=sponsorship&utm_content=alwayscut"><img src="assets/readme-pic/ofox-logo.svg" width="300" alt="OfoxAI" /></a>
 </p>
 
 **OfoxAI: Text, image, and video AI in one platform**
 
 OfoxAI is a unified API platform for text, image, and video AI, with video models from the Seedance, MiniMax (Hailuo), and Wan families. Choose models for AI applications, agents, creative ideation, image generation, and video assets through one platform.
-[Explore OfoxAI models and APIs →](https://ofox.ai/?utm_source=github&utm_medium=sponsorship&utm_content=openchatcut)
+[Explore OfoxAI models and APIs →](https://ofox.ai/?utm_source=github&utm_medium=sponsorship&utm_content=alwayscut)
 
 <br />
 
@@ -99,9 +99,9 @@ It does not merely generate a video that can no longer be changed. Every edit is
 
 AlwaysCut is built for creators and developers who want AI to participate in the actual editing workflow without giving up professional control, rather than starting over from an empty chat box or an immutable generated result.
 
-- Website: [https://openchatcut.com](https://openchatcut.com)
-- Open-source ChatCut alternative guide: [https://openchatcut.com/blog/open-source-chatcut-alternative](https://openchatcut.com/blog/open-source-chatcut-alternative)
-- ChatCut vs AlwaysCut: [https://openchatcut.com/blog/chatcut-vs-openchatcut](https://openchatcut.com/blog/chatcut-vs-openchatcut)
+- Website: [https://alwayscut.com](https://alwayscut.com)
+- Open-source ChatCut alternative guide: [https://alwayscut.com/blog/open-source-chatcut-alternative](https://alwayscut.com/blog/open-source-chatcut-alternative)
+- ChatCut vs AlwaysCut: [https://alwayscut.com/blog/chatcut-vs-alwayscut](https://alwayscut.com/blog/chatcut-vs-alwayscut)
 
 - 🤖 **Agent-native**: the built-in agent and external MCP agents share the same editing tools.
 - 🎞️ **Real timeline**: multiple video and audio tracks, transitions, effects, LUTs, zooms, and keyframes.
@@ -208,10 +208,10 @@ Describe the goal → Agent reads the project → Produces verifiable edits → 
 
 ## Community Resources
 
-The [AlwaysCut resource library](https://openchatcut.com/resources) is a shared catalog for reusable MG animations, sound effects, transitions, visual effects, zooms, and LUTs.
+The [AlwaysCut resource library](https://alwayscut.com/resources) is a shared catalog for reusable MG animations, sound effects, transitions, visual effects, zooms, and LUTs.
 
 <p align="center">
-  <a href="https://openchatcut.com/resources">
+  <a href="https://alwayscut.com/resources">
     <img src="assets/readme-pic/08-community-resources.en.png" alt="AlwaysCut community resource library" />
   </a>
 </p>
@@ -224,11 +224,11 @@ The [AlwaysCut resource library](https://openchatcut.com/resources) is a shared 
 
 ### Contribute a resource
 
-1. Open [Contribute a resource](https://openchatcut.com/resources/submit) and choose its category.
+1. Open [Contribute a resource](https://alwayscut.com/resources/submit) and choose its category.
 2. Upload the resource and the category-specific preview inputs; the site renders the published preview.
 3. Add the creator and license information, then submit it for review and publication.
 
-Installable visual resources use the editor's `openchatcut-plugin@1` format and runtime validation. Official AlwaysCut resources use the MIT license; community contributors select a license during submission, and each published card identifies its creator and license.
+Installable visual resources use the editor's `alwayscut-plugin@1` format and runtime validation. Official AlwaysCut resources use the MIT license; community contributors select a license during submission, and each published card identifies its creator and license.
 
 ---
 
@@ -286,7 +286,7 @@ Only add the model or media-service credentials you actually use to `.env.local`
 Development launches are isolated per Git checkout/worktree by default. `npm run dev` and
 `npm run desktop:dev` keep that checkout's projects, imported media, generation jobs,
 credentials, settings, and local authorization state under its own profile in
-`~/.openchatcut/dev-profiles/`. Use `npm run dev:shared` only when you intentionally need
+`~/.alwayscut/dev-profiles/`. Use `npm run dev:shared` only when you intentionally need
 the legacy shared development store.
 
 ### Built-in Agent authentication
@@ -304,7 +304,7 @@ Desktop agents can browse any local directory allowed by the operating system by
 To restrict local access, set a comma-separated value such as `AGENT_IMPORT_ROOTS=/Volumes/Media,D:\Projects` in `.env.local`; leave it empty for default unrestricted directory access in the desktop app (a browser session requires the allowlist and refuses these tools while it is empty). Explicit restrictions apply to both browsing and import. Source checkouts read the repository file at startup. Packaged desktop builds read it from Electron's user-data directory: `~/Library/Application Support/AlwaysCut/` on macOS, `%APPDATA%\AlwaysCut\` on Windows, and `$XDG_CONFIG_HOME/AlwaysCut/` (normally `~/.config/AlwaysCut/`) on Linux. Restart after editing the file.
 
 
-Local H.264 exports automatically prefer VideoToolbox on macOS and NVENC on compatible Windows systems, then fall back to software encoding. Tune render concurrency and the heavy-export limit with `OPENCHATCUT_RENDER_CONCURRENCY` and `OPENCHATCUT_MAX_ACTIVE_EXPORTS`, disable hardware encoding with `OPENCHATCUT_DISABLE_HARDWARE_ENCODING`, or override FFmpeg-side encoder selection with `OPENCHATCUT_H264_ENCODER`; see [`.env.example`](.env.example).
+Local H.264 exports automatically prefer VideoToolbox on macOS and NVENC on compatible Windows systems, then fall back to software encoding. Tune render concurrency and the heavy-export limit with `ALWAYSCUT_RENDER_CONCURRENCY` and `ALWAYSCUT_MAX_ACTIVE_EXPORTS`, disable hardware encoding with `ALWAYSCUT_DISABLE_HARDWARE_ENCODING`, or override FFmpeg-side encoder selection with `ALWAYSCUT_H264_ENCODER`; see [`.env.example`](.env.example).
 
 On Apple Silicon, more render workers can slow down video-heavy exports even when VideoToolbox encoding is active. See [macOS render tuning](MACOS-RENDER-TUNING.md) for an M4 Max benchmark and a way to test your own workload. These measurements do not establish a default for other Macs or Windows.
 
@@ -342,7 +342,7 @@ Custom skills live in a user-visible directory with the same layout as
 `~/.codex/skills` / `~/.claude/skills`:
 
 ```text
-~/.openchatcut/skills/<slug>/SKILL.md     (Windows: %USERPROFILE%\.openchatcut\skills\...)
+~/.alwayscut/skills/<slug>/SKILL.md     (Windows: %USERPROFILE%\.alwayscut\skills\...)
 ```
 
 Ask the agent to `manage_skill create` (or use the bundled *skill-creator*
@@ -375,14 +375,14 @@ Only draft-safe project read/edit tools are exposed in these sessions. Generatio
 Add the following to your Codex configuration:
 
 ```toml
-[mcp_servers.openchatcut]
+[mcp_servers.alwayscut]
 url = "http://localhost:5199/api/external-mcp/mcp"
 ```
 
 ### Claude Code
 
 ```bash
-claude mcp add --transport http openchatcut \
+claude mcp add --transport http alwayscut \
   http://localhost:5199/api/external-mcp/mcp
 ```
 
@@ -411,7 +411,7 @@ MCP servers already there.
 ```json
 {
   "mcpServers": {
-    "openchatcut": {
+    "alwayscut": {
       "type": "http",
       "url": "http://localhost:5199/api/external-mcp/mcp",
       "headers": { "Authorization": "Bearer <token>" }
@@ -432,7 +432,7 @@ config file, so AlwaysCut cannot write this one for you. In the guide, use
 ```json
 {
   "mcpServers": {
-    "openchatcut": {
+    "alwayscut": {
       "type": "streamable-http",
       "url": "http://localhost:5199/api/external-mcp/mcp",
       "headers": { "Authorization": "Bearer <token>" }
@@ -446,8 +446,8 @@ config file, so AlwaysCut cannot write this one for you. In the guide, use
 When exposing the MCP endpoint yourself, configure:
 
 ```bash
-OPENCHATCUT_MCP_TOKEN=your-token
-OPENCHATCUT_EDITOR_URL=https://your-editor.example.com
+ALWAYSCUT_MCP_TOKEN=your-token
+ALWAYSCUT_EDITOR_URL=https://your-editor.example.com
 ```
 
 Clients must send `Authorization: Bearer <token>`. The current bridge is designed for a single user on one machine, not as a multi-tenant service.
@@ -457,7 +457,7 @@ Clients must send `Authorization: Bearer <token>`. The current bridge is designe
 ## Architecture
 
 <p align="center">
-  <img src="assets/readme-pic/openchatcut-runtime.en.svg" alt="AlwaysCut runtime architecture connecting agents, MCP, EditorCore, local storage, preview, rendering, and export" />
+  <img src="assets/readme-pic/alwayscut-runtime.en.svg" alt="AlwaysCut runtime architecture connecting agents, MCP, EditorCore, local storage, preview, rendering, and export" />
 </p>
 
 <p align="center">
@@ -471,7 +471,7 @@ Clients must send `Authorization: Bearer <token>`. The current bridge is designe
 | Agent | Vercel AI SDK 7 (Anthropic, OpenAI, Gemini, Kimi, Qwen, GLM, DeepSeek, MiniMax, Xiaomi MiMo, Mistral, xAI Grok by API key or SuperGrok/X Premium+ subscription sign-in, OpenRouter, OrcaRouter, OFox, Requesty, Cheaper Inference, Runcrate, and compatible APIs), Agent Skills, MCP SDK |
 | Preview and visuals | Remotion Player, WebGL / GLSL |
 | Server | Dual-host Vite / Electron plugins and a server-side keystore |
-| Persistence | Shared local project store under `~/.openchatcut`, IndexedDB cache, configurable local media directory, optional Cloudflare R2 |
+| Persistence | Shared local project store under `~/.alwayscut`, IndexedDB cache, configurable local media directory, optional Cloudflare R2 |
 | Desktop | Electron 43 |
 | Export | Remotion, FFmpeg, FCPXML, SRT |
 
@@ -495,7 +495,7 @@ Clients must send `Authorization: Bearer <token>`. The current bridge is designe
 
 ## Data and Privacy
 
-- Projects, chat history, and version data are stored in the shared local store under `~/.openchatcut`; IndexedDB provides a browser-side cache and legacy-data migration.
+- Projects, chat history, and version data are stored in the shared local store under `~/.alwayscut`; IndexedDB provides a browser-side cache and legacy-data migration.
 - User media is stored in a local media directory that you can back up or migrate.
 - Whether AI requests leave your machine depends on the model, generation, or media services you configure.
 - Unconfigured cloud features do not affect the local timeline or editing of existing media.

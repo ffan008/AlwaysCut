@@ -32,7 +32,7 @@ function pathCandidates(name: string): string[] {
 }
 
 function configuredCandidates(): string[] {
-  const configured = process.env.OPENCHATCUT_COPILOT_PATH?.trim();
+  const configured = process.env.ALWAYSCUT_COPILOT_PATH?.trim();
   if (!configured) return [];
   if (isAbsolute(configured) || configured.includes(sep) || configured.includes('/')) {
     return [resolve(configured)];

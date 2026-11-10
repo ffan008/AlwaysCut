@@ -62,11 +62,11 @@ function readMigrationPhase(path: string): number | null {
 async function main(): Promise<void> {
   const home = mkdtempSync(join(tmpdir(), 'occ-sqlite-migration-'));
   const restoreHome = isolateVerifyHome(home);
-  const previousStore = process.env.OPENCHATCUT_GENERATION_JOB_STORE;
-  const previousSwitch = process.env.OPENCHATCUT_SQLITE_STORE;
+  const previousStore = process.env.ALWAYSCUT_GENERATION_JOB_STORE;
+  const previousSwitch = process.env.ALWAYSCUT_SQLITE_STORE;
   const customJobsPath = join(home, 'custom-profile', 'jobs-ledger.json');
-  process.env.OPENCHATCUT_GENERATION_JOB_STORE = customJobsPath;
-  delete process.env.OPENCHATCUT_SQLITE_STORE;
+  process.env.ALWAYSCUT_GENERATION_JOB_STORE = customJobsPath;
+  delete process.env.ALWAYSCUT_SQLITE_STORE;
 
   try {
     // Import only after profile variables are installed: runtimeProfile caches.
@@ -101,7 +101,7 @@ async function main(): Promise<void> {
     assert.equal(sqliteStoreReady(), true, 'fresh profiles initialize without an opt-in');
     await sqliteWriteEntry('chat:fresh', { saved: true });
     resetSqliteStoreForTests();
-    process.env.OPENCHATCUT_SQLITE_STORE = '0';
+    process.env.ALWAYSCUT_SQLITE_STORE = '0';
     await initializeSqliteProjectStore();
     assert.deepEqual(await sqliteReadEntry('chat:fresh'), { found: true, value: { saved: true } },
       'a historical env=0 cannot select JSON or hide persisted SQLite data');
@@ -417,10 +417,10 @@ async function main(): Promise<void> {
     resetSqliteStoreForTests();
   } finally {
     restoreHome();
-    if (previousStore === undefined) delete process.env.OPENCHATCUT_GENERATION_JOB_STORE;
-    else process.env.OPENCHATCUT_GENERATION_JOB_STORE = previousStore;
-    if (previousSwitch === undefined) delete process.env.OPENCHATCUT_SQLITE_STORE;
-    else process.env.OPENCHATCUT_SQLITE_STORE = previousSwitch;
+    if (previousStore === undefined) delete process.env.ALWAYSCUT_GENERATION_JOB_STORE;
+    else process.env.ALWAYSCUT_GENERATION_JOB_STORE = previousStore;
+    if (previousSwitch === undefined) delete process.env.ALWAYSCUT_SQLITE_STORE;
+    else process.env.ALWAYSCUT_SQLITE_STORE = previousSwitch;
     rmSync(home, { recursive: true, force: true });
   }
 }

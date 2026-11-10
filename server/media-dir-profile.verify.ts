@@ -12,7 +12,7 @@ import {
 import { resolveRuntimeProfile } from './runtime-profile.ts';
 import { assertProfileSensitiveSettingsPatch } from './plugins/settings.ts';
 
-const fixture = await mkdtemp(join(tmpdir(), 'openchatcut-media-profile-'));
+const fixture = await mkdtemp(join(tmpdir(), 'alwayscut-media-profile-'));
 try {
   const homeDir = join(fixture, 'home');
   const cwd = join(fixture, 'checkout');
@@ -25,10 +25,10 @@ try {
   assert.deepEqual(uploadReadDirs(defaultProfile, customDir), [customDir, defaultProfile.mediaDir]);
 
   const profileA = resolveRuntimeProfile({
-    OPENCHATCUT_DEV_PROFILE_ID: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
+    ALWAYSCUT_DEV_PROFILE_ID: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
   }, { homeDir, cwd });
   const profileB = resolveRuntimeProfile({
-    OPENCHATCUT_DEV_PROFILE_ID: 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
+    ALWAYSCUT_DEV_PROFILE_ID: 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
   }, { homeDir, cwd });
   const name = 'isolated-media.mp4';
   await mkdir(defaultProfile.mediaDir, { recursive: true });

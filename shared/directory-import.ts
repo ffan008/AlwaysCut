@@ -56,14 +56,14 @@ export interface DirectoryImportEvent {
   readonly file: DirectoryImportedFile;
 }
 
-export const AGENT_PATH_IMPORT_CHANNEL = 'openchatcut:agent-path-import';
+export const AGENT_PATH_IMPORT_CHANNEL = 'alwayscut:agent-path-import';
 
 export const DIRECTORY_IMPORT_CHANNELS = {
-  start: 'openchatcut:directory-import-start',
-  activate: 'openchatcut:directory-import-activate',
-  acknowledge: 'openchatcut:directory-import-acknowledge',
-  stop: 'openchatcut:directory-import-stop',
-  imported: 'openchatcut:directory-import-file',
+  start: 'alwayscut:directory-import-start',
+  activate: 'alwayscut:directory-import-activate',
+  acknowledge: 'alwayscut:directory-import-acknowledge',
+  stop: 'alwayscut:directory-import-stop',
+  imported: 'alwayscut:directory-import-file',
 } as const;
 
 const SHA256_HEX = /^[a-f0-9]{64}$/;

@@ -321,7 +321,7 @@ export interface UseDirectoryImportState {
   stop: () => Promise<void>;
 }
 
-function directoryApiOf(value: Window['openChatCutDesktop']): DirectoryImportDesktopApi | null {
+function directoryApiOf(value: Window['alwaysCutDesktop']): DirectoryImportDesktopApi | null {
   if (!value || typeof value.startImportDirectoryWatch !== 'function'
     || typeof value.activateImportDirectoryWatch !== 'function'
     || typeof value.acknowledgeImportDirectoryFile !== 'function'
@@ -332,7 +332,7 @@ function directoryApiOf(value: Window['openChatCutDesktop']): DirectoryImportDes
 
 export function useDirectoryImport(options: UseDirectoryImportOptions): UseDirectoryImportState {
   const optionsRef = useRef(options); optionsRef.current = options;
-  const api = directoryApiOf(window.openChatCutDesktop);
+  const api = directoryApiOf(window.alwaysCutDesktop);
   const runtimeRef = useRef<DirectoryImportRuntime | null>(null);
   const [busy, setBusy] = useState(false); const [activeWatch, setActiveWatch] = useState<ActiveDirectoryWatch | null>(null);
 

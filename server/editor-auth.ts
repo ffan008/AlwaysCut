@@ -6,7 +6,7 @@ import { isLoopbackAddress } from './loopback-address.ts';
 import { loadOrCreateMcpToken } from './mcp-token.ts';
 import { runtimeProfile } from './runtime-profile.ts';
 
-export const EDITOR_BOOTSTRAP_HEADER = 'x-openchatcut-editor-bootstrap';
+export const EDITOR_BOOTSTRAP_HEADER = 'x-alwayscut-editor-bootstrap';
 
 /** Lazy so tests and the env override never touch the filesystem. */
 let persistentMcpToken: string | undefined;
@@ -20,7 +20,7 @@ function resolvePersistentMcpToken(): string {
     if (!result.persisted) {
       // The MCP guide promises a stable token; when the filesystem breaks that
       // promise the user deserves one line saying so and how to pin it.
-      console.warn('[mcp] token could not be persisted and will change on restart; set OPENCHATCUT_MCP_TOKEN to pin it');
+      console.warn('[mcp] token could not be persisted and will change on restart; set ALWAYSCUT_MCP_TOKEN to pin it');
     }
     persistentMcpToken = result.token;
   }
@@ -33,7 +33,7 @@ const LOCAL_EDITOR_HOSTS: Readonly<Record<string, true>> = {
 };
 
 export function externalMcpToken(): string {
-  return process.env.OPENCHATCUT_MCP_TOKEN?.trim() || resolvePersistentMcpToken();
+  return process.env.ALWAYSCUT_MCP_TOKEN?.trim() || resolvePersistentMcpToken();
 }
 
 function secretMatches(actual: string | undefined, expected: string): boolean {
@@ -53,7 +53,7 @@ export function headerValue(req: IncomingMessage, name: string): string | null {
 }
 
 export function configuredEditorOrigin(): string | null {
-  const configured = process.env.OPENCHATCUT_EDITOR_URL?.trim();
+  const configured = process.env.ALWAYSCUT_EDITOR_URL?.trim();
   if (!configured) return null;
   try {
     const url = new URL(configured);
@@ -67,7 +67,7 @@ export function configuredEditorOrigin(): string | null {
 function requestEditorOrigin(req: IncomingMessage): string | null {
   const host = headerValue(req, 'host');
   if (!host || /[/\\@?#,\s]/.test(host)) return null;
-  const configured = process.env.OPENCHATCUT_EDITOR_URL?.trim();
+  const configured = process.env.ALWAYSCUT_EDITOR_URL?.trim();
   const expected = configuredEditorOrigin();
   if (configured && !expected) return null;
   const protocol = expected

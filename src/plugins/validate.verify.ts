@@ -161,9 +161,9 @@ console.log(`validatePack: 良性通过 + ${rejects.length} 类坏包全拒 OK`)
   assert.ok(!validatePack(mg({ propSchema: Array.from({ length: 33 }, (_, i) => ({ key: `k${i}`, type: 'text' })) })).ok, '>32 项拒');
 
   const { sha256Hex, installFromText } = await import('./install');
-  const hex = await sha256Hex('openchatcut');
+  const hex = await sha256Hex('alwayscut');
   assert.match(hex, /^[0-9a-f]{64}$/, 'sha256Hex 输出 64 位小写 hex');
-  assert.equal(hex, await sha256Hex('openchatcut'), '同文本稳定');
+  assert.equal(hex, await sha256Hex('alwayscut'), '同文本稳定');
   const mismatch = await installFromText('{}', { sha256: 'f'.repeat(64) });
   assert.ok(!mismatch.ok && mismatch.errors[0].includes('SHA-256'), '哈希不匹配在解析前拒装');
 

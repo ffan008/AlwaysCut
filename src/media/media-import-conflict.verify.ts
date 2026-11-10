@@ -89,7 +89,7 @@ assert.equal(
 const copiedPlaceholder: MediaAsset = {
   ...readyReplacement,
   id: 'placeholder-id',
-  src: 'blob:https://openchatcut.local/pending-master',
+  src: 'blob:https://alwayscut.local/pending-master',
 };
 assert.deepEqual(
   readyMediaAssetsForPaste([copiedPlaceholder], [copiedPlaceholder]),

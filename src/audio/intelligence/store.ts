@@ -13,7 +13,7 @@ import {
 } from './types';
 import type { MusicAnalysis, MusicSection, MusicTag } from './types';
 
-const DATABASE_NAME = 'openchatcut-music-intelligence';
+const DATABASE_NAME = 'alwayscut-music-intelligence';
 const DATABASE_VERSION = 1;
 const STORE_NAME = 'analysis-v1';
 /** Server-side kv prefix (phase B: analysis survives cache wipes). */

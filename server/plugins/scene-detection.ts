@@ -366,7 +366,7 @@ async function evidenceFrame(file: string, fileSize: number, timeMs: number): Pr
 
 export function sceneDetectionPlugin(): Plugin {
   return {
-    name: 'openchatcut-scene-detection',
+    name: 'alwayscut-scene-detection',
     configureServer(server) {
       server.middlewares.use('/api/detect-scenes', async (req, res) => {
         const url = new URL(req.url ?? '/', 'http://localhost');

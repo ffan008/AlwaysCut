@@ -55,7 +55,7 @@ const MAX_TOOL_RESULT_BODY_BYTES = 1024 * 1024;
  * artifact cap with 409.
  */
 export const MAX_DRAFT_BODY_BYTES = MAX_ARTIFACT_BYTES * 2 + 64 * 1024;
-const SERVER_RUN_CAPABILITY_HEADER = 'x-openchatcut-run-capability';
+const SERVER_RUN_CAPABILITY_HEADER = 'x-alwayscut-run-capability';
 
 function sendJson(res: ServerResponse, status: number, body: unknown): void {
   if (res.destroyed || res.writableEnded) return;
@@ -436,7 +436,7 @@ export interface AgentRunsPluginOptions {
 
 export function agentRunsPlugin(options: AgentRunsPluginOptions = {}): Plugin {
   return {
-    name: 'openchatcut-agent-runs',
+    name: 'alwayscut-agent-runs',
     configureServer(server) {
       (options.activatePersistence ?? activateOfflineAgentRuntimeBackend)();
       server.middlewares.use('/api/agent-runs', async (req, res) => {

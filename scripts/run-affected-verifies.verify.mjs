@@ -96,7 +96,7 @@ const countIn = (dir, re = /\.verify\.(ts|tsx|mjs)$/) => readdirSync(dir).filter
   assert.match(verifyCommand('src/does/not/exist.verify.mts'), /^npx tsx /);
 }
 
-const temporary = realpathSync(mkdtempSync(join(tmpdir(), 'openchatcut-affected-')));
+const temporary = realpathSync(mkdtempSync(join(tmpdir(), 'alwayscut-affected-')));
 try {
   mkdirSync(join(temporary, 'scripts'));
   mkdirSync(join(temporary, 'src'));

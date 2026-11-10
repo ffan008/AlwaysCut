@@ -1,4 +1,4 @@
-# OpenChatCut UI & Features
+# AlwaysCut UI & Features
 
 ## Project Entry & Dashboard
 

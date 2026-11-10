@@ -88,9 +88,9 @@ export function clearBrowserProjectOwnership(ownership: BrowserProjectOwnership)
 function desktopTransport(): DesktopProjectStoreTransport | undefined {
   if (typeof window === 'undefined') return undefined;
   const desktopWindow = window as typeof window & {
-    openChatCutDesktop?: DesktopProjectStoreTransport;
+    alwaysCutDesktop?: DesktopProjectStoreTransport;
   };
-  return desktopWindow.openChatCutDesktop;
+  return desktopWindow.alwaysCutDesktop;
 }
 
 function httpAvailable(): boolean {

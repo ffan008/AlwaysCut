@@ -409,7 +409,7 @@ export async function searchStockMedia(
 /** Server-only proxy for search_stock_media. Provider keys never enter the browser bundle. */
 export function stockSearchPlugin(options: StockPluginOptions): Plugin {
   return {
-    name: 'openchatcut-stock-search',
+    name: 'alwayscut-stock-search',
     configureServer(server) {
       server.middlewares.use('/api/stock-search', async (req, res) => {
         if (req.method !== 'GET') {

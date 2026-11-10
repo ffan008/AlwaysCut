@@ -67,7 +67,7 @@ function validate(input: SubtitleRequest): { format: 'srt' | 'txt'; name: string
 
 export function subtitleExportPlugin(): Plugin {
   return {
-    name: 'openchatcut-subtitle-export',
+    name: 'alwayscut-subtitle-export',
     configureServer(server) {
       server.middlewares.use('/generate/subtitles', async (req, res) => {
         if (req.method === 'GET') {

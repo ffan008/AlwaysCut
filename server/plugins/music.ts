@@ -135,7 +135,7 @@ export function musicGenerationPlugin(options: MusicOptions): Plugin {
     ));
   }
   return {
-    name: 'openchatcut-music-generation',
+    name: 'alwayscut-music-generation',
     configureServer(server) {
       server.middlewares.use('/generate/music', async (req, res) => {
         if (req.method !== 'POST') { sendJson(res, 405, { error: 'method not allowed — use POST' }); return; }

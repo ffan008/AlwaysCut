@@ -112,7 +112,7 @@ interface TranscodeRequest { source?: string; timeoutMs?: number }
 
 export function e2bPlugin(options: E2bOptions): Plugin {
   return {
-    name: 'openchatcut-e2b',
+    name: 'alwayscut-e2b',
     configureServer(server) {
       server.middlewares.use('/e2b/run', async (req, res) => {
         if (req.method !== 'POST') { sendJson(res, 405, { error: 'method not allowed — use POST' }); return; }

@@ -51,7 +51,7 @@ assert.deepEqual(addSceneEvidence('/media/uploads/cuts.mp4', [{
   afterThumbnailUrl: '/api/detect-scenes/frame?src=%2Fmedia%2Fuploads%2Fcuts.mp4&timeMs=1200',
 }]);
 
-const work = await mkdtemp(join(tmpdir(), 'openchatcut-scene-verify-'));
+const work = await mkdtemp(join(tmpdir(), 'alwayscut-scene-verify-'));
 try {
   const video = join(work, 'cuts.mp4');
   const motionVideo = join(work, 'continuous-motion.mp4');

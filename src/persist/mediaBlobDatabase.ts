@@ -3,7 +3,7 @@
 // bounded IndexedDB copy preserves pure-web/offline restore behavior. Paths stay
 // stable so persisted projects can re-publish missing media after reopening.
 
-const DB_NAME = 'openchatcut-media';
+const DB_NAME = 'alwayscut-media';
 const STORE = 'blobs';
 const DB_VERSION = 1;
 export const MAX_FILE_CACHE_BYTES = 200 * 1024 * 1024;

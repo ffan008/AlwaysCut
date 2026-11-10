@@ -169,7 +169,7 @@ async function isolateToFile(
 
 export function isolateVoicePlugin(): Plugin {
   return {
-    name: 'openchatcut-isolate-voice',
+    name: 'alwayscut-isolate-voice',
     configureServer(server) {
       server.middlewares.use('/api/isolate-voice', async (req, res) => {
         if (req.method !== 'POST') {

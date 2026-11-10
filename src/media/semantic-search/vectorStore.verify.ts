@@ -16,7 +16,7 @@ const requests: Array<{ request: unknown }> = [];
 function installTransport(): void {
   requests.length = 0;
   (globalThis as Record<string, unknown>).window = {
-    openChatCutDesktop: {
+    alwaysCutDesktop: {
       projectStore: async (request: unknown) => {
         requests.push({ request });
         return { ok: true };
@@ -64,7 +64,7 @@ async function main(): Promise<void> {
 
   // ── server hit mapping: distance → cosine score, '' scene defaults → undefined ──
   (globalThis as Record<string, unknown>).window = {
-    openChatCutDesktop: {
+    alwaysCutDesktop: {
       projectStore: async (request: unknown) => {
         requests.push({ request });
         const search = request as { operation: string };

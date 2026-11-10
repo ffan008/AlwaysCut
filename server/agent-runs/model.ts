@@ -30,7 +30,7 @@ function proxyOptions(provider: LlmProvider, origin: string): {
     baseURL: `${origin}/llm`,
     apiKey: 'proxy-injects-the-real-key',
     headers: {
-      'x-openchatcut-provider': provider,
+      'x-alwayscut-provider': provider,
       origin,
       'sec-fetch-site': 'same-origin',
     },

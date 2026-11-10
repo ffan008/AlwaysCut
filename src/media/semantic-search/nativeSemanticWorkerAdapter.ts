@@ -32,7 +32,7 @@ let nativeRequestSequence = 0;
 
 function desktopSemanticApi(): DesktopSemanticApi | null {
   if (typeof window === 'undefined') return null;
-  const desktop = window.openChatCutDesktop as typeof window.openChatCutDesktop & {
+  const desktop = window.alwaysCutDesktop as typeof window.alwaysCutDesktop & {
     inference?: Partial<DesktopSemanticApi>;
   };
   const inference = desktop?.inference;

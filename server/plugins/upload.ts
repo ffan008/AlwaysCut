@@ -6,7 +6,7 @@ export { maxUploadBytes } from './upload-routes.ts';
 /** Local upload, R2 hydration/presign, media serving, and remote import routes. */
 export function uploadPlugin(): Plugin {
   return {
-    name: 'openchatcut-upload',
+    name: 'alwayscut-upload',
     configureServer(server) {
       registerUploadRoutes(server);
     },

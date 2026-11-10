@@ -30,7 +30,7 @@ function isHandoffUpload(req: IncomingMessage): boolean {
 /** Global request-shape gate for every /api write mount (CSRF surface). */
 export function requestShapeGatePlugin(): Plugin {
   return {
-    name: 'openchatcut-request-shape-gate',
+    name: 'alwayscut-request-shape-gate',
     configureServer(server) {
       // Cover every write mount, not only /api: /llm, /e2b, /generate,
       // /render-*, /export, /settings etc. are all CSRF-able via CORS

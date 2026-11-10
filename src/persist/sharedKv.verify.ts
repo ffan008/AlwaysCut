@@ -6,8 +6,8 @@ import { loadProjectForEditing, migrateProjectDoc } from './projectStore';
 import { v1 } from './migrations/migrations.verify.fixtures';
 import { recoverUnmergedProjects, type StoreSnapshot } from './sharedKvRecovery';
 
-const MIGRATION_KEY = '__openchatcut_shared_store_v1__';
-const PENDING_KEYS_KEY = '__openchatcut_shared_pending_v1__';
+const MIGRATION_KEY = '__alwayscut_shared_store_v1__';
+const PENDING_KEYS_KEY = '__alwayscut_shared_pending_v1__';
 const globals = globalThis as typeof globalThis & Record<string, unknown>;
 const savedGlobals = new Map<string, PropertyDescriptor | undefined>();
 for (const name of ['fetch', 'history', 'indexedDB', 'location', 'sessionStorage', 'window']) {
@@ -253,7 +253,7 @@ try {
     projects: [{ id: 'shared', name: 'Shared', updatedAt: 2 }],
   };
   installGlobal('window', {
-    openChatCutDesktop: {
+    alwaysCutDesktop: {
       projectStore: async (request: unknown) => {
         const input = request as { operation: string; key?: string; value?: unknown; entries?: Record<string, unknown> };
         if (input.operation === 'entry') {
@@ -283,7 +283,7 @@ try {
   // bootstrap fails, yet reads and project-document writes must degrade to
   // local copies instead of hard-failing hydration and saves.
   installGlobal('window', {
-    openChatCutDesktop: {
+    alwaysCutDesktop: {
       projectStore: async () => { throw new Error('project store lock guard is busy'); },
     },
   });
@@ -303,7 +303,7 @@ try {
   local.set(MIGRATION_KEY, true);
   remoteEntries['pending-setting'] = 'remote-old';
   installGlobal('window', {
-    openChatCutDesktop: {
+    alwaysCutDesktop: {
       projectStore: async (request: unknown) => {
         const input = request as { operation: string; key?: string; value?: unknown; entries?: Record<string, unknown> };
         if (input.operation === 'entry') {
@@ -339,7 +339,7 @@ try {
     const remoteDoc = { ...(v1 as object), name: 'remote-old' };
     const expectedMigrated = migrateProjectDoc(offlineDoc);
     assert.ok(expectedMigrated, 'the legacy fixture is a real openable V1 project');
-    installGlobal('window', { openChatCutDesktop: {
+    installGlobal('window', { alwaysCutDesktop: {
       projectStore: async () => { throw new Error('offline'); },
     } });
     await kvSet('projects', [{ id: 'reconnect', name: 'Original', updatedAt: 20 }]);
@@ -350,7 +350,7 @@ try {
       'project-edit-ownership:reconnect': { ownerId: 'old-tab', leaseExpiresAt },
     };
     let dropRecoveryResponse = true;
-    installGlobal('window', { openChatCutDesktop: {
+    installGlobal('window', { alwaysCutDesktop: {
       projectStore: async (request: unknown) => {
         const input = request as { operation: string; key: string; entries: Record<string, unknown> };
         if (failureAt === 'entry' && dropRecoveryResponse && input.operation === 'entry'
@@ -417,7 +417,7 @@ try {
   // A limited recovery response must retain confirmations for other pending documents.
   local.clear();
   resetSharedKvMemory();
-  installGlobal('window', { openChatCutDesktop: { projectStore: async () => { throw new Error('offline'); } } });
+  installGlobal('window', { alwaysCutDesktop: { projectStore: async () => { throw new Error('offline'); } } });
   const mixedIndex = ['conflict-a', 'accepted-b', 'conflict-c'].map((id) => ({ id, name: id, updatedAt: 20 }));
   const mixedDocuments = Object.fromEntries(mixedIndex.map(({ id }) => [
     `project:${id}`, { ...legacyOfflineDocument(), name: id },
@@ -432,7 +432,7 @@ try {
     'project-edit-ownership:conflict-a': { ownerId: 'owner-a' },
     'project-edit-ownership:conflict-c': { ownerId: 'owner-c' },
   };
-  installGlobal('window', { openChatCutDesktop: {
+  installGlobal('window', { alwaysCutDesktop: {
     projectStore: async (request: unknown) => {
       const input = request as { operation: string; key: string; entries: Record<string, unknown> };
       if (input.operation === 'entry') return { found: Object.hasOwn(mixedRemote, input.key), value: mixedRemote[input.key] };

@@ -158,16 +158,16 @@ const api: AlwaysCutDesktopApi = {
   getPathForFile: (file) => webUtils.getPathForFile(file) || undefined,
   platform: process.platform,
   selectDirectory: (defaultPath) =>
-    ipcRenderer.invoke('openchatcut:select-directory', defaultPath) as Promise<string | null>,
+    ipcRenderer.invoke('alwayscut:select-directory', defaultPath) as Promise<string | null>,
   selectExportDirectory: () =>
-    ipcRenderer.invoke('openchatcut:select-export-directory') as Promise<DesktopExportDirectoryGrant | null>,
+    ipcRenderer.invoke('alwayscut:select-export-directory') as Promise<DesktopExportDirectoryGrant | null>,
   selectExportFile: (suggestedFilename) =>
-    ipcRenderer.invoke('openchatcut:select-export-file', suggestedFilename) as Promise<DesktopExportFileGrant | null>,
+    ipcRenderer.invoke('alwayscut:select-export-file', suggestedFilename) as Promise<DesktopExportFileGrant | null>,
   restoreExportDirectory: () =>
-    ipcRenderer.invoke('openchatcut:restore-export-directory') as Promise<DesktopExportDirectoryGrant | null>,
+    ipcRenderer.invoke('alwayscut:restore-export-directory') as Promise<DesktopExportDirectoryGrant | null>,
   importLocalMedia: (file) => importLocalMediaFromFile(file, localMediaPreloadDependencies),
   prepareTransparentMovProxy: (storedName) =>
-    ipcRenderer.invoke('openchatcut:transparent-mov-proxy', storedName) as Promise<{ src: string } | null>,
+    ipcRenderer.invoke('alwayscut:transparent-mov-proxy', storedName) as Promise<{ src: string } | null>,
   startImportDirectoryWatch: async (projectId, existingContentHashes) => {
     const value: unknown = await ipcRenderer.invoke(
       DIRECTORY_IMPORT_CHANNELS.start, projectId, existingContentHashes,
@@ -196,15 +196,15 @@ const api: AlwaysCutDesktopApi = {
     return () => { ipcRenderer.removeListener(DIRECTORY_IMPORT_CHANNELS.imported, handleImported); };
   },
   windowAction: (action) =>
-    ipcRenderer.invoke('openchatcut:window-action', action) as Promise<void>,
+    ipcRenderer.invoke('alwayscut:window-action', action) as Promise<void>,
   zoomStep: (step) =>
-    ipcRenderer.invoke('openchatcut:zoom-step', step) as Promise<void>,
+    ipcRenderer.invoke('alwayscut:zoom-step', step) as Promise<void>,
   subscribeUiScale: (listener) => {
     const handleScale = (_event: IpcRendererEvent, value: unknown): void => {
       if (typeof value === 'number' && Number.isFinite(value)) listener(value);
     };
-    ipcRenderer.on('openchatcut:ui-scale-changed', handleScale);
-    return () => { ipcRenderer.removeListener('openchatcut:ui-scale-changed', handleScale); };
+    ipcRenderer.on('alwayscut:ui-scale-changed', handleScale);
+    return () => { ipcRenderer.removeListener('alwayscut:ui-scale-changed', handleScale); };
   },
   openTranscriptWindow: (payload) =>
     ipcRenderer.invoke(TRANSCRIPT_WINDOW_CHANNELS.open, payload) as Promise<void>,
@@ -220,7 +220,7 @@ const api: AlwaysCutDesktopApi = {
     return isTranscriptWindowPayload(value) ? value : null;
   },
   revealExport: (destinationId, filename) =>
-    ipcRenderer.invoke('openchatcut:reveal-export', destinationId, filename) as Promise<void>,
+    ipcRenderer.invoke('alwayscut:reveal-export', destinationId, filename) as Promise<void>,
   projectStore: (request) =>
     ipcRenderer.invoke(PROJECT_STORE_CHANNEL, request) as Promise<ProjectStoreResponse>,
   editorCredentials: () =>
@@ -298,4 +298,4 @@ const api: AlwaysCutDesktopApi = {
   },
 };
 
-contextBridge.exposeInMainWorld('openChatCutDesktop', api);
+contextBridge.exposeInMainWorld('alwaysCutDesktop', api);

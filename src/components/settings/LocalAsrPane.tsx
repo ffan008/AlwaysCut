@@ -57,7 +57,7 @@ export function LocalAsrPane({ fields, ctx }: { fields: readonly SettingsField[]
   const [models, setModels] = useState<AsrModelState[] | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
-  const hasDesktopInference = Boolean(window.openChatCutDesktop?.inference);
+  const hasDesktopInference = Boolean(window.alwaysCutDesktop?.inference);
   const [nativeInference, setNativeInference] = useState(desktopNativeInferenceEnabled);
   const [desktopInferenceSupported, setDesktopInferenceSupported] = useState(false);
   const [nativeAsrAvailable, setNativeAsrAvailable] = useState(false);
@@ -65,7 +65,7 @@ export function LocalAsrPane({ fields, ctx }: { fields: readonly SettingsField[]
   const [vadSilence, setVadSilence] = useState(vadSilenceRemovalEnabled);
   useEffect(() => {
     let active = true;
-    const inference = window.openChatCutDesktop?.inference;
+    const inference = window.alwaysCutDesktop?.inference;
     if (inference) {
       void inference.getCapabilities()
         .then((capabilities) => {

@@ -44,7 +44,7 @@ function messageOf(error: unknown): string {
 
 export function xaiOauthPlugin(): Plugin {
   return {
-    name: 'openchatcut-xai-oauth',
+    name: 'alwayscut-xai-oauth',
     configureServer(server) {
       void initXaiOauth().catch((error) => {
         server.config.logger.error(`[xai-oauth] ${messageOf(error)}`);

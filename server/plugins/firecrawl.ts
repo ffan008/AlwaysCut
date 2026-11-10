@@ -20,7 +20,7 @@ export { buildActions, saveScreenshot, wrapExecJs } from './firecrawl-shared.ts'
 
 export function firecrawlPlugin(options: FirecrawlPluginOptions): Plugin {
   return {
-    name: 'openchatcut-firecrawl',
+    name: 'alwayscut-firecrawl',
     configureServer(server) {
       const log = (m: string) => server.config.logger.info(m);
       const key = options.apiKey;

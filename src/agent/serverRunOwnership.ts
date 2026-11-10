@@ -7,7 +7,7 @@ export interface ServerRunLockManager {
 }
 
 function lockName(projectId: string, runId: string): string {
-  return JSON.stringify(['openchatcut-server-run-owner', projectId, runId]);
+  return JSON.stringify(['alwayscut-server-run-owner', projectId, runId]);
 }
 
 /** Fences browser-side draft mutation and terminal finalization to one live tab. */

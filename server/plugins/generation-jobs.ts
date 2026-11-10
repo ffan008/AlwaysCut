@@ -116,7 +116,7 @@ const wait = (milliseconds: number) => new Promise((resolvePromise) => setTimeou
 
 export function generationProgressPlugin(): Plugin {
   return {
-    name: 'openchatcut-generation-progress',
+    name: 'alwayscut-generation-progress',
     configureServer(server) {
       void initializeGenerationJobs().catch((error) => {
         server.config.logger.error(`[generate:progress] failed to restore operations: ${error instanceof Error ? error.message : String(error)}`);

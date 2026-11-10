@@ -10,7 +10,7 @@ export default {
   '复制到剪贴板': 'Copia negli appunti',
   '正在读取 MCP 连接令牌…': 'Lettura token MCP...',
   '无法读取 MCP 连接令牌，请从受信任的编辑器窗口重试。': 'Impossibile leggere il token MCP. Riprova da una finestra editor attendibile.',
-  'MCP 端点始终要求 Bearer 令牌。令牌在首次启动时生成并保存在本机，重启后保持不变，配置一次即可持续使用；OPENCHATCUT_MCP_TOKEN 环境变量可覆盖。令牌只在当前受信任编辑器会话中显示，不写入工程、聊天或浏览器存储。': 'L’endpoint MCP richiede sempre un token Bearer. Il token viene generato al primo avvio e resta su questo PC; dopo il riavvio non cambia, quindi basta configurarlo una volta. OPENCHATCUT_MCP_TOKEN puo sovrascriverlo. Il token viene mostrato solo nella sessione editor attendibile e non viene scritto nel progetto, nella chat o nello storage browser.',
+  'MCP 端点始终要求 Bearer 令牌。令牌在首次启动时生成并保存在本机，重启后保持不变，配置一次即可持续使用；ALWAYSCUT_MCP_TOKEN 环境变量可覆盖。令牌只在当前受信任编辑器会话中显示，不写入工程、聊天或浏览器存储。': 'L’endpoint MCP richiede sempre un token Bearer. Il token viene generato al primo avvio e resta su questo PC; dopo il riavvio non cambia, quindi basta configurarlo una volta. ALWAYSCUT_MCP_TOKEN puo sovrascriverlo. Il token viene mostrato solo nella sessione editor attendibile e non viene scritto nel progetto, nella chat o nello storage browser.',
   'Anthropic 官方 CLI，Claude 订阅用户直连。': 'CLI ufficiale Anthropic, collegamento diretto per gli abbonati Claude.',
   'OpenAI CLI，通过环境变量携带令牌。': 'CLI OpenAI, con token fornito tramite variabile di ambiente.',
   'Streamable HTTP · 与内置 Agent 共享编辑工具': 'HTTP streamable · strumenti di modifica condivisi con l’Agent integrato',

@@ -7,8 +7,8 @@ const root = mkdtempSync(join(tmpdir(), 'occ-embedded-project-store-'));
 const previousHome = process.env.HOME;
 const previousAppData = process.env.APPDATA;
 const previousLocalAppData = process.env.LOCALAPPDATA;
-const previousDataDir = process.env.OPENCHATCUT_DATA_DIR;
-process.env.OPENCHATCUT_DATA_DIR = join(root, 'store');
+const previousDataDir = process.env.ALWAYSCUT_DATA_DIR;
+process.env.ALWAYSCUT_DATA_DIR = join(root, 'store');
 process.env.HOME = root;
 process.env.APPDATA = root;
 process.env.LOCALAPPDATA = root;
@@ -69,8 +69,8 @@ try {
   else process.env.APPDATA = previousAppData;
   if (previousLocalAppData === undefined) delete process.env.LOCALAPPDATA;
   else process.env.LOCALAPPDATA = previousLocalAppData;
-  if (previousDataDir === undefined) delete process.env.OPENCHATCUT_DATA_DIR;
-  else process.env.OPENCHATCUT_DATA_DIR = previousDataDir;
+  if (previousDataDir === undefined) delete process.env.ALWAYSCUT_DATA_DIR;
+  else process.env.ALWAYSCUT_DATA_DIR = previousDataDir;
   rmSync(root, { recursive: true, force: true });
 }
 

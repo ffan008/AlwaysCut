@@ -138,7 +138,7 @@ function serve(
 
 export function localMediaPlugin(): Plugin {
   return {
-    name: 'openchatcut-local-media',
+    name: 'alwayscut-local-media',
     configureServer(server) {
       server.middlewares.use(LOCAL_MEDIA_BROWSE_PATH, (req, res) => serve(handleBrowse, req, res));
       server.middlewares.use(LOCAL_MEDIA_IMPORT_PATH, (req, res) => serve(handleImport, req, res));

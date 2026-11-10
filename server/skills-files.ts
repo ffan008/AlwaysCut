@@ -1,4 +1,4 @@
-// User-visible skill files under ~/.openchatcut/skills/<slug>/SKILL.md —
+// User-visible skill files under ~/.alwayscut/skills/<slug>/SKILL.md —
 // the same layout as ~/.codex/skills and ~/.claude/skills. This layer is a
 // mirror of the kv-backed custom skills (project-store skills:custom) plus a
 // discovery channel: files the user drops here by hand become custom skills.
@@ -14,9 +14,9 @@ import { parseSkillFrontmatter } from '../src/agent/skills/skill-frontmatter.ts'
 /** Slug whitelist — mirrors src/persist/skillStore.ts SAFE_SLUG. */
 const SAFE_SLUG = /^[A-Za-z0-9_-]{1,120}$/;
 
-/** Override for tests and unusual installs; defaults to ~/.openchatcut/skills. */
+/** Override for tests and unusual installs; defaults to ~/.alwayscut/skills. */
 export function skillFilesRoot(): string {
-  return getKey('OPENCHATCUT_SKILLS_DIR') || join(homedir(), '.openchatcut', 'skills');
+  return getKey('ALWAYSCUT_SKILLS_DIR') || join(homedir(), '.alwayscut', 'skills');
 }
 
 export function skillDirFor(root: string, slug: string): string | null {
@@ -61,7 +61,7 @@ export async function readSkillDirFiles(dir: string): Promise<Record<string, str
   return contents;
 }
 
-/** Scan ~/.openchatcut/skills/ for SKILL.md files (user-dropped or mirrored). */
+/** Scan ~/.alwayscut/skills/ for SKILL.md files (user-dropped or mirrored). */
 export async function discoverSkillFiles(root: string): Promise<DiscoveredSkillFile[]> {
   let entries: Dirent[];
   try {
@@ -88,7 +88,7 @@ export async function discoverSkillFiles(root: string): Promise<DiscoveredSkillF
   return found.sort((a, b) => a.slug.localeCompare(b.slug));
 }
 
-/** Mirror one skill to ~/.openchatcut/skills/<slug>/SKILL.md (idempotent). */
+/** Mirror one skill to ~/.alwayscut/skills/<slug>/SKILL.md (idempotent). */
 export async function mirrorSkillFile(root: string, slug: string, body: string): Promise<string | null> {
   const dir = skillDirFor(root, slug);
   if (!dir) return null;
@@ -110,7 +110,7 @@ export async function removeSkillFile(root: string, slug: string): Promise<boole
   return true;
 }
 
-/** Human-readable install location for tool responses: ~/.openchatcut/skills/<slug>. */
+/** Human-readable install location for tool responses: ~/.alwayscut/skills/<slug>. */
 export function displaySkillPath(slug: string): string {
-  return join('~', '.openchatcut', 'skills', slug);
+  return join('~', '.alwayscut', 'skills', slug);
 }

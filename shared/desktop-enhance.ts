@@ -8,10 +8,10 @@
 // here so main / preload / renderer stay in lockstep.
 
 export const DESKTOP_ENHANCE_CHANNELS = {
-  capabilities: 'openchatcut:enhance-capabilities',
-  run: 'openchatcut:enhance-run',
-  cancel: 'openchatcut:enhance-cancel',
-  progress: 'openchatcut:enhance-progress',
+  capabilities: 'alwayscut:enhance-capabilities',
+  run: 'alwayscut:enhance-run',
+  cancel: 'alwayscut:enhance-cancel',
+  progress: 'alwayscut:enhance-progress',
 } as const;
 
 export type EnhanceOperation = 'denoise' | 'upscale';
@@ -58,8 +58,8 @@ function validSourcePath(value: unknown): value is string {
   if (typeof value !== 'string' || value.length === 0 || value.length > MAX_SOURCE_PATH
     || !value.startsWith('/media/uploads/') || value.includes('\\')) return false;
   try {
-    const parsed = new URL(value, 'http://openchatcut.local');
-    return parsed.origin === 'http://openchatcut.local'
+    const parsed = new URL(value, 'http://alwayscut.local');
+    return parsed.origin === 'http://alwayscut.local'
       && parsed.search === ''
       && parsed.hash === '';
   } catch {

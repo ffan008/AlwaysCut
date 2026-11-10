@@ -21,7 +21,7 @@ interface ExtensionCenterProps {
 }
 
 const REGISTRY_URL = import.meta.env.VITE_RESOURCE_REGISTRY_URL
-  || 'https://openchatcut.com/api/resources/extensions';
+  || 'https://alwayscut.com/api/resources/extensions';
 const registryCacheKey = (locale: Locale) => `cc.extension-registry.${locale}`;
 
 function readRegistryCache(locale: Locale): RegistryEntry[] {

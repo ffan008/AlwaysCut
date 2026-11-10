@@ -1,5 +1,5 @@
 // Export as plugin (DIY closed loop): Customize the content in the session - special effects/LUT/transition,
-// MG/zoom on timeline - packaged as openchatcut-plugin@1 JSON. Pure function, data is injected by the caller
+// MG/zoom on timeline - packaged as alwayscut-plugin@1 JSON. Pure function, data is injected by the caller
 // (Browser UI is in library/PluginExport.tsx), the product must pass validatePack before it can be downloaded.
 import { PLUGIN_FORMAT, type PluginItem, type PluginNumberProp, type PluginPack } from './types';
 import { validatePack } from './validate';

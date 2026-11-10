@@ -1,4 +1,4 @@
-// install_skill: download a GitHub skill repo into ~/.openchatcut/skills/<slug>/
+// install_skill: download a GitHub skill repo into ~/.alwayscut/skills/<slug>/
 // so multi-file skills (references/scripts/assets/examples) install completely —
 // single-SKILL.md manage_skill create cannot carry support files. The panel
 // discovers the installed directory automatically (skills-files discovery).
@@ -45,7 +45,7 @@ function githubToken(): string {
 }
 
 function apiHeaders(): Record<string, string> {
-  const headers: Record<string, string> = { Accept: 'application/vnd.github+json', 'User-Agent': 'openchatcut-skill-install' };
+  const headers: Record<string, string> = { Accept: 'application/vnd.github+json', 'User-Agent': 'alwayscut-skill-install' };
   const token = githubToken();
   if (token) headers.Authorization = `Bearer ${token}`;
   return headers;
@@ -174,7 +174,7 @@ export async function installGitHubSkill(
     const dir = skillDirFor(skillFilesRoot(), slug);
     if (!dir) throw new Error('invalid skill slug');
     await publishSkillFiles(stage, dir, files);
-    return { slug, installedAt: join('~', '.openchatcut', 'skills', slug), files: files.map((file) => file.path), source };
+    return { slug, installedAt: join('~', '.alwayscut', 'skills', slug), files: files.map((file) => file.path), source };
   } finally {
     await rm(stage, { recursive: true, force: true });
   }
@@ -182,7 +182,7 @@ export async function installGitHubSkill(
 
 export function skillInstallPlugin(): Plugin {
   return {
-    name: 'openchatcut-skill-install',
+    name: 'alwayscut-skill-install',
     configureServer(server) {
       server.middlewares.use('/api/skills/install', async (req, res) => {
         if (req.method !== 'POST') { sendJson(res, 405, { error: 'method not allowed — use POST' }); return; }

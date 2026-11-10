@@ -251,8 +251,8 @@ export async function execReadProjectTool(
         height: a.height ?? null,
         folderId: a.folderId ?? null,
         favorite: a.favorite ?? false,
-        ...(a.props?.openchatcutDerivedFrom && typeof a.props.openchatcutDerivedFrom === 'object'
-          ? { derivedFrom: a.props.openchatcutDerivedFrom }
+        ...(a.props?.alwayscutDerivedFrom && typeof a.props.alwayscutDerivedFrom === 'object'
+          ? { derivedFrom: a.props.alwayscutDerivedFrom }
           : {}),
         ...(includeCode && assetIds.length && a.code ? { code: a.code } : {}),
       })),

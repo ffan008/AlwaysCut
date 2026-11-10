@@ -268,7 +268,7 @@ function handleFailure(res: ServerResponse, error: unknown): void {
 
 export function claudeCodeAgentPlugin(): Plugin {
   return {
-    name: 'openchatcut-claude-code-agent',
+    name: 'alwayscut-claude-code-agent',
     configureServer(server) {
       boundHttpServer = server.httpServer ?? null;
       server.middlewares.use('/api/claude-code', (req, res) => {

@@ -24,8 +24,8 @@ try {
 // The resolved dev binaries are real files that can be spawned (an explicit override wins).
 assert.ok(!ffmpegBin().includes(`${sep}app.asar${sep}`));
 assert.ok(!ffprobeBin().includes(`${sep}app.asar${sep}`));
-process.env.OPENCHATCUT_FFPROBE = '/custom/ffprobe';
+process.env.ALWAYSCUT_FFPROBE = '/custom/ffprobe';
 assert.equal(ffprobeBin(), '/custom/ffprobe');
-delete process.env.OPENCHATCUT_FFPROBE;
+delete process.env.ALWAYSCUT_FFPROBE;
 
 console.log('media-binaries checks passed (asar twin rewrite, overrides)');

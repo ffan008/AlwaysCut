@@ -33,7 +33,7 @@ const USER_MEDIA_IN_BUILD = ['media/uploads', 'media/asr-models'];
 function excludeUserMediaFromBuild(): Plugin {
   let outDir = resolve(process.cwd(), 'dist');
   return {
-    name: 'openchatcut-exclude-user-media',
+    name: 'alwayscut-exclude-user-media',
     apply: 'build',
     configResolved(config) {
       // Honour Vite's resolved `build.outDir` (defaults to <root>/dist), so the
@@ -65,7 +65,7 @@ function excludeUserMediaFromBuild(): Plugin {
  */
 function serveOrtWasmLoader(): Plugin {
   return {
-    name: 'openchatcut-ort-wasm-loader',
+    name: 'alwayscut-ort-wasm-loader',
     apply: 'serve',
     enforce: 'pre',
     configureServer(server) {
@@ -203,7 +203,7 @@ export default defineConfig(({ mode }) => {
             // dependencies belong in their own chunk.
             groups: [
               { name: 'babel', test: /node_modules[\\/]@babel[\\/]standalone/, priority: 30, includeDependenciesRecursively: false },
-              { name: 'templates', test: /openchatcut-templates\.json/, priority: 25, includeDependenciesRecursively: false },
+              { name: 'templates', test: /alwayscut-templates\.json/, priority: 25, includeDependenciesRecursively: false },
               { name: 'remotion', test: /node_modules[\\/](?:@remotion|remotion)[\\/]/, priority: 20, includeDependenciesRecursively: false },
               { name: 'anthropic', test: /node_modules[\\/]@anthropic-ai[\\/]sdk/, priority: 15, includeDependenciesRecursively: false },
               { name: 'react', test: /node_modules[\\/](?:react|react-dom|scheduler)[\\/]/, priority: 10, includeDependenciesRecursively: false },

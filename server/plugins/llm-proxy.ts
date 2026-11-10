@@ -16,7 +16,7 @@ function keyReader(name: string): string {
 }
 
 export function llmProviderForRequest(req?: IncomingMessage): LlmProvider {
-  const requested = req?.headers['x-openchatcut-provider'];
+  const requested = req?.headers['x-alwayscut-provider'];
   return requireLlmProvider(requested === undefined ? getKey('LLM_PROVIDER') : requested);
 }
 
@@ -65,7 +65,7 @@ export function llmErrorMessage(status: number, req?: IncomingMessage): string {
 /** One dynamic proxy implementation shared by Vite dev and Electron production. */
 export function llmProxyPlugin(): Plugin {
   return {
-    name: 'openchatcut-llm-proxy',
+    name: 'alwayscut-llm-proxy',
     configureServer(server) {
       server.middlewares.use('/llm', (req, res, next) => {
         try {

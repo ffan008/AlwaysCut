@@ -1,6 +1,6 @@
 import { MAX_TOTAL_CACHE_BYTES, type MediaBlobRecord } from './mediaBlobDatabase';
 
-const MEDIA_AUTHORITY_HEADER = 'x-openchatcut-media-authority';
+const MEDIA_AUTHORITY_HEADER = 'x-alwayscut-media-authority';
 
 export async function serverPathIsAuthoritative(src: string): Promise<boolean> {
   try {

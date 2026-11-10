@@ -15,7 +15,7 @@ import {
   initializeSqliteProjectStore, sqliteImmediateTransaction,
 } from '../storage/sqlite-store.ts';
 
-const CHILD_MODE = process.env.OPENCHATCUT_EXPORT_RECOVERY_RACE_CHILD === '1';
+const CHILD_MODE = process.env.ALWAYSCUT_EXPORT_RECOVERY_RACE_CHILD === '1';
 const renderId = '11111111-1111-4111-8111-111111111111';
 const key = `export-recovery:${renderId}`;
 
@@ -78,20 +78,20 @@ function spawnChild(home: string): ChildProcess {
       ...process.env,
       HOME: home,
       USERPROFILE: home,
-      OPENCHATCUT_DATA_DIR: join(home, '.openchatcut'),
-      OPENCHATCUT_DEV_PROFILE_ID: undefined,
-      OPENCHATCUT_EXPORT_RECOVERY_RACE_CHILD: '1',
+      ALWAYSCUT_DATA_DIR: join(home, '.alwayscut'),
+      ALWAYSCUT_DEV_PROFILE_ID: undefined,
+      ALWAYSCUT_EXPORT_RECOVERY_RACE_CHILD: '1',
     },
     stdio: ['ignore', 'inherit', 'inherit', 'ipc'],
   });
 }
 
 async function seedRecovery(home: string): Promise<void> {
-  const path = join(home, '.openchatcut', 'project-store-v1.sqlite3');
+  const path = join(home, '.alwayscut', 'project-store-v1.sqlite3');
   await mkdir(dirname(path), { recursive: true });
   const db = new DatabaseSync(path);
   db.exec('PRAGMA journal_mode = WAL; CREATE TABLE kv (k TEXT PRIMARY KEY, v TEXT NOT NULL);');
-  ensureJsonImported(db, resolveRuntimeProfile({ OPENCHATCUT_DATA_DIR: dirname(path) }, { homeDir: home }));
+  ensureJsonImported(db, resolveRuntimeProfile({ ALWAYSCUT_DATA_DIR: dirname(path) }, { homeDir: home }));
   db.prepare('INSERT INTO kv (k, v) VALUES (?, ?)').run(key, JSON.stringify({
     version: 1,
     renderId,
@@ -103,7 +103,7 @@ async function seedRecovery(home: string): Promise<void> {
 }
 
 async function runParent(): Promise<void> {
-  const home = await mkdtemp(join(tmpdir(), 'openchatcut-export-recovery-race-'));
+  const home = await mkdtemp(join(tmpdir(), 'alwayscut-export-recovery-race-'));
   const children: ChildProcess[] = [];
   try {
     await seedRecovery(home);

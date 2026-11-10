@@ -35,7 +35,7 @@ export interface SessionOutcome {
 }
 
 function editorUrl(projectId: string): string {
-  const base = (process.env.OPENCHATCUT_EDITOR_URL ?? 'http://localhost:5199').replace(/\/+$/, '');
+  const base = (process.env.ALWAYSCUT_EDITOR_URL ?? 'http://localhost:5199').replace(/\/+$/, '');
   return `${base}/#/editor/${encodeURIComponent(projectId)}`;
 }
 

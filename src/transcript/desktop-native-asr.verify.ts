@@ -81,7 +81,7 @@ const inference = {
 };
 Object.defineProperty(globalThis, 'window', {
   configurable: true,
-  value: { openChatCutDesktop: { inference } },
+  value: { alwaysCutDesktop: { inference } },
 });
 
 const config = {
@@ -104,7 +104,7 @@ globalThis.window = windowWithBridge;
 // In the desktop shell (bridge present) native routing is auto-enabled.
 const originalWindow = globalThis.window;
 globalThis.window = {
-  openChatCutDesktop: { inference: { getCapabilities: async () => null } },
+  alwaysCutDesktop: { inference: { getCapabilities: async () => null } },
 } as unknown as Window & typeof globalThis;
 assert.equal(desktopNativeInferenceEnabled(), true, 'desktop shell auto-enables native routing');
 const disabledStorage = new Map<string, string>([['cc.desktopNativeInference', '0']]);

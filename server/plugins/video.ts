@@ -421,7 +421,7 @@ export function videoGenerationPlugin(options: VideoOptions): Plugin {
     });
   }
   return {
-    name: 'openchatcut-video-generation',
+    name: 'alwayscut-video-generation',
     configureServer(server) {
       server.middlewares.use('/generate/video', async (req, res) => {
         if (req.method !== 'POST') { sendJson(res, 405, { error: 'method not allowed — use POST' }); return; }

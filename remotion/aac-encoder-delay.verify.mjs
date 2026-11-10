@@ -21,7 +21,7 @@ const ffmpegStatic = require('ffmpeg-static');
 const execFileAsync = promisify(execFile);
 const RATE = 48000;
 const run = remotionFfRunner();
-const root = await mkdtemp(path.join(tmpdir(), 'openchatcut-aac-delay-'));
+const root = await mkdtemp(path.join(tmpdir(), 'alwayscut-aac-delay-'));
 const file = (name) => path.join(root, name);
 
 // The premise: Remotion still encodes AAC with libfdk_aac into ADTS. If this

@@ -87,7 +87,7 @@ assert.equal(
 assert.equal(asrModelFile(tiny.modelId, 'main', 'config.json'), undefined);
 assert.equal(asrModelFile(tiny.modelId, tiny.revision, '../config.json'), undefined);
 
-const root = await mkdtemp(join(tmpdir(), 'openchatcut-asr-integrity-'));
+const root = await mkdtemp(join(tmpdir(), 'alwayscut-asr-integrity-'));
 const expectedContent = Buffer.from('good');
 const entry: AsrModelEntry = {
   id: 'tiny',
@@ -129,7 +129,7 @@ try {
 // the companion and the browser engine only the ONNX export, so either half can
 // be ready without the other. `downloaded` still means the complete pack.
 {
-  const cacheDir = await mkdtemp(join(tmpdir(), 'openchatcut-asr-engines-'));
+  const cacheDir = await mkdtemp(join(tmpdir(), 'alwayscut-asr-engines-'));
   const ggmlBytes = Buffer.from('ggml');
   const ggmlEntry: AsrModelEntry = {
     ...entry,
@@ -174,7 +174,7 @@ try {
 // GET /api/asr-models reports both engines for every tier, so each client can
 // check the engine it is about to run.
 {
-  const cacheDir = await mkdtemp(join(tmpdir(), 'openchatcut-asr-catalog-'));
+  const cacheDir = await mkdtemp(join(tmpdir(), 'alwayscut-asr-catalog-'));
   try {
     const rows = await __asrCatalogForVerify(cacheDir);
     assert.deepEqual(rows.map((row) => row.id), ASR_MODELS.map((model) => model.id));

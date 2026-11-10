@@ -356,7 +356,7 @@ const portableActivation = prepareMessagesForProvider([{
     text: 'ToolSearch checkpoint.',
     providerOptions: {
       anthropic: { cacheControl: { type: 'ephemeral' } },
-      openchatcut: { activatedTools: ['web_crawl'] },
+      alwayscut: { activatedTools: ['web_crawl'] },
     },
   }],
 }], 'anthropic', 'openai');
@@ -365,7 +365,7 @@ assert.deepEqual(portableActivation, [{
   content: [{
     type: 'text',
     text: 'ToolSearch checkpoint.',
-    providerOptions: { openchatcut: { activatedTools: ['web_crawl'] } },
+    providerOptions: { alwayscut: { activatedTools: ['web_crawl'] } },
   }],
 }], 'provider switches retain only portable AlwaysCut activation metadata');
 assert.deepEqual(

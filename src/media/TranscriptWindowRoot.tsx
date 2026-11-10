@@ -11,7 +11,7 @@ export function TranscriptWindowRoot() {
   const [payload, setPayload] = useState<TranscriptWindowPayload | null>(null);
   const [index, setIndex] = useState(0);
   useEffect(() => {
-    const desktop = window.openChatCutDesktop;
+    const desktop = window.alwaysCutDesktop;
     if (!desktop?.subscribeTranscriptWindow) return;
     const apply = (next: TranscriptWindowPayload): void => {
       setPayload(next);
@@ -43,7 +43,7 @@ export function TranscriptWindowRoot() {
     <TranscriptViewerDialog
       asset={asset}
       entries={entries}
-      onClose={() => { void window.openChatCutDesktop?.windowAction('close'); }}
+      onClose={() => { void window.alwaysCutDesktop?.windowAction('close'); }}
       onStep={(delta) => setIndex((current) => {
         if (entries.length < 2) return current;
         return (current + delta + entries.length) % entries.length;

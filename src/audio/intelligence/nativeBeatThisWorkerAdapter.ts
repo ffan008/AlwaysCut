@@ -18,7 +18,7 @@ type BeatThisWorkerResponse =
   | { readonly id: number; readonly type: 'result'; readonly beat: Float32Array; readonly downbeat: Float32Array }
   | { readonly id: number; readonly type: 'error'; readonly message: string };
 
-type DesktopInferenceBridge = NonNullable<Window['openChatCutDesktop']>['inference'];
+type DesktopInferenceBridge = NonNullable<Window['alwaysCutDesktop']>['inference'];
 
 let nativeDisabledForSession = false;
 let requestSequence = 0;
@@ -29,7 +29,7 @@ function browserBeatThisWorker(): Worker {
 
 function inferenceBridge(): DesktopInferenceBridge | null {
   if (typeof window === 'undefined') return null;
-  const bridge = window.openChatCutDesktop?.inference;
+  const bridge = window.alwaysCutDesktop?.inference;
   return bridge && typeof bridge.rhythm === 'function' ? bridge : null;
 }
 

@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
 import { parseWidgets, safeWidgetMediaUrl } from './widget-parse';
 
-const base = 'https://openchatcut.local/editor';
+const base = 'https://alwayscut.local/editor';
 
-assert.equal(safeWidgetMediaUrl('/media/preview.png', base), 'https://openchatcut.local/media/preview.png');
-assert.equal(safeWidgetMediaUrl('voice/sample.mp3', base), 'https://openchatcut.local/voice/sample.mp3');
-assert.equal(safeWidgetMediaUrl('blob:https://openchatcut.local/id', base), 'blob:https://openchatcut.local/id');
+assert.equal(safeWidgetMediaUrl('/media/preview.png', base), 'https://alwayscut.local/media/preview.png');
+assert.equal(safeWidgetMediaUrl('voice/sample.mp3', base), 'https://alwayscut.local/voice/sample.mp3');
+assert.equal(safeWidgetMediaUrl('blob:https://alwayscut.local/id', base), 'blob:https://alwayscut.local/id');
 assert.equal(safeWidgetMediaUrl('data:image/png;base64,AA==', base), 'data:image/png;base64,AA==');
 assert.equal(safeWidgetMediaUrl('data:image/svg+xml,<svg/>', base), null);
 assert.equal(safeWidgetMediaUrl('https://tracker.example/pixel.png', base), null);

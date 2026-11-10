@@ -142,7 +142,7 @@ export async function putUploadObject(
         ? { ContentLength: contentLength }
         : {}),
       ...(options ? { IfNoneMatch: '*' } : {}),
-      ...(options ? { Metadata: { 'openchatcut-import-token': options.rollbackToken } } : {}),
+      ...(options ? { Metadata: { 'alwayscut-import-token': options.rollbackToken } } : {}),
     }));
     return options ? 'stored' : undefined;
   } catch (error) {
@@ -189,7 +189,7 @@ export async function deleteUploadObject(name: string, rollbackToken?: string): 
       Bucket: cfg.bucket,
       Key: `uploads/${name}`,
     }));
-    if (head.Metadata?.['openchatcut-import-token'] !== rollbackToken) return false;
+    if (head.Metadata?.['alwayscut-import-token'] !== rollbackToken) return false;
     etag = head.ETag;
     if (!etag) return false;
   } catch (error) {

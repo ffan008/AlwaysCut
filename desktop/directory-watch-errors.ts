@@ -42,7 +42,7 @@ export function reportDirectoryWatchError(
   emitter: DirectoryWatchWarningEmitter = process,
 ): void {
   emitter.emitWarning('directory watch operation failed', {
-    code: 'OPENCHATCUT_DIRECTORY_WATCH',
+    code: 'ALWAYSCUT_DIRECTORY_WATCH',
   });
 }
 

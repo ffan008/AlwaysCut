@@ -134,7 +134,7 @@ try {
     type: 'text',
     text: 'I need one choice before editing.\n\n<widget><form-text id="style" label="Which editing style?"/></widget>',
     providerOptions: {
-      openchatcut: { activatedTools: ['ask_followup_questions'] },
+      alwayscut: { activatedTools: ['ask_followup_questions'] },
     },
   }]);
   assert.ok(JSON.stringify(result).includes('__followup'),

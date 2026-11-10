@@ -8,15 +8,15 @@ import { join } from 'node:path';
 const root = await mkdtemp(join(tmpdir(), 'occ-upload-post-'));
 const profileId = '5b1f5d1e-5a6d-4c3e-9a3b-2f6f1c1d9e01';
 const original = {
-  dataDir: process.env.OPENCHATCUT_DATA_DIR,
-  profileId: process.env.OPENCHATCUT_DEV_PROFILE_ID,
+  dataDir: process.env.ALWAYSCUT_DATA_DIR,
+  profileId: process.env.ALWAYSCUT_DEV_PROFILE_ID,
   httpProxy: process.env.HTTP_PROXY,
   httpsProxy: process.env.HTTPS_PROXY,
   lowerHttpProxy: process.env.http_proxy,
   lowerHttpsProxy: process.env.https_proxy,
 };
-process.env.OPENCHATCUT_DATA_DIR = root;
-process.env.OPENCHATCUT_DEV_PROFILE_ID = profileId;
+process.env.ALWAYSCUT_DATA_DIR = root;
+process.env.ALWAYSCUT_DEV_PROFILE_ID = profileId;
 delete process.env.HTTP_PROXY;
 delete process.env.HTTPS_PROXY;
 delete process.env.http_proxy;
@@ -599,10 +599,10 @@ try {
 } finally {
   await new Promise<void>((resolve) => provider.close(() => resolve()));
   await rm(root, { recursive: true, force: true });
-  if (original.dataDir === undefined) delete process.env.OPENCHATCUT_DATA_DIR;
-  else process.env.OPENCHATCUT_DATA_DIR = original.dataDir;
-  if (original.profileId === undefined) delete process.env.OPENCHATCUT_DEV_PROFILE_ID;
-  else process.env.OPENCHATCUT_DEV_PROFILE_ID = original.profileId;
+  if (original.dataDir === undefined) delete process.env.ALWAYSCUT_DATA_DIR;
+  else process.env.ALWAYSCUT_DATA_DIR = original.dataDir;
+  if (original.profileId === undefined) delete process.env.ALWAYSCUT_DEV_PROFILE_ID;
+  else process.env.ALWAYSCUT_DEV_PROFILE_ID = original.profileId;
   if (original.httpProxy === undefined) delete process.env.HTTP_PROXY;
   else process.env.HTTP_PROXY = original.httpProxy;
   if (original.httpsProxy === undefined) delete process.env.HTTPS_PROXY;

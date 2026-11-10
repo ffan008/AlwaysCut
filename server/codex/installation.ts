@@ -27,7 +27,7 @@ function pathCandidates(name: string): string[] {
 }
 
 function configuredCandidates(): string[] {
-  const configured = process.env.OPENCHATCUT_CODEX_PATH?.trim();
+  const configured = process.env.ALWAYSCUT_CODEX_PATH?.trim();
   if (!configured) return [];
   if (isAbsolute(configured) || configured.includes(sep) || configured.includes('/')) {
     return [resolve(configured)];

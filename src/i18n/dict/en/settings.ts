@@ -189,8 +189,8 @@ export default {
   'Codex 模型': 'Codex model',
   'Copilot 模型': 'Copilot model',
   'Copilot 默认模型': 'Copilot default model',
-  '使用 GitHub Copilot 订阅：官方 Copilot CLI 管理登录与凭据（终端运行 copilot login），AlwaysCut 通过 Copilot SDK 直接驱动编辑工具，不会读取或显示凭据。会话状态隔离在 ~/.openchatcut/copilot，不影响你自己的 ~/.copilot。':
-    'Use a GitHub Copilot subscription: the official Copilot CLI manages sign-in and credentials (run `copilot login` in a terminal). AlwaysCut drives the editing tools directly through the Copilot SDK and never reads or displays credentials. Session state is isolated in ~/.openchatcut/copilot and does not affect your own ~/.copilot.',
+  '使用 GitHub Copilot 订阅：官方 Copilot CLI 管理登录与凭据（终端运行 copilot login），AlwaysCut 通过 Copilot SDK 直接驱动编辑工具，不会读取或显示凭据。会话状态隔离在 ~/.alwayscut/copilot，不影响你自己的 ~/.copilot。':
+    'Use a GitHub Copilot subscription: the official Copilot CLI manages sign-in and credentials (run `copilot login` in a terminal). AlwaysCut drives the editing tools directly through the Copilot SDK and never reads or displays credentials. Session state is isolated in ~/.alwayscut/copilot and does not affect your own ~/.copilot.',
   '登录后可读取当前订阅可用的模型，也可以手动填写模型 ID。仅支持工具调用的模型可用于编辑。':
     'After signing in, load the models available to this subscription or enter a model ID manually. Only tool-calling models can be used for editing.',
   'Codex 默认模型': 'Codex default model',
@@ -517,12 +517,12 @@ export default {
   '正在读取 MCP 连接令牌…': 'Loading the MCP connection token…',
   '无法读取 MCP 连接令牌，请从受信任的编辑器窗口重试。':
     'Could not load the MCP connection token. Retry from a trusted editor window.',
-  'MCP 端点始终要求 Bearer 令牌。令牌在首次启动时生成并保存在本机，重启后保持不变，配置一次即可持续使用；OPENCHATCUT_MCP_TOKEN 环境变量可覆盖。令牌只在当前受信任编辑器会话中显示，不写入工程、聊天或浏览器存储。':
-    'The MCP endpoint always requires a bearer token. The token is generated on first launch and kept on this machine, so it stays the same across restarts: registering once keeps working; the OPENCHATCUT_MCP_TOKEN environment variable overrides it. The token is shown only in the current trusted editor session and is never written to the project, chat, or browser storage.',
+  'MCP 端点始终要求 Bearer 令牌。令牌在首次启动时生成并保存在本机，重启后保持不变，配置一次即可持续使用；ALWAYSCUT_MCP_TOKEN 环境变量可覆盖。令牌只在当前受信任编辑器会话中显示，不写入工程、聊天或浏览器存储。':
+    'The MCP endpoint always requires a bearer token. The token is generated on first launch and kept on this machine, so it stays the same across restarts: registering once keeps working; the ALWAYSCUT_MCP_TOKEN environment variable overrides it. The token is shown only in the current trusted editor session and is never written to the project, chat, or browser storage.',
   '设置 → 连接器 → 添加自定义连接器,粘贴上面的端点地址即可。':
     'Settings → Connectors → Add custom connector, then paste the endpoint above.',
-  '端点默认仅监听本机;对外暴露时请配置 OPENCHATCUT_MCP_TOKEN 鉴权。桌面端 5199 端口被占用时会回退随机端口,以启动日志与本页地址为准。':
-    'The endpoint listens on localhost only by default; configure OPENCHATCUT_MCP_TOKEN before exposing it. If port 5199 is taken, the desktop app falls back to a random port — trust the startup log and the address shown here.',
+  '端点默认仅监听本机;对外暴露时请配置 ALWAYSCUT_MCP_TOKEN 鉴权。桌面端 5199 端口被占用时会回退随机端口,以启动日志与本页地址为准。':
+    'The endpoint listens on localhost only by default; configure ALWAYSCUT_MCP_TOKEN before exposing it. If port 5199 is taken, the desktop app falls back to a random port — trust the startup log and the address shown here.',
   // Local ASR model management (Settings → 本地模型 → 本地转写)
   '本地转写': 'Local transcription',
   '节拍与音乐分析': 'Beat and music analysis',

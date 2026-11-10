@@ -184,7 +184,7 @@ async function runWorker(
 }
 
 async function parent(): Promise<void> {
-  const root = await mkdtemp(join(tmpdir(), 'openchatcut-issue63-'));
+  const root = await mkdtemp(join(tmpdir(), 'alwayscut-issue63-'));
   const home = join(root, 'home');
   const keep = process.env.ISSUE63_KEEP_TEMP === '1';
   try {

@@ -79,7 +79,7 @@ function enqueue<T>(projectId: string, work: () => Promise<T>): Promise<T> {
 }
 function withProjectLock<T>(projectId: string, work: () => Promise<T>): Promise<T> {
   const locks = typeof navigator !== 'undefined' ? navigator.locks : undefined;
-  return locks ? locks.request(`openchatcut:${runtimeKey(projectId)}`, { mode: 'exclusive' }, work) : work();
+  return locks ? locks.request(`alwayscut:${runtimeKey(projectId)}`, { mode: 'exclusive' }, work) : work();
 }
 function notify(projectId: string): void {
   for (const listener of listeners.get(projectId) ?? []) listener();

@@ -41,7 +41,7 @@ const inference = {
 function desktopShell(present: boolean): void {
   if (present) {
     Object.defineProperty(globalThis, 'window', {
-      configurable: true, value: { openChatCutDesktop: { inference } },
+      configurable: true, value: { alwaysCutDesktop: { inference } },
     });
   } else {
     Reflect.deleteProperty(globalThis, 'window');

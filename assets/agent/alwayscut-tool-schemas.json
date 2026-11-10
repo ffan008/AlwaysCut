@@ -1541,7 +1541,7 @@
           },
           "stream": {
             "type": "boolean",
-            "description": "MiniMax HTTP streaming transport. OpenChatCut consumes it server-side and saves one durable audio asset."
+            "description": "MiniMax HTTP streaming transport. AlwaysCut consumes it server-side and saves one durable audio asset."
           },
           "excludeAggregatedAudio": {
             "type": "boolean",
@@ -1817,7 +1817,7 @@
           },
           "stream": {
             "type": "boolean",
-            "description": "Mureka only. Enable provider streaming phase; OpenChatCut still saves durable final files."
+            "description": "Mureka only. Enable provider streaming phase; AlwaysCut still saves durable final files."
           },
           "styles": {
             "type": "array",
@@ -2299,7 +2299,7 @@
     },
     {
       "name": "browse_library",
-      "description": "Browse the OpenChatCut Library (not the user media pool). Categories match Library tabs: motion-graphics, luts, zoom, fx, audio-fx, sound-effects, transitions. Modes: (1) category only → group overview; (2) category+group or query → list of id/name/description; (3) id → full detail + edit_item usage. After discovery, place with edit_item (effect/transition/zoom/audio).",
+      "description": "Browse the AlwaysCut Library (not the user media pool). Categories match Library tabs: motion-graphics, luts, zoom, fx, audio-fx, sound-effects, transitions. Modes: (1) category only → group overview; (2) category+group or query → list of id/name/description; (3) id → full detail + edit_item usage. After discovery, place with edit_item (effect/transition/zoom/audio).",
       "input_schema": {
         "type": "object",
         "properties": {
@@ -2527,7 +2527,7 @@
           },
           "projectId": {
             "type": "string",
-            "description": "Ignored because OpenChatCut uses the active project."
+            "description": "Ignored because AlwaysCut uses the active project."
           }
         },
         "required": [
@@ -2583,7 +2583,7 @@
           },
           "projectId": {
             "type": "string",
-            "description": "Ignored because OpenChatCut uses the active project."
+            "description": "Ignored because AlwaysCut uses the active project."
           }
         },
         "required": [
@@ -2919,7 +2919,7 @@
     },
     {
       "name": "auto_reframe",
-      "description": "Auto-reframe a video clip: sample its frames, detect the subject/focal point per interval, and write reframe keyframes (builtin:zoom __openchatcutReframeCurve) so the crop window follows the subject when the canvas aspect differs (e.g. 16:9→9:16). Clears the clip's existing reframe keyframes first, then re-detects. Browser-only (needs the actual video pixels); returns an error if run headless or if the target isn't a video with a source.",
+      "description": "Auto-reframe a video clip: sample its frames, detect the subject/focal point per interval, and write reframe keyframes (builtin:zoom __alwayscutReframeCurve) so the crop window follows the subject when the canvas aspect differs (e.g. 16:9→9:16). Clears the clip's existing reframe keyframes first, then re-detects. Browser-only (needs the actual video pixels); returns an error if run headless or if the target isn't a video with a source.",
       "input_schema": {
         "type": "object",
         "properties": {
@@ -4076,7 +4076,7 @@
     },
     {
       "name": "list_projects",
-      "description": "List OpenChatCut projects this browser owns (id, name, updatedAt, editorUrl), newest first. Discovery only — does not retarget the editor. Call target_project before editing another project. Pass includeDeleted=true to also list soft-deleted projects for restore_project.",
+      "description": "List AlwaysCut projects this browser owns (id, name, updatedAt, editorUrl), newest first. Discovery only — does not retarget the editor. Call target_project before editing another project. Pass includeDeleted=true to also list soft-deleted projects for restore_project.",
       "input_schema": {
         "type": "object",
         "properties": {
@@ -4551,7 +4551,7 @@
     },
     {
       "name": "load_skill",
-      "description": "Load one bundled or selected custom skill under the active model round input budget. Omit selectors for SKILL.md; if it is paged, follow nextOffset until null before support files. Exactly one selector per call: either files=[...] to load whole omitted files, or file with offset and limit to page a single file. Never send file and files in the same call. Bundled skills: ai-cinematic-short-film, asset-import, batch-montage-variants, beat-sync-montage, create-motion-graphics, ecommerce-product-montage, explainer-video, export, image-gen, known-errors, livestream-to-clips, long-video-to-shorts, motion-graphic-placement, multi-clips-to-reels, music, music-intelligence, news-rough-cut, openchatcut-plugin-basics, product-ad-video-script, product-help, shader-gen, skill-creator, storyboard-shot-breakdown, talking-head-guide, transcription, verification, video-gen, video-thumbnail-generator, voice, widget-forms.",
+      "description": "Load one bundled or selected custom skill under the active model round input budget. Omit selectors for SKILL.md; if it is paged, follow nextOffset until null before support files. Exactly one selector per call: either files=[...] to load whole omitted files, or file with offset and limit to page a single file. Never send file and files in the same call. Bundled skills: ai-cinematic-short-film, asset-import, batch-montage-variants, beat-sync-montage, create-motion-graphics, ecommerce-product-montage, explainer-video, export, image-gen, known-errors, livestream-to-clips, long-video-to-shorts, motion-graphic-placement, multi-clips-to-reels, music, music-intelligence, news-rough-cut, alwayscut-plugin-basics, product-ad-video-script, product-help, shader-gen, skill-creator, storyboard-shot-breakdown, talking-head-guide, transcription, verification, video-gen, video-thumbnail-generator, voice, widget-forms.",
       "input_schema": {
         "type": "object",
         "properties": {
@@ -4591,7 +4591,7 @@
     },
     {
       "name": "install_skill",
-      "description": "从 GitHub 安装一个 skill 仓库到本机技能目录（~/.openchatcut/skills/<slug>/），完整安装 SKILL.md 及其 references/scripts/assets/examples。安装后资源库「技能」面板会自动展示，可用 /skill:<slug> 或面板激活。repo 支持 GitHub URL 或 owner/repo（如 \"Jane-xiaoer/paper-collage-ad-codex\"）。slug 可选，默认取 SKILL.md 的 name 或仓库名。",
+      "description": "从 GitHub 安装一个 skill 仓库到本机技能目录（~/.alwayscut/skills/<slug>/），完整安装 SKILL.md 及其 references/scripts/assets/examples。安装后资源库「技能」面板会自动展示，可用 /skill:<slug> 或面板激活。repo 支持 GitHub URL 或 owner/repo（如 \"Jane-xiaoer/paper-collage-ad-codex\"）。slug 可选，默认取 SKILL.md 的 name 或仓库名。",
       "input_schema": {
         "type": "object",
         "properties": {
@@ -5459,7 +5459,7 @@
     },
     {
       "name": "import_timeline",
-      "description": "Import a Final Cut Pro / DaVinci Resolve FCPXML 1.x project or a CMX 3600 EDL into a new editable OpenChatCut timeline. The new timeline runs at the project frame rate; a sequence or list at another rate is converted, rounding cut points to the nearest frame. FCPXML times are converted to the new timeline through the sequence tcStart and every enclosing clip, gap, connected clip or storyline (lanes), compound clip (ref-clip), sync-clip, multicam clip (active angle) and audition (active pick), including rate conform and retime speed; source in-points are measured from each file's own start timecode. EDL events are placed from the list's record start: the hour boundary (e.g. 01:00:00:00) when the first record-in is within a minute of it, otherwise the first record-in, or startTimecode when given. EDLs do not record their frame rate: fps defaults to the current timeline's (29.97/59.94 for drop-frame lists). Referenced files must already exist in the current media pool; matching uses asset id, original path, source path, source filename, and asset name. Unresolved or ambiguous media aborts the import without changing the project. Titles, generators, captions, transitions, effects, disabled clips, and audio of a video file that its video clip cannot carry are not imported; the result lists every skipped element with its reason and warns about approximations.",
+      "description": "Import a Final Cut Pro / DaVinci Resolve FCPXML 1.x project or a CMX 3600 EDL into a new editable AlwaysCut timeline. The new timeline runs at the project frame rate; a sequence or list at another rate is converted, rounding cut points to the nearest frame. FCPXML times are converted to the new timeline through the sequence tcStart and every enclosing clip, gap, connected clip or storyline (lanes), compound clip (ref-clip), sync-clip, multicam clip (active angle) and audition (active pick), including rate conform and retime speed; source in-points are measured from each file's own start timecode. EDL events are placed from the list's record start: the hour boundary (e.g. 01:00:00:00) when the first record-in is within a minute of it, otherwise the first record-in, or startTimecode when given. EDLs do not record their frame rate: fps defaults to the current timeline's (29.97/59.94 for drop-frame lists). Referenced files must already exist in the current media pool; matching uses asset id, original path, source path, source filename, and asset name. Unresolved or ambiguous media aborts the import without changing the project. Titles, generators, captions, transitions, effects, disabled clips, and audio of a video file that its video clip cannot carry are not imported; the result lists every skipped element with its reason and warns about approximations.",
       "input_schema": {
         "type": "object",
         "properties": {
@@ -5873,7 +5873,7 @@
     },
     {
       "name": "browse_library",
-      "description": "Browse the OpenChatCut Library (not the user media pool). Categories match Library tabs: motion-graphics, luts, zoom, fx, audio-fx, sound-effects, transitions. Modes: (1) category only → group overview; (2) category+group or query → list of id/name/description; (3) id → full detail + edit_item usage. After discovery, place with edit_item (effect/transition/zoom/audio).",
+      "description": "Browse the AlwaysCut Library (not the user media pool). Categories match Library tabs: motion-graphics, luts, zoom, fx, audio-fx, sound-effects, transitions. Modes: (1) category only → group overview; (2) category+group or query → list of id/name/description; (3) id → full detail + edit_item usage. After discovery, place with edit_item (effect/transition/zoom/audio).",
       "input_schema": {
         "type": "object",
         "properties": {
@@ -6056,7 +6056,7 @@
     },
     {
       "name": "load_skill",
-      "description": "Load one bundled or selected custom skill under the active model round input budget. Omit selectors for SKILL.md; if it is paged, follow nextOffset until null before support files. Exactly one selector per call: either files=[...] to load whole omitted files, or file with offset and limit to page a single file. Never send file and files in the same call. Bundled skills: ai-cinematic-short-film, asset-import, batch-montage-variants, beat-sync-montage, create-motion-graphics, ecommerce-product-montage, explainer-video, export, image-gen, known-errors, livestream-to-clips, long-video-to-shorts, motion-graphic-placement, multi-clips-to-reels, music, music-intelligence, news-rough-cut, openchatcut-plugin-basics, product-ad-video-script, product-help, shader-gen, skill-creator, storyboard-shot-breakdown, talking-head-guide, transcription, verification, video-gen, video-thumbnail-generator, voice, widget-forms.",
+      "description": "Load one bundled or selected custom skill under the active model round input budget. Omit selectors for SKILL.md; if it is paged, follow nextOffset until null before support files. Exactly one selector per call: either files=[...] to load whole omitted files, or file with offset and limit to page a single file. Never send file and files in the same call. Bundled skills: ai-cinematic-short-film, asset-import, batch-montage-variants, beat-sync-montage, create-motion-graphics, ecommerce-product-montage, explainer-video, export, image-gen, known-errors, livestream-to-clips, long-video-to-shorts, motion-graphic-placement, multi-clips-to-reels, music, music-intelligence, news-rough-cut, alwayscut-plugin-basics, product-ad-video-script, product-help, shader-gen, skill-creator, storyboard-shot-breakdown, talking-head-guide, transcription, verification, video-gen, video-thumbnail-generator, voice, widget-forms.",
       "input_schema": {
         "type": "object",
         "properties": {

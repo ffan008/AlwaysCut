@@ -8,7 +8,7 @@ import { createServer, type ViteDevServer } from 'vite';
 import { scanSystemFonts, systemFontsPlugin } from './system-fonts.ts';
 
 const plugin = systemFontsPlugin();
-assert.equal(plugin.name, 'openchatcut-system-fonts');
+assert.equal(plugin.name, 'alwayscut-system-fonts');
 
 const fixture = mkdtempSync(join(tmpdir(), 'occ-font-scan-'));
 try {

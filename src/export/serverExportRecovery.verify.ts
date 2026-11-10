@@ -138,7 +138,7 @@ function installTransport(store: Record<string, unknown>): void {
   requests.length = 0;
   const mutateRecovery = fakeRecoveryOperation(store);
   (globalThis as Record<string, unknown>).window = {
-    openChatCutDesktop: {
+    alwaysCutDesktop: {
       projectStore: async (request: FakeProjectStoreRequest) => {
         if (transportOutage) throw new Error('project store unavailable');
         requests.push({ request });

@@ -202,7 +202,7 @@ async function extractOneFrame(input: string, timeMs: number, outPath: string): 
 
 export function extractFramesPlugin(): Plugin {
   return {
-    name: 'openchatcut-extract-frames',
+    name: 'alwayscut-extract-frames',
     configureServer(server) {
       server.middlewares.use('/api/extract-frames', async (req, res) => {
         if (req.method !== 'POST') {

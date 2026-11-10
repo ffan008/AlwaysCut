@@ -195,7 +195,7 @@ async function loadLiveMeta(uploadId: string, limits: MultipartGcLimits): Promis
 }
 export function uploadMultipartPlugin(): Plugin {
   return {
-    name: 'openchatcut-upload-multipart',
+    name: 'alwayscut-upload-multipart',
     configureServer(server) {
       const limits = multipartLimits();
       const active = new Set<string>();

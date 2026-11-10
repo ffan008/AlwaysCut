@@ -11,8 +11,8 @@ import { isolateVerifyHome } from '../../shared/verify-home.ts';
 async function main(): Promise<void> {
   const root = mkdtempSync(join(tmpdir(), 'occ-migrate-http-verify-'));
   const restoreHome = isolateVerifyHome(root);
-  const previousSwitch = process.env.OPENCHATCUT_SQLITE_STORE;
-  delete process.env.OPENCHATCUT_SQLITE_STORE;
+  const previousSwitch = process.env.ALWAYSCUT_SQLITE_STORE;
+  delete process.env.ALWAYSCUT_SQLITE_STORE;
 
   let app: http.Server | undefined;
   try {
@@ -112,7 +112,7 @@ async function main(): Promise<void> {
     resetSearchForTests();
     resetSqliteStoreForTests();
     writeFileSync(legacyPath, '{outdated-backup');
-    process.env.OPENCHATCUT_SQLITE_STORE = '0';
+    process.env.ALWAYSCUT_SQLITE_STORE = '0';
     await storageLifecyclePlugin().configureServer(stubServer as never);
     const reopened = await request('/entry?key=chat%3Ahttp-1', { method: 'GET' });
     assert.equal(reopened.status, 200);
@@ -137,8 +137,8 @@ async function main(): Promise<void> {
     console.log('SQLite startup HTTP: automatic import, authorization, persistence and fail-closed recovery passed');
   } finally {
     if (app) await new Promise<void>((resolve, reject) => app!.close((error) => error ? reject(error) : resolve()));
-    if (previousSwitch === undefined) delete process.env.OPENCHATCUT_SQLITE_STORE;
-    else process.env.OPENCHATCUT_SQLITE_STORE = previousSwitch;
+    if (previousSwitch === undefined) delete process.env.ALWAYSCUT_SQLITE_STORE;
+    else process.env.ALWAYSCUT_SQLITE_STORE = previousSwitch;
     restoreHome();
     rmSync(root, { recursive: true, force: true });
   }

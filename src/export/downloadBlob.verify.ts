@@ -31,7 +31,7 @@ assert.equal(typeof (globalThis as { window?: unknown }).window, 'undefined',
 // Only the two object-URL statics are stubbed — replacing the whole URL global
 // breaks the module loader, which constructs URLs of its own.
 const revoked: string[] = [];
-const objectUrl = 'blob:openchatcut/test-object-url';
+const objectUrl = 'blob:alwayscut/test-object-url';
 URL.createObjectURL = (() => objectUrl) as typeof URL.createObjectURL;
 URL.revokeObjectURL = ((url: string) => { revoked.push(url); }) as typeof URL.revokeObjectURL;
 

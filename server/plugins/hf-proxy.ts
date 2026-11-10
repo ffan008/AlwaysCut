@@ -335,7 +335,7 @@ export async function handleHfProxyRequest(
 
 export function hfProxyPlugin(): Plugin {
   return {
-    name: 'openchatcut-hf-proxy',
+    name: 'alwayscut-hf-proxy',
     configureServer(server) {
       server.middlewares.use('/api/hf-proxy', (req, res) => {
         void handleHfProxyRequest(req, res).catch((error) => {

@@ -18,7 +18,7 @@ const SUCCESS_TTL_MS = 10 * 60_000;
 // Short, so a CLI that is mid-update or signed out recovers quickly, but long
 // enough that a broken CLI is not respawned on every settings refresh.
 const FAILURE_TTL_MS = 30_000;
-const INITIALIZE_REQUEST_ID = 'openchatcut-models';
+const INITIALIZE_REQUEST_ID = 'alwayscut-models';
 
 // Used when the CLI cannot be asked (missing, too old, timed out, unparseable).
 // Canonical model ids, not the CLI's short aliases ("sonnet"/"opus"/"haiku"):

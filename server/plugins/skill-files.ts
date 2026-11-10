@@ -1,4 +1,4 @@
-// /api/skills — user-visible skill files under ~/.openchatcut/skills/.
+// /api/skills — user-visible skill files under ~/.alwayscut/skills/.
 // The kv-backed custom skills (project-store skills:custom) stay the runtime
 // source of truth; this plugin mirrors every write to SKILL.md files and
 // merges skills the user dropped into the directory by hand. Browser code
@@ -108,7 +108,7 @@ async function kvDeleteBySlug(slug: string): Promise<void> {
 
 export function skillFilesPlugin(): Plugin {
   return {
-    name: 'openchatcut-skill-files',
+    name: 'alwayscut-skill-files',
     configureServer(server) {
       server.middlewares.use('/api/skills', (req, res, next) => {
         // /api/skills/install and /api/skills/<slug>/exec are owned by their own plugins.

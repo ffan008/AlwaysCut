@@ -1,6 +1,6 @@
 // Portable project packages. v2 is a newline-delimited stream: ProjectDoc is
 // validated once, then each media blob is encoded/decoded in bounded chunks.
-// Legacy openchatcut-project@1 JSON remains readable for cross-version transfer.
+// Legacy alwayscut-project@1 JSON remains readable for cross-version transfer.
 import type { ProjectDoc } from '../editor/types';
 import {
   createProject, isPersistedChat, loadChat, loadCreativeMode, loadProject,
@@ -35,8 +35,8 @@ import {
 } from './projectTransferStream';
 export type { ProjectMediaManifestEntry } from './projectTransferStream';
 
-export const PROJECT_EXPORT_FORMAT = 'openchatcut-project@1';
-export const PROJECT_STREAM_FORMAT = 'openchatcut-project@2';
+export const PROJECT_EXPORT_FORMAT = 'alwayscut-project@1';
+export const PROJECT_STREAM_FORMAT = 'alwayscut-project@2';
 const MEDIA_PREFIX = '/media/uploads/';
 let streamPublicationQueue: Promise<void> = Promise.resolve();
 
@@ -259,7 +259,7 @@ export async function buildProjectExport(id: string, name: string): Promise<Proj
   };
   const stream = streamFrom(projectExportChunks(manifest, runtime, srcs, mediaMissing));
   const blob = await new Response(stream, {
-    headers: { 'Content-Type': 'application/x-openchatcut-project' },
+    headers: { 'Content-Type': 'application/x-alwayscut-project' },
   }).blob();
   const safeName = sanitizeFileName(name, 'project');
   return {

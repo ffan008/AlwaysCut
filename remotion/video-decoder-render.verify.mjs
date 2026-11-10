@@ -142,12 +142,12 @@ async function withDecoder(decoder, render) {
   }
 }
 
-const directory = await mkdtemp(join(tmpdir(), 'openchatcut-video-decoder-'));
+const directory = await mkdtemp(join(tmpdir(), 'alwayscut-video-decoder-'));
 const media = (name) => join(directory, name);
 try {
   setUploadsDirProvider(() => directory);
-  process.env.OPENCHATCUT_RENDER_CONCURRENCY = '4';
-  process.env.OPENCHATCUT_DISABLE_HARDWARE_ENCODING = '1';
+  process.env.ALWAYSCUT_RENDER_CONCURRENCY = '4';
+  process.env.ALWAYSCUT_DISABLE_HARDWARE_ENCODING = '1';
 
   // 29.97 fps footage with audio in a 30 fps timeline: the fractional-rate case
   // where a decoder that selects frames differently is off by one source frame.

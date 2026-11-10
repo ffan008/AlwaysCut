@@ -45,7 +45,7 @@ function trackedProbeResponse(status: number, contentType: string, state: ProbeB
   });
 }
 
-const directory = await mkdtemp(join(tmpdir(), 'openchatcut-export-preflight-'));
+const directory = await mkdtemp(join(tmpdir(), 'alwayscut-export-preflight-'));
 try {
   const readable = join(directory, 'readable.mp4');
   await writeFile(readable, 'media');
@@ -311,7 +311,7 @@ try {
   assert.deepEqual(nestedFetchSources, [nestedRemote]);
   assert.match(
     nestedMaterialized.snapshot.timelines[1]?.items[0]?.src ?? '',
-    /^\/media\/uploads\/openchatcut-render-media-[0-9a-f-]+\.mp4$/,
+    /^\/media\/uploads\/alwayscut-render-media-[0-9a-f-]+\.mp4$/,
   );
   assertMaterializedRenderSnapshot(nestedMaterialized.snapshot, 'nested-sequence-export');
   await nestedMaterialized.cleanup();
@@ -345,7 +345,7 @@ try {
       },
     );
     const localSource = submission.plan.state.items[0]?.src;
-    assert.match(localSource ?? '', /^\/media\/uploads\/openchatcut-render-media-[0-9a-f-]+\.mp4$/);
+    assert.match(localSource ?? '', /^\/media\/uploads\/alwayscut-render-media-[0-9a-f-]+\.mp4$/);
     assert.equal(Object.isFrozen(submission.plan.state), true, `${entrypoint} must render an immutable snapshot`);
     assertMaterializedRenderSnapshot(submission.plan.state, entrypoint);
     assert.equal(resolverCalls, 1, `${entrypoint} must not resolve remote media a second time in the renderer`);
@@ -409,7 +409,7 @@ try {
       && error.failure.stage === 'preflight',
   );
   assert.deepEqual(
-    (await readdir(directory)).filter((name) => name.startsWith('openchatcut-render-media-')),
+    (await readdir(directory)).filter((name) => name.startsWith('alwayscut-render-media-')),
     [],
     'failed materialization must remove both partial and published files',
   );
@@ -444,7 +444,7 @@ try {
   );
   assert.equal(materializationFetchSignalAborted, true, 'request abort must reach safePublicFetch');
   assert.deepEqual(
-    (await readdir(directory)).filter((name) => name.startsWith('openchatcut-render-media-')),
+    (await readdir(directory)).filter((name) => name.startsWith('alwayscut-render-media-')),
     [],
     'aborted materialization must remove its partial file',
   );

@@ -26,9 +26,9 @@ const state = {
 assert.equal(fcpxmlBackgroundFillCount(state), 1, 'only render-active V1 fills are reported');
 const xml = timelineToFcpxml(state);
 assert.match(xml, /backgroundFill settings are preserved as AlwaysCut metadata/);
-assert.match(xml, /key="com\.openchatcut\.backgroundFillStrength" value="73"/,
+assert.match(xml, /key="com\.alwayscut\.backgroundFillStrength" value="73"/,
   'the exact percentage survives in portable custom metadata');
-assert.equal((xml.match(/key="com\.openchatcut\.backgroundFill"/g) ?? []).length, 1,
+assert.equal((xml.match(/key="com\.alwayscut\.backgroundFill"/g) ?? []).length, 1,
   'inactive overlay fills do not emit misleading metadata');
 assert.doesNotMatch(xml, /backgroundFill="true"/, 'private fields are not serialized as fake attributes');
 

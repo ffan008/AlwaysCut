@@ -1,7 +1,7 @@
 import { sourceFrameAt } from '../editor/sourceLimit';
 // Automatic reframe detection core.
 // The existing infrastructure only wrote and rendered reframe curves through builtin:zoom and
-// reserved __openchatcutReframeCurve = ReframeCurveV1. This module adds the missing
+// reserved __alwayscutReframeCurve = ReframeCurveV1. This module adds the missing
 // sample video → detect subject → generate keyframes path. Its lightweight heuristic maps
 // per-frame contrast/variance energy to a salient-region centroid without MediaPipe, TF.js, or other dependencies.
 //

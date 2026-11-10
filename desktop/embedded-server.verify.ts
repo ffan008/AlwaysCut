@@ -74,9 +74,9 @@ async function requestAssembly(path: string, options: RequestOptions = {}): Prom
   });
 }
 
-const originalEditorUrl = process.env.OPENCHATCUT_EDITOR_URL;
+const originalEditorUrl = process.env.ALWAYSCUT_EDITOR_URL;
 try {
-  delete process.env.OPENCHATCUT_EDITOR_URL;
+  delete process.env.ALWAYSCUT_EDITOR_URL;
   const reboundHost = `rebound.example:${editorAddress.port}`;
   const denied = [
     requestAssembly('/v2/upload', {
@@ -152,8 +152,8 @@ try {
     assert.equal(request.authorization, 'test-assembly-key');
   }
 } finally {
-  if (originalEditorUrl === undefined) delete process.env.OPENCHATCUT_EDITOR_URL;
-  else process.env.OPENCHATCUT_EDITOR_URL = originalEditorUrl;
+  if (originalEditorUrl === undefined) delete process.env.ALWAYSCUT_EDITOR_URL;
+  else process.env.ALWAYSCUT_EDITOR_URL = originalEditorUrl;
   editor.close();
   upstream.close();
   await Promise.all([once(editor, 'close'), once(upstream, 'close')]);

@@ -129,7 +129,7 @@ const atlasMusicProbe: ProbeDef = {
   needs: [['ATLASCLOUD_API_KEY']],
   run: async (get) => {
     const root = base(get, 'ATLASCLOUD_API_BASE', 'https://api.atlascloud.ai/api/v1');
-    const response = await fetchWithProxy(`${root}/model/prediction/openchatcut-credential-probe`, {
+    const response = await fetchWithProxy(`${root}/model/prediction/alwayscut-credential-probe`, {
       signal: t(), headers: bearer(get('ATLASCLOUD_API_KEY')),
     });
     if (response.status !== 404) return response;

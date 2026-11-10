@@ -8,8 +8,8 @@ import { dirname, isAbsolute, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { promisify } from 'node:util';
 
-export const DEV_PROFILE_METADATA = 'openchatcut-dev-profile.json';
-export const DEV_PROFILE_ID_ENV = 'OPENCHATCUT_DEV_PROFILE_ID';
+export const DEV_PROFILE_METADATA = 'alwayscut-dev-profile.json';
+export const DEV_PROFILE_ID_ENV = 'ALWAYSCUT_DEV_PROFILE_ID';
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 const execFileAsync = promisify(execFile);
 
@@ -105,7 +105,7 @@ async function ensurePrivateDirectory(directory) {
 }
 
 async function ensureProfileDirectories(homeDir, profileId) {
-  const appRoot = join(homeDir, '.openchatcut');
+  const appRoot = join(homeDir, '.alwayscut');
   const profilesRoot = join(appRoot, 'dev-profiles');
   const rootDir = join(profilesRoot, profileId);
   const directories = [

@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { handleAssemblyAiUpload } from './assemblyai-upload';
 
-const root = await mkdtemp(join(tmpdir(), 'openchatcut-asr-upload-'));
+const root = await mkdtemp(join(tmpdir(), 'alwayscut-asr-upload-'));
 const media = join(root, 'speech.wav');
 const bytes = Buffer.from('streamed-audio-bytes');
 await writeFile(media, bytes);

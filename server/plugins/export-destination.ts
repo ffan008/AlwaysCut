@@ -13,7 +13,7 @@ import { createExportFailure, type ExportCleanupStatus } from '../../src/export/
 const MAX_EXPORT_BYTES = 100 * 1024 * 1024 * 1024;
 const GRANT_ID = /^[A-Za-z0-9_-]{32,128}$/;
 const RESERVED_WINDOWS_NAME = /^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i;
-const SOURCE_HEADER = 'x-openchatcut-export-source';
+const SOURCE_HEADER = 'x-alwayscut-export-source';
 const leasedTargets = new Set<string>();
 
 class ExportDestinationError extends Error {
@@ -158,7 +158,7 @@ export async function handleExportDestinationPut(
         targetPath: target,
       });
     }
-    const temporary = resolve(directory, `.openchatcut-${randomUUID()}.part`);
+    const temporary = resolve(directory, `.alwayscut-${randomUUID()}.part`);
     try {
       if (source) {
         const sourceInfo = await stat(source);
@@ -208,7 +208,7 @@ export async function handleExportDestinationPut(
 
 export function exportDestinationPlugin(): Plugin {
   return {
-    name: 'openchatcut-export-destination',
+    name: 'alwayscut-export-destination',
     configureServer(server) {
       server.middlewares.use('/api/export-destinations', async (req, res) => {
         try {

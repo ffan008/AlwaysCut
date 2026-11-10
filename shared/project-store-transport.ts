@@ -1,4 +1,4 @@
-export const PROJECT_STORE_CHANNEL = 'openchatcut:project-store';
+export const PROJECT_STORE_CHANNEL = 'alwayscut:project-store';
 
 export type AgentRunLeaseAction = 'claim' | 'renew' | 'release' | 'check';
 export type ExportRecoveryLeaseAction =

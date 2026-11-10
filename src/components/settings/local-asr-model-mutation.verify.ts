@@ -23,7 +23,7 @@ try {
     assert.equal(call.init?.method, 'POST');
     assert.equal(call.init?.body, JSON.stringify({ id: 'whisper-tiny' }));
     assert.equal(headers.get('content-type'), 'application/json');
-    assert.equal(headers.get('x-openchatcut-editor-credential'), null,
+    assert.equal(headers.get('x-alwayscut-editor-credential'), null,
       'no editor credential header may be attached');
   }
 } finally {

@@ -117,7 +117,7 @@ function mediaAssetFor(
     width: promoted.width,
     height: promoted.height,
     props: {
-      openchatcutDerivedFrom: {
+      alwayscutDerivedFrom: {
         kind: 'sequence-export',
         timelineId: plan.timelineId,
         timelineName: plan.timelineName,

@@ -163,7 +163,7 @@ async function materializeRemote(
 
     await mkdir(options.uploadDirectory, { recursive: true });
     fetchSignal.throwIfAborted();
-    const filename = `openchatcut-render-media-${randomUUID()}${extensionFor(reference.source, contentType)}`;
+    const filename = `alwayscut-render-media-${randomUUID()}${extensionFor(reference.source, contentType)}`;
     finalPath = resolve(options.uploadDirectory, filename);
     partialPath = `${finalPath}.part`;
     handle = await open(partialPath, 'wx', 0o600);

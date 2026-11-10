@@ -95,8 +95,8 @@ async function doCreate(args: Args): Promise<unknown> {
   return {
     ok: true,
     created: brief(skill),
-    installedAt: `~/.openchatcut/skills/${skill.slug}`,
-    note: '自定义技能已保存到用户技能目录，可直接编辑 ~/.openchatcut/skills/<slug>/SKILL.md',
+    installedAt: `~/.alwayscut/skills/${skill.slug}`,
+    note: '自定义技能已保存到用户技能目录，可直接编辑 ~/.alwayscut/skills/<slug>/SKILL.md',
   };
 }
 
@@ -126,7 +126,7 @@ async function doUpdate(args: Args): Promise<unknown> {
   return {
     ok: true,
     updated: brief(next),
-    installedAt: `~/.openchatcut/skills/${next.slug}`,
+    installedAt: `~/.alwayscut/skills/${next.slug}`,
   };
 }
 

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 
-const profileEnv = 'OPENCHATCUT_DEV_PROFILE_ID';
+const profileEnv = 'ALWAYSCUT_DEV_PROFILE_ID';
 process.env[profileEnv] = 'cccccccc-cccc-4ccc-8ccc-cccccccccccc';
 // Intentional module-boundary test: the profile env must exist before server modules initialize.
 

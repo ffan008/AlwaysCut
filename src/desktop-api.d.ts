@@ -68,7 +68,7 @@ interface DesktopEnhanceApi {
 
 declare global {
   interface Window {
-    openChatCutDesktop?: {
+    alwaysCutDesktop?: {
       getPathForFile(file: File): string | undefined;
       platform: NodeJS.Platform;
       selectDirectory(defaultPath?: string): Promise<string | null>;

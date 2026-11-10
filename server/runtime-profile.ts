@@ -1,10 +1,10 @@
 import { homedir } from 'node:os';
 import { isAbsolute, join, resolve } from 'node:path';
-import { readDataDirPointer } from './data-dir.ts';
+import { migrateLegacyHomeDir, readDataDirPointer } from './data-dir.ts';
 
-export const DEV_PROFILE_ID_ENV = 'OPENCHATCUT_DEV_PROFILE_ID';
-export const DATA_DIR_ENV = 'OPENCHATCUT_DATA_DIR';
-const DEV_PROFILE_ENV_PREFIX = 'OPENCHATCUT_DEV_PROFILE_';
+export const DEV_PROFILE_ID_ENV = 'ALWAYSCUT_DEV_PROFILE_ID';
+export const DATA_DIR_ENV = 'ALWAYSCUT_DATA_DIR';
+const DEV_PROFILE_ENV_PREFIX = 'ALWAYSCUT_DEV_PROFILE_';
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 
 export interface ProjectStoreProfilePaths {
@@ -125,14 +125,15 @@ export function resolveRuntimeProfile(
   locations: RuntimeProfileLocations = {},
 ): RuntimeProfile {
   const home = locations.homeDir ?? homedir();
+  migrateLegacyHomeDir(home);
   const cwd = locations.cwd ?? process.cwd();
   const profileId = configuredProfileId(env);
   const dataDir = configuredDataDir(env, home, profileId !== null);
   if (profileId) {
-    // Only an explicit OPENCHATCUT_DATA_DIR reaches here (the pointer file is
+    // Only an explicit ALWAYSCUT_DATA_DIR reaches here (the pointer file is
     // ignored for isolated profiles), so redirecting this checkout's root is a
     // deliberate per-run choice, never a leak from the machine-wide setting.
-    const rootDir = dataDir ?? join(home, '.openchatcut', 'dev-profiles', profileId);
+    const rootDir = dataDir ?? join(home, '.alwayscut', 'dev-profiles', profileId);
     const base = profileBase(
       rootDir,
       join(rootDir, 'media', 'uploads'),
@@ -141,9 +142,9 @@ export function resolveRuntimeProfile(
     );
     return Object.freeze({ mode: 'isolated-dev', id: profileId, ...base });
   }
-  const rootDir = dataDir ?? join(home, '.openchatcut');
-  const authOverride = env.OPENCHATCUT_PROJECT_STORE_AUTH_DIR?.trim();
-  const generationOverride = env.OPENCHATCUT_GENERATION_JOB_STORE;
+  const rootDir = dataDir ?? join(home, '.alwayscut');
+  const authOverride = env.ALWAYSCUT_PROJECT_STORE_AUTH_DIR?.trim();
+  const generationOverride = env.ALWAYSCUT_GENERATION_JOB_STORE;
   const base = profileBase(
     rootDir,
     // With a user-chosen data dir, media belongs next to the projects it
@@ -179,6 +180,6 @@ export function defaultRootDir(
   home: string = homedir(),
 ): string {
   return isIsolatedDevProfile(profile)
-    ? join(home, '.openchatcut', 'dev-profiles', profile.id)
-    : join(home, '.openchatcut');
+    ? join(home, '.alwayscut', 'dev-profiles', profile.id)
+    : join(home, '.alwayscut');
 }

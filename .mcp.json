@@ -4,8 +4,8 @@
       "type": "http",
       "url": "http://localhost:5199/api/external-mcp/mcp",
       "headers": {
-        "x-openchatcut-mcp-client": "claude-code",
-        "x-openchatcut-mcp-surface": "external"
+        "x-alwayscut-mcp-client": "claude-code",
+        "x-alwayscut-mcp-surface": "external"
       }
     }
   }

@@ -21,7 +21,7 @@ interface Job<T> {
   reject: (error: unknown) => void;
 }
 
-function configuredConcurrency(value = process.env.OPENCHATCUT_DERIVATIVE_CONCURRENCY): number {
+function configuredConcurrency(value = process.env.ALWAYSCUT_DERIVATIVE_CONCURRENCY): number {
   const parsed = Number.parseInt(value ?? '', 10);
   if (!Number.isFinite(parsed)) return DEFAULT_DERIVATIVE_CONCURRENCY;
   return Math.max(1, Math.min(MAX_DERIVATIVE_CONCURRENCY, parsed));

@@ -106,7 +106,7 @@ async function downloadBounded(url: string, path: string): Promise<void> {
 /** Probe a resolved source; a remote file lives in a temp dir only for the duration of the probe. */
 export async function probeResolvedSource(source: Exclude<ProbeSource, { error: string }>): Promise<Record<string, unknown>> {
   if (source.kind === 'local') return probeMediaFile(source.path);
-  const dir = await mkdtemp(join(tmpdir(), 'openchatcut-probe-'));
+  const dir = await mkdtemp(join(tmpdir(), 'alwayscut-probe-'));
   try {
     const path = join(dir, 'input.media');
     await downloadBounded(source.url, path);
@@ -118,7 +118,7 @@ export async function probeResolvedSource(source: Exclude<ProbeSource, { error: 
 
 export function probeMediaPlugin(): Plugin {
   return {
-    name: 'openchatcut-probe-media',
+    name: 'alwayscut-probe-media',
     configureServer(server) {
       server.middlewares.use('/api/probe-media', async (req, res) => {
         if (req.method !== 'POST') {

@@ -76,7 +76,7 @@ Object.defineProperty(globalThis, 'localStorage', {
 });
 Object.defineProperty(globalThis, 'window', {
   configurable: true,
-  value: { openChatCutDesktop: { inference: { setEnabled: async (enabled: boolean) => { applied.push(enabled); } } } },
+  value: { alwaysCutDesktop: { inference: { setEnabled: async (enabled: boolean) => { applied.push(enabled); } } } },
 });
 try {
   assert.equal(await syncDesktopNativeInferenceEnabled(), true, 'restart reads the persisted native inference preference');

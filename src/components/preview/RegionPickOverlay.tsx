@@ -7,7 +7,7 @@ import { useT } from '../../i18n/locale';
 
 // Selection-mode marquee over the video rect: drag a rectangle → canvas-region
 // reference in COMPOSITION coordinates, with the visual clips it covers at the
-// current frame (emits openchatcut:canvas-region-marked).
+// current frame (emits alwayscut:canvas-region-marked).
 export function RegionPickOverlay({ state, playerRef }: { state: TimelineState; playerRef: RefObject<PlayerRef | null> }) {
   const t = useT();
   const boxRef = useRef<HTMLDivElement>(null);

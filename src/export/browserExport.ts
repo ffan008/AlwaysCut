@@ -245,7 +245,7 @@ async function executeBrowserRender(
     throwIfAborted(signal);
     const result = await config.renderer.renderMediaOnWeb({
       composition: {
-        id: 'openchatcut-timeline-browser',
+        id: 'alwayscut-timeline-browser',
         component: TimelineComposition,
         durationInFrames: Math.max(1, project && timelineId ? resolveTimelineRenderPlan(project, timelineId).durationInFrames : timelineDuration(state)),
         fps: state.fps,

@@ -1,6 +1,6 @@
 import type { DesignStyle } from '../editor/types';
 
-const FORMAT = 'openchatcut.design-style';
+const FORMAT = 'alwayscut.design-style';
 const VERSION = 1;
 const MAX_TEXT_LENGTH = 20_000;
 const MAX_ENTRIES = 100;

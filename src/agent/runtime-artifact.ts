@@ -20,7 +20,7 @@ export interface PersistedAgentToolResult {
   readonly privacyNote?: string;
 }
 
-export const AGENT_ARTIFACT_REF = Symbol('openchatcut.agent-artifact-ref');
+export const AGENT_ARTIFACT_REF = Symbol('alwayscut.agent-artifact-ref');
 const fallbackRefs = new WeakMap<object, AgentArtifactRef>();
 const REDACTED = '[REDACTED]';
 const BINARY_OMITTED = '[BINARY_OMITTED]';

@@ -77,7 +77,7 @@ const HTTP_OPERATIONS = {
 
 export function projectStorePlugin(options: { http?: boolean } = {}): Plugin {
   return {
-    name: 'openchatcut-project-store',
+    name: 'alwayscut-project-store',
     configureServer(server) {
       if (options.http === false) return;
       server.middlewares.use('/api/project-store', async (req, res) => {

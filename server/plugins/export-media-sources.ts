@@ -68,7 +68,7 @@ export async function handleExportMediaSourcesRequest(
 
 export function exportMediaSourcesPlugin(): Plugin {
   return {
-    name: 'openchatcut-export-media-sources',
+    name: 'alwayscut-export-media-sources',
     configureServer(server) {
       server.middlewares.use(EXPORT_MEDIA_SOURCES_ROUTE, (req, res) => {
         handleExportMediaSourcesRequest(req, res).catch((error: unknown) => {

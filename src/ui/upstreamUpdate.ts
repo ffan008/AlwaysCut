@@ -12,7 +12,7 @@ export const CURRENT_APP_VERSION =
 type Fetcher = (input: string | URL | Request, init?: RequestInit) => Promise<Response>;
 type CheckSource = 'auto' | 'manual';
 
-type DesktopUpdateApi = NonNullable<Window['openChatCutDesktop']>['updates'];
+type DesktopUpdateApi = NonNullable<Window['alwaysCutDesktop']>['updates'];
 export interface UpstreamReleaseResult {
   latestVersion: string;
   updateAvailable: boolean;
@@ -158,7 +158,7 @@ export function mapDesktopUpdateState(update: DesktopUpdateState): UpstreamUpdat
 
 function desktopUpdateApi(): DesktopUpdateApi | null {
   if (typeof window === 'undefined') return null;
-  return window.openChatCutDesktop?.updates ?? null;
+  return window.alwaysCutDesktop?.updates ?? null;
 }
 
 function syncDesktopUpdate(update: DesktopUpdateState): void {

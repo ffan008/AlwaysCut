@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 const originalCwd = process.cwd();
-const root = await mkdtemp(join(tmpdir(), 'openchatcut-music-media-'));
+const root = await mkdtemp(join(tmpdir(), 'alwayscut-music-media-'));
 
 try {
   process.chdir(root);

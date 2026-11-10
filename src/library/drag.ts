@@ -3,7 +3,7 @@
 import { t } from '../i18n/locale';
 import { setEditorDrag } from '../editor/editorDrag';
 
-export const LIBRARY_DRAG_MIME = 'application/x-openchatcut-library';
+export const LIBRARY_DRAG_MIME = 'application/x-alwayscut-library';
 
 export type LibraryDragKind =
   | 'transition'

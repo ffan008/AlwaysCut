@@ -47,7 +47,7 @@ export function RecordPanel() {
         setNotice({ kind: 'error', text: t('录制未产生数据。') });
         return;
       }
-      const bridge = window.openChatCutDesktop;
+      const bridge = window.alwaysCutDesktop;
       if (!bridge) {
         setNotice({ kind: 'error', text: t('仅在桌面应用中支持保存到媒体池。') });
         return;

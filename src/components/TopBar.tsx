@@ -52,7 +52,7 @@ interface TopBarProps {
 
 export function TopBar({ projectId, projectName, canUndo, canRedo, exporting, exportJobCount = 0, onHome, onRename, onResumeGeneration }: TopBarProps) {
   const t = useT();
-  const isMacDesktop = window.openChatCutDesktop?.platform === 'darwin';
+  const isMacDesktop = window.alwaysCutDesktop?.platform === 'darwin';
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(projectName);
   const [mcpOpen, setMcpOpen] = useState(false);

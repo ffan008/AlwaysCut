@@ -1,4 +1,4 @@
-import templatesJson from '../../assets/templates/openchatcut-templates.json';
+import templatesJson from '../../assets/templates/alwayscut-templates.json';
 import socialShortsJson from '../../assets/templates/social-shorts-templates.json';
 import kouboScenesJson from '../../assets/templates/koubo-scenes-templates.json';
 import type { Tpl } from '../types';
@@ -6,7 +6,7 @@ import type { TimelineState } from './types';
 
 // The template library + the first-run seed project. Shared by the loader shell
 // (fallback when nothing is persisted) and the editor (agent context / library).
-// 211 items (openchatcut-templates.json) + vertical screen self-media social-shorts (9:16)
+// 211 items (alwayscut-templates.json) + vertical screen self-media social-shorts (9:16)
 // + Oral broadcast scenes koubo-scenes (background + characters through the window, both horizontal and vertical).
 // The old koubo-dual preview is too rough and has been removed from the shelves. Please do not merge it again - koubo-scenes is a replacement.
 export const TEMPLATES = [

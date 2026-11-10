@@ -14,15 +14,15 @@
 
 <p align="center">
   让 Codex、Claude Code 和内置 Agent 直接读取、剪辑并导出可继续编辑的真实视频工程。
-  官网：<a href="https://openchatcut.com">openchatcut.com</a>
+  官网：<a href="https://alwayscut.com">alwayscut.com</a>
 </p>
 
 <p align="center">
-  <a href="https://openchatcut.com/zh/pro"><strong>AlwaysCut Pro</strong></a> · 桌面版：装好就能剪
+  <a href="https://alwayscut.com/zh/pro"><strong>AlwaysCut Pro</strong></a> · 桌面版：装好就能剪
 </p>
 
 <p align="center">
-  <a href="#openchatcut-是什么">产品介绍</a> ·
+  <a href="#alwayscut-是什么">产品介绍</a> ·
   <a href="#产品导览">产品导览</a> ·
   <a href="#快速开始">快速开始</a> ·
   <a href="#在-codex--claude-code-中使用">Agent / MCP</a> ·
@@ -43,7 +43,7 @@
   <img alt="Remotion" src="https://img.shields.io/badge/Remotion-4-0B84F3?style=flat" />
   <img alt="Electron" src="https://img.shields.io/badge/Electron-43-47848F?style=flat&logo=electron&logoColor=white" />
   <img alt="MCP" src="https://img.shields.io/badge/MCP-Agent_native-7C3AED?style=flat" />
-  <a href="https://atomgit.com/Oxsline/openchatcut"><img alt="AtomGit G-Star" src="https://img.shields.io/badge/AtomGit-G--Star-DA203E?logo=gitcode&logoColor=white" /></a>
+  <a href="https://atomgit.com/Oxsline/alwayscut"><img alt="AtomGit G-Star" src="https://img.shields.io/badge/AtomGit-G--Star-DA203E?logo=gitcode&logoColor=white" /></a>
 </p>
 
 <p align="center">
@@ -51,7 +51,7 @@
 </p>
 
 <p align="center">
-  <a href="https://www.producthunt.com/products/openchatcut?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-openchatcut" target="_blank" rel="noopener noreferrer"><img alt="AlwaysCut - 带真实时间线的开源 AI Agent 视频编辑器 | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1201995&amp;theme=light&amp;t=1784645557617" /></a>
+  <a href="https://www.producthunt.com/products/alwayscut?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-alwayscut" target="_blank" rel="noopener noreferrer"><img alt="AlwaysCut - 带真实时间线的开源 AI Agent 视频编辑器 | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1201995&amp;theme=light&amp;t=1784645557617" /></a>
 </p>
 
 <p align="center">
@@ -66,13 +66,13 @@
 ## 赞助商
 
 <p align="center">
-  <a href="https://ofox.ai/?utm_source=github&utm_medium=sponsorship&utm_content=openchatcut"><img src="assets/readme-pic/ofox-logo.svg" width="300" alt="OfoxAI" /></a>
+  <a href="https://ofox.ai/?utm_source=github&utm_medium=sponsorship&utm_content=alwayscut"><img src="assets/readme-pic/ofox-logo.svg" width="300" alt="OfoxAI" /></a>
 </p>
 
 **OfoxAI：一个平台，连接文本、图像与视频 AI**
 
 OfoxAI 是统一的 AI API 平台，汇集文本、图像和视频模型，支持 Seedance、MiniMax（海螺）、Wan 等视频模型系列。从 AI 应用与智能体开发，到创意构思、图像生成和视频素材制作，通过一个平台选择适合的模型。
-[探索 OfoxAI 模型与 API →](https://ofox.ai/?utm_source=github&utm_medium=sponsorship&utm_content=openchatcut)
+[探索 OfoxAI 模型与 API →](https://ofox.ai/?utm_source=github&utm_medium=sponsorship&utm_content=alwayscut)
 
 <br />
 
@@ -99,9 +99,9 @@ AlwaysCut 是 **开源 ChatCut 替代方案**：把 **对话式 Agent** 和 **�
 
 它适合希望让 AI 真正参与剪辑流程、同时保留专业编辑控制权的创作者和开发者，而不是每次都从一个空白聊天框或不可修改的生成结果重新开始。
 
-- 官网：[https://openchatcut.com](https://openchatcut.com)
-- 开源 ChatCut 替代说明：[https://openchatcut.com/zh/blog/open-source-chatcut-alternative](https://openchatcut.com/zh/blog/open-source-chatcut-alternative)
-- ChatCut 与 AlwaysCut 对比：[https://openchatcut.com/zh/blog/chatcut-vs-openchatcut](https://openchatcut.com/zh/blog/chatcut-vs-openchatcut)
+- 官网：[https://alwayscut.com](https://alwayscut.com)
+- 开源 ChatCut 替代说明：[https://alwayscut.com/zh/blog/open-source-chatcut-alternative](https://alwayscut.com/zh/blog/open-source-chatcut-alternative)
+- ChatCut 与 AlwaysCut 对比：[https://alwayscut.com/zh/blog/chatcut-vs-alwayscut](https://alwayscut.com/zh/blog/chatcut-vs-alwayscut)
 
 - 🤖 **Agent-native**：内置 Agent 与外部 MCP Agent 共用同一套编辑工具。
 - 🎞️ **真实时间线**：多视频轨、多音频轨、转场、特效、LUT、缩放和关键帧。
@@ -208,10 +208,10 @@ AlwaysCut 是 **开源 ChatCut 替代方案**：把 **对话式 Agent** 和 **�
 
 ## 社区资源库
 
-[AlwaysCut 社区资源库](https://openchatcut.com/zh/resources)用于发现、安装和分享可复用的 MG 动画、音效、转场、特效、缩放和 LUT。
+[AlwaysCut 社区资源库](https://alwayscut.com/zh/resources)用于发现、安装和分享可复用的 MG 动画、音效、转场、特效、缩放和 LUT。
 
 <p align="center">
-  <a href="https://openchatcut.com/zh/resources">
+  <a href="https://alwayscut.com/zh/resources">
     <img src="assets/readme-pic/08-community-resources.png" alt="AlwaysCut 社区资源库" />
   </a>
 </p>
@@ -224,11 +224,11 @@ AlwaysCut 是 **开源 ChatCut 替代方案**：把 **对话式 Agent** 和 **�
 
 ### 贡献资源
 
-1. 打开[贡献资源](https://openchatcut.com/zh/resources/submit)，选择资源分类。
+1. 打开[贡献资源](https://alwayscut.com/zh/resources/submit)，选择资源分类。
 2. 上传资源与该分类要求的预览输入，网站会渲染用于公开展示的预览。
 3. 填写作者和许可证信息，提交审核；审核通过后公开上架。
 
-可安装的视觉资源沿用编辑器的 `openchatcut-plugin@1` 格式与运行时校验。AlwaysCut 官方资源使用 MIT 许可证；社区投稿者在提交时选择许可证，发布卡片会显示作者与许可信息。
+可安装的视觉资源沿用编辑器的 `alwayscut-plugin@1` 格式与运行时校验。AlwaysCut 官方资源使用 MIT 许可证；社区投稿者在提交时选择许可证，发布卡片会显示作者与许可信息。
 
 ---
 
@@ -285,7 +285,7 @@ http://localhost:5199
 
 开发启动默认按 Git checkout/worktree 隔离。`npm run dev` 与 `npm run desktop:dev`
 会把当前工作区的工程、导入素材、生成任务、凭据、设置和本机授权状态写入
-`~/.openchatcut/dev-profiles/` 下的独立配置；只有明确需要旧版共享开发存储时，
+`~/.alwayscut/dev-profiles/` 下的独立配置；只有明确需要旧版共享开发存储时，
 才使用 `npm run dev:shared`。
 
 ### 内置 Agent 登录方式
@@ -303,7 +303,7 @@ http://localhost:5199
 需要限制目录范围时，可在 `.env.local` 中填写英文逗号分隔的绝对路径，例如 `AGENT_IMPORT_ROOTS=/Volumes/Media,D:\Projects`；留空表示桌面端默认放行；浏览器端必须设置该白名单，留空时会拒绝这些工具。手动设置的范围同时适用于浏览和导入。源码运行会读取仓库根目录的文件；桌面安装包会从 Electron 用户数据目录读取：macOS 为 `~/Library/Application Support/AlwaysCut/`，Windows 为 `%APPDATA%\AlwaysCut\`，Linux 为 `$XDG_CONFIG_HOME/AlwaysCut/`（通常是 `~/.config/AlwaysCut/`）。修改后请重启应用。
 
 
-本地 H.264 导出会在 macOS 上优先使用 VideoToolbox，在兼容的 Windows 设备上优先使用 NVENC，失败时自动回退软件编码。可用 `OPENCHATCUT_RENDER_CONCURRENCY` 和 `OPENCHATCUT_MAX_ACTIVE_EXPORTS` 调整渲染并发及重型导出上限，用 `OPENCHATCUT_DISABLE_HARDWARE_ENCODING` 关闭硬件编码，或用 `OPENCHATCUT_H264_ENCODER` 覆盖 FFmpeg 侧的编码器选择；详见 [`.env.example`](.env.example)。
+本地 H.264 导出会在 macOS 上优先使用 VideoToolbox，在兼容的 Windows 设备上优先使用 NVENC，失败时自动回退软件编码。可用 `ALWAYSCUT_RENDER_CONCURRENCY` 和 `ALWAYSCUT_MAX_ACTIVE_EXPORTS` 调整渲染并发及重型导出上限，用 `ALWAYSCUT_DISABLE_HARDWARE_ENCODING` 关闭硬件编码，或用 `ALWAYSCUT_H264_ENCODER` 覆盖 FFmpeg 侧的编码器选择；详见 [`.env.example`](.env.example)。
 
 ### 桌面端开发
 
@@ -337,7 +337,7 @@ npx skills add ffan008/AlwaysCut
 自定义技能存放在用户可见目录，与 `~/.codex/skills` / `~/.claude/skills` 布局一致：
 
 ```text
-~/.openchatcut/skills/<slug>/SKILL.md     （Windows: %USERPROFILE%\.openchatcut\skills\...）
+~/.alwayscut/skills/<slug>/SKILL.md     （Windows: %USERPROFILE%\.alwayscut\skills\...）
 ```
 
 让 Agent 执行 `manage_skill create`（或使用内置的“技能创作器”工作流），
@@ -369,14 +369,14 @@ Codex 或 Claude 内的授权决定客户端能否调用工具。只有 `manual`
 在 Codex 配置中加入：
 
 ```toml
-[mcp_servers.openchatcut]
+[mcp_servers.alwayscut]
 url = "http://localhost:5199/api/external-mcp/mcp"
 ```
 
 ### Claude Code
 
 ```bash
-claude mcp add --transport http openchatcut \
+claude mcp add --transport http alwayscut \
   http://localhost:5199/api/external-mcp/mcp
 ```
 
@@ -403,7 +403,7 @@ Qoder 同样支持一键接入：指南里的「连接」按钮会把端点和 B
 ```json
 {
   "mcpServers": {
-    "openchatcut": {
+    "alwayscut": {
       "type": "http",
       "url": "http://localhost:5199/api/external-mcp/mcp",
       "headers": { "Authorization": "Bearer <令牌>" }
@@ -423,7 +423,7 @@ Qoder 同样支持一键接入：指南里的「连接」按钮会把端点和 B
 ```json
 {
   "mcpServers": {
-    "openchatcut": {
+    "alwayscut": {
       "type": "streamable-http",
       "url": "http://localhost:5199/api/external-mcp/mcp",
       "headers": { "Authorization": "Bearer <令牌>" }
@@ -437,8 +437,8 @@ Qoder 同样支持一键接入：指南里的「连接」按钮会把端点和 B
 自行暴露 MCP 入口时可配置：
 
 ```bash
-OPENCHATCUT_MCP_TOKEN=your-token
-OPENCHATCUT_EDITOR_URL=https://your-editor.example.com
+ALWAYSCUT_MCP_TOKEN=your-token
+ALWAYSCUT_EDITOR_URL=https://your-editor.example.com
 ```
 
 客户端使用 `Authorization: Bearer <token>`。当前桥接面按单机单用户设计，不作为多租户服务。
@@ -448,7 +448,7 @@ OPENCHATCUT_EDITOR_URL=https://your-editor.example.com
 ## 架构
 
 <p align="center">
-  <img src="assets/readme-pic/openchatcut-runtime.svg" alt="AlwaysCut 运行时架构：Agent、MCP、EditorCore、本地存储、预览与渲染导出" />
+  <img src="assets/readme-pic/alwayscut-runtime.svg" alt="AlwaysCut 运行时架构：Agent、MCP、EditorCore、本地存储、预览与渲染导出" />
 </p>
 
 <p align="center">
@@ -462,7 +462,7 @@ OPENCHATCUT_EDITOR_URL=https://your-editor.example.com
 | Agent | Vercel AI SDK 7（Anthropic、OpenAI、Gemini、Kimi、Qwen、GLM、DeepSeek、MiniMax、小米 MiMo、Mistral、xAI Grok（API Key 或 SuperGrok/X Premium+ 订阅登录）、OpenRouter、OrcaRouter、OFox、Requesty、Cheaper Inference、Runcrate 与兼容接口）、Agent Skills、MCP SDK |
 | 预览与视觉 | Remotion Player、WebGL / GLSL |
 | 服务端 | Vite / Electron 双宿主插件、服务端密钥仓 |
-| 持久化 | `~/.openchatcut` 下的本机共享工程库、IndexedDB 缓存、可配置本地素材目录、可选 Cloudflare R2 |
+| 持久化 | `~/.alwayscut` 下的本机共享工程库、IndexedDB 缓存、可配置本地素材目录、可选 Cloudflare R2 |
 | 桌面端 | Electron 43 |
 | 导出 | Remotion、FFmpeg、FCPXML、SRT |
 
@@ -486,7 +486,7 @@ OPENCHATCUT_EDITOR_URL=https://your-editor.example.com
 
 ## 数据与隐私
 
-- 工程、聊天记录和版本数据保存在 `~/.openchatcut` 下的本机共享工程库中；IndexedDB 用于浏览器端缓存和旧数据迁移。
+- 工程、聊天记录和版本数据保存在 `~/.alwayscut` 下的本机共享工程库中；IndexedDB 用于浏览器端缓存和旧数据迁移。
 - 用户媒体保存在本地素材目录，可自行备份和迁移。
 - AI 请求是否离开本机，取决于你配置的模型、生成或素材服务。
 - 未配置的云端能力不会影响本地时间线和已有素材编辑。

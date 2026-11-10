@@ -5,8 +5,8 @@ import { join } from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { Plugin } from 'vite';
 
-const DEFAULT_ROOT_DIR = join(homedir(), '.openchatcut', 'plugins');
-const FORMAT = 'openchatcut-plugin@1';
+const DEFAULT_ROOT_DIR = join(homedir(), '.alwayscut', 'plugins');
+const FORMAT = 'alwayscut-plugin@1';
 const ID_RE = /^[a-z0-9][a-z0-9-]{1,39}$/;
 const MAX_BODY_BYTES = 64 * 1024 * 1024;
 
@@ -204,7 +204,7 @@ async function handleRequest(rootDir: string, req: IncomingMessage, res: ServerR
 export function extensionStorePlugin(options: { rootDir?: string } = {}): Plugin {
   const rootDir = options.rootDir ?? DEFAULT_ROOT_DIR;
   return {
-    name: 'openchatcut-extension-store',
+    name: 'alwayscut-extension-store',
     configureServer(server) {
       server.middlewares.use('/api/plugins', async (req, res) => {
         try {

@@ -11,7 +11,7 @@ import { analyzeAssetGeometry } from '../../geometry/visual-geometry';
 
 // auto_reframe — Custom tool.
 // reframe originally only had the "write/render" infrastructure (builtin:zoom + reserved
-// __openchatcutReframeCurve = ReframeCurveV1), there is no "sample video → detect subject → automatically generate key frames"
+// __alwayscutReframeCurve = ReframeCurveV1), there is no "sample video → detect subject → automatically generate key frames"
 // Agent tool. This tool connects the heuristic detection of src/reframe/detect.ts to EditorCore:
 // Sampling target video → detect focus every intervalFrames → write frame by frame setReframeKeyframe,
 // Let a cropping window like 16:9→9:16 follow the subject. Pixel sampling can only be run in the browser (headless and graceful error reporting).

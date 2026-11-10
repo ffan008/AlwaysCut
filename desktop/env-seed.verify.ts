@@ -14,8 +14,8 @@ import { seedDesktopEnv } from './env-seed.ts';
 const TOUCHED = [
   'AGENT_IMPORT_ROOTS',
   'GEMINI_API_KEY',
-  'OPENCHATCUT_DISABLE_HARDWARE_ENCODING',
-  'OPENCHATCUT_H264_ENCODER',
+  'ALWAYSCUT_DISABLE_HARDWARE_ENCODING',
+  'ALWAYSCUT_H264_ENCODER',
   'UPLOAD_MAX_BYTES',
 ] as const;
 const inherited = new Map(TOUCHED.map((name) => [name, process.env[name]]));
@@ -25,25 +25,25 @@ try {
   seedDesktopEnv([
     'AGENT_IMPORT_ROOTS=C:\\M1_test',
     'GEMINI_API_KEY=test-gemini-key',
-    'OPENCHATCUT_H264_ENCODER=libx264',
-    'OPENCHATCUT_DISABLE_HARDWARE_ENCODING=1',
+    'ALWAYSCUT_H264_ENCODER=libx264',
+    'ALWAYSCUT_DISABLE_HARDWARE_ENCODING=1',
     '',
   ].join('\r\n'));
   assert.equal(getKey('AGENT_IMPORT_ROOTS'), 'C:\\M1_test',
     'a CRLF .env.local must still seed keystore keys');
   assert.equal(getKey('GEMINI_API_KEY'), 'test-gemini-key');
-  assert.equal(process.env.OPENCHATCUT_H264_ENCODER, 'libx264',
+  assert.equal(process.env.ALWAYSCUT_H264_ENCODER, 'libx264',
     'a process-env setting in .env.local must reach process.env');
-  assert.equal(process.env.OPENCHATCUT_DISABLE_HARDWARE_ENCODING, '1');
+  assert.equal(process.env.ALWAYSCUT_DISABLE_HARDWARE_ENCODING, '1');
   assert.equal(process.env.GEMINI_API_KEY, undefined,
     'keystore secrets stay out of process.env, which every child process inherits');
 
   // The file wins over an inherited value, the precedence seedKeystore gives keys;
   // an empty entry leaves the inherited value alone.
-  process.env.OPENCHATCUT_H264_ENCODER = 'h264_qsv';
+  process.env.ALWAYSCUT_H264_ENCODER = 'h264_qsv';
   process.env.UPLOAD_MAX_BYTES = '123';
-  seedDesktopEnv('OPENCHATCUT_H264_ENCODER=libx264\nUPLOAD_MAX_BYTES=\n');
-  assert.equal(process.env.OPENCHATCUT_H264_ENCODER, 'libx264');
+  seedDesktopEnv('ALWAYSCUT_H264_ENCODER=libx264\nUPLOAD_MAX_BYTES=\n');
+  assert.equal(process.env.ALWAYSCUT_H264_ENCODER, 'libx264');
   assert.equal(process.env.UPLOAD_MAX_BYTES, '123');
 } finally {
   for (const [name, value] of inherited) {

@@ -39,7 +39,7 @@ Object.defineProperties(globalThis, {
   },
   window: {
     configurable: true,
-    value: { openChatCutDesktop: { updates } },
+    value: { alwaysCutDesktop: { updates } },
   },
 });
 

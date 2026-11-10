@@ -70,15 +70,15 @@ export interface EditorPanelLayout {
  */
 export function useEditorPanelLayout(chatCollapsed: boolean): EditorPanelLayout {
   const [storedChatRatio, setChatRatio] = usePersistedState(
-    'openchatcut.chatRatio.ui-v2',
+    'alwayscut.chatRatio.ui-v2',
     DEFAULT_CHAT_RATIO,
   );
   const [storedLibraryRatio, setLibraryRatio] = usePersistedState(
-    'openchatcut.libraryRatio.ui-v2',
+    'alwayscut.libraryRatio.ui-v2',
     DEFAULT_LIBRARY_RATIO,
   );
   const [storedTimelineRatio, setTimelineRatio] = usePersistedState(
-    'openchatcut.timelineRatio.ui-v2',
+    'alwayscut.timelineRatio.ui-v2',
     DEFAULT_TIMELINE_RATIO,
   );
 

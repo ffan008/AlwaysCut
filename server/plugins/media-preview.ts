@@ -312,7 +312,7 @@ async function handleMediaPoster(req: IncomingMessage, res: ServerResponse, logE
 
 export function mediaPreviewPlugin(): Plugin {
   return {
-    name: 'openchatcut-media-preview',
+    name: 'alwayscut-media-preview',
     configureServer(server) {
       const logError = (message: string) => server.config.logger.error(message);
       const proxyDeps = {

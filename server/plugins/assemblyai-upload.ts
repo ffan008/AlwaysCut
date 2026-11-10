@@ -169,7 +169,7 @@ export async function handleAssemblyAiUpload(
 
 export function assemblyAiUploadPlugin(): Plugin {
   return {
-    name: 'openchatcut-assemblyai-upload',
+    name: 'alwayscut-assemblyai-upload',
     configureServer(server) {
       server.middlewares.use('/api/assemblyai-upload', (req, res) => {
         void handleAssemblyAiUpload(req, res);

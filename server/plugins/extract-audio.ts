@@ -172,7 +172,7 @@ async function extractAsrAudio(inputPath: string, dir: string, stem: string): Pr
 
 export function extractAudioPlugin(): Plugin {
   return {
-    name: 'openchatcut-extract-audio',
+    name: 'alwayscut-extract-audio',
     configureServer(server) {
       server.middlewares.use('/api/extract-audio', async (req, res) => {
         if (req.method !== 'POST') {

@@ -9,7 +9,7 @@ interface TestGlobals {
   location: { hash: string; pathname: string; protocol: string; search: string };
   sessionStorage: Storage;
   window: {
-    openChatCutDesktop?: {
+    alwaysCutDesktop?: {
       projectStore(request: unknown): Promise<unknown>;
       editorCredentials?(): Promise<{ mcpToken: string }>;
     };
@@ -124,7 +124,7 @@ try {
   });
   const writeCall = calls[0];
   for (const name of writeCall.headers.keys()) {
-    assert.ok(!/x-openchatcut/i.test(name),
+    assert.ok(!/x-alwayscut/i.test(name),
       `requests must not carry credential headers (found ${name})`);
   }
   assert.equal(writeCall.url, '/api/project-store/entry?key=projects');
@@ -143,7 +143,7 @@ try {
   assert.equal(recovered.status, 200);
   assert.equal(calls[calls.length - 1].url, '/api/external-agent/bootstrap');
   for (const name of calls[calls.length - 1].headers.keys()) {
-    assert.ok(!/x-openchatcut/i.test(name),
+    assert.ok(!/x-alwayscut/i.test(name),
       `editor fetches must not carry credential headers (found ${name})`);
   }
 
@@ -160,7 +160,7 @@ try {
   resetProjectStoreTransport();
   let ipcRequest: unknown;
   globals.window = {
-    openChatCutDesktop: {
+    alwaysCutDesktop: {
       projectStore: async (request: unknown) => {
         ipcRequest = request;
         return { found: true, value: 'ipc' };
@@ -184,7 +184,7 @@ try {
     { mcpToken: 'mcp-token-two' },
   ];
   globals.window = {
-    openChatCutDesktop: {
+    alwaysCutDesktop: {
       projectStore: async () => ({ found: false }),
       editorCredentials: async () => credentials[Math.min(credentialCalls++, 1)],
     },

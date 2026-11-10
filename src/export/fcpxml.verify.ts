@@ -278,12 +278,12 @@ function sourceFrameAt(xml: string, name: string, frame: number, fps: number): Q
       durationInFrames: 30, sourceFilename, originalFilePath,
     }],
   };
-  const xml = timelineToFcpxml(state, { mediaDir: '/Users/me/.openchatcut/media' });
+  const xml = timelineToFcpxml(state, { mediaDir: '/Users/me/.alwayscut/media' });
   const assetOpen = xml.match(/<asset(?=[\s>])[^>]*>/)?.[0] ?? '';
   assert.ok(!/\ssrc=/.test(assetOpen), 'asset 地址只能存在于 media-rep');
   assert.ok(assetOpen.includes('name="旅行.最终版.001.MOV"'), '可编辑显示名不得覆盖原始文件名');
   assert.ok(xml.includes('kind="original-media" src="file:///Users/me/%E6%97%85%E8%A1%8C/%E6%97%85%E8%A1%8C.%E6%9C%80%E7%BB%88%E7%89%88.001.MOV"'));
-  assert.ok(xml.includes('kind="proxy-media" src="file:///Users/me/.openchatcut/media/8e45fd6f-8da8-4d6a-8a4f-339d6a8fd747.mp4"'));
+  assert.ok(xml.includes('kind="proxy-media" src="file:///Users/me/.alwayscut/media/8e45fd6f-8da8-4d6a-8a4f-339d6a8fd747.mp4"'));
   // FCPXML 1.9+ declares <!ELEMENT media-rep (bookmark?)> with src #REQUIRED.
   // <pathurl> is FCP7 xmeml: Final Cut Pro rejects the whole import on it.
   assert.ok(!xml.includes('<pathurl'), 'no FCP7 <pathurl> inside FCPXML media-rep');
@@ -302,12 +302,12 @@ function sourceFrameAt(xml: string, name: string, frame: number, fps: number): Q
       ...state.assets![0]!,
       sourceFilename: 'literal%2F旅行.最终版.001.MOV',
     }],
-  }, { mediaDir: '/Users/me/.openchatcut/media' });
+  }, { mediaDir: '/Users/me/.alwayscut/media' });
   assert.ok(encodedSeparatorXml.includes('suggestedFilename="literal%2F旅行.最终版.001"'),
     'literal percent-encoded separators in sourceFilename are not URL-decoded by the serializer');
   assert.ok(!encodedSeparatorXml.includes('suggestedFilename="旅行.最终版.001"'));
 
-  const withoutPool = timelineToFcpxml({ ...state, assets: undefined }, { mediaDir: '/Users/me/.openchatcut/media' });
+  const withoutPool = timelineToFcpxml({ ...state, assets: undefined }, { mediaDir: '/Users/me/.alwayscut/media' });
   assert.ok(withoutPool.includes('kind="original-media" src="file:///Users/me/%E6%97%85%E8%A1%8C/'), '移除池素材后回退时间线来源元数据');
 
   const windowsXml = timelineToFcpxml({
@@ -342,7 +342,7 @@ function sourceFrameAt(xml: string, name: string, frame: number, fps: number): Q
         src: '/media/uploads/0b0c5d4e.mp4', originalFilePath,
       }],
     };
-    const xml = timelineToFcpxml(state, { mediaDir: '/Users/me/.openchatcut/media' });
+    const xml = timelineToFcpxml(state, { mediaDir: '/Users/me/.alwayscut/media' });
     const src = mediaRepSrc(xml, 'original-media');
     assert.equal(src, expected, `${label}: UTF-8 percent-encoded per path segment`);
     assert.equal(fileURLToPath(src!), originalFilePath, `${label}: src decodes back to the exact on-disk path`);
@@ -361,7 +361,7 @@ function sourceFrameAt(xml: string, name: string, frame: number, fps: number): Q
       backgroundFill: true, backgroundFillStrength: 40,
     }],
   }, { mediaDir: '/m', nleFormat: 'fcp_xml_resolve' });
-  assert.ok(retimed.includes('<timeMap>') && retimed.includes('com.openchatcut.backgroundFill'),
+  assert.ok(retimed.includes('<timeMap>') && retimed.includes('com.alwayscut.backgroundFill'),
     'fixture exercises the retime and background-fill paths');
   assert.deepEqual(fcpxmlDtdViolations(retimed), [], 'retime + background fill export validates against the DTD');
 }

@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { materializeServerExportMedia } from './export-media-plan.ts';
 
-const root = await mkdtemp(join(tmpdir(), 'openchatcut-export-reference-'));
+const root = await mkdtemp(join(tmpdir(), 'alwayscut-export-reference-'));
 const uploads = join(root, 'uploads');
 const publicDirectory = join(root, 'public');
 const source = join(root, 'external drive', 'camera original.mp4');

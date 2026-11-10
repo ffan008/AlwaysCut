@@ -86,7 +86,7 @@ export function installUploadVerifierFixture(): UploadVerifierFixture {
   Object.defineProperty(globalThis, 'window', {
     configurable: true,
     value: {
-      openChatCutDesktop: {
+      alwaysCutDesktop: {
         editorCredentials: async () => ({
           credential: 'editor-test-credential',
           mcpToken: 'mcp-test-token',

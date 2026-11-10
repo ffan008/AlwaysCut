@@ -71,7 +71,7 @@ const rejectedPaths = [
 ];
 for (const path of rejectedPaths) assert.equal(parseTarget(path), null, path);
 
-const directory = await mkdtemp(join(tmpdir(), 'openchatcut-hf-proxy-'));
+const directory = await mkdtemp(join(tmpdir(), 'alwayscut-hf-proxy-'));
 const destination = join(directory, 'merged.bin');
 const chunks: Record<string, readonly Buffer[]> = {
   first: [Buffer.from('one'), Buffer.from('-')],
@@ -174,7 +174,7 @@ __resetModelMissingState();
 // HuggingFace; config.json is tiny (~1KB) so this completes quickly. The download
 // 404s on ModelScope first (marking it absent), then falls through to HF.
 if (!process.env.HF_PROXY_SKIP_INTEGRATION) {
-  const integrationDir = await mkdtemp(join(tmpdir(), 'openchatcut-hf-proxy-integration-'));
+  const integrationDir = await mkdtemp(join(tmpdir(), 'alwayscut-hf-proxy-integration-'));
   try {
     __resetModelMissingState();
     const tinyDestination = join(integrationDir, 'config.json');
@@ -198,7 +198,7 @@ const originalUserProfile = process.env.USERPROFILE;
 // os.homedir() resolves USERPROFILE on Windows; HOME alone only covers POSIX.
 process.env.HOME = directory;
 process.env.USERPROFILE = directory;
-assert.equal(modelCacheDir(), join(directory, '.openchatcut', 'asr-models'));
+assert.equal(modelCacheDir(), join(directory, '.alwayscut', 'asr-models'));
 const resolveInstalled = async (target: ProxyTarget) => {
   if (target.modelId !== asrTarget.modelId
     || target.revision !== asrTarget.revision

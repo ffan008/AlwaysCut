@@ -11,7 +11,7 @@ import {
   resolveMediaReference,
 } from './media-references.ts';
 
-const root = await mkdtemp(join(tmpdir(), 'openchatcut-media-reference-'));
+const root = await mkdtemp(join(tmpdir(), 'alwayscut-media-reference-'));
 const source = join(root, 'source clip.mp4');
 const uploads = join(root, 'uploads');
 const name = 'asset-1.mp4';

@@ -26,7 +26,7 @@ export function useTranscriptViewer(assets: MediaAsset[]): TranscriptViewerState
     : -1;
   const viewerAsset = viewerIndex >= 0 ? transcriptEntries[viewerIndex] : undefined;
   const openTranscriptViewer = useCallback((id: string) => {
-    const desktop = window.openChatCutDesktop;
+    const desktop = window.alwaysCutDesktop;
     if (desktop?.openTranscriptWindow) {
       const index = transcriptEntries.findIndex((asset) => asset.id === id);
       void desktop.openTranscriptWindow({

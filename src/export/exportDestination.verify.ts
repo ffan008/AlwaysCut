@@ -310,7 +310,7 @@ async function verifyDesktopRestoreAndStreaming(): Promise<void> {
   let suggestedFilename = '';
   installWindow({
     location: { href: 'http://localhost:5199/' },
-    openChatCutDesktop: {
+    alwaysCutDesktop: {
       restoreExportDirectory: async () => grant,
       selectExportDirectory: async () => grant,
       selectExportFile: async (suggested: string) => {

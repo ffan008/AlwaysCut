@@ -1,4 +1,4 @@
-import catalogData from '../../assets/agent/openchatcut-tool-schemas.json';
+import catalogData from '../../assets/agent/alwayscut-tool-schemas.json';
 import { assertValidAgentToolSchemas, validateAgentToolInvocation } from '../../src/agent/execution-policy';
 import type { AgentToolSchema } from '../../src/agent/tool-schema';
 

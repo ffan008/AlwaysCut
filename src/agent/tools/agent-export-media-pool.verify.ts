@@ -88,7 +88,7 @@ try {
         params: {},
         result: {
           assetId: 'derived-video',
-          path: '/media/uploads/openchatcut-export-job-derived-video.mp4',
+          path: '/media/uploads/alwayscut-export-job-derived-video.mp4',
           name: '01-产品痛点.mp4',
           durationSeconds: 3,
           width: 1080,
@@ -101,7 +101,7 @@ try {
     if (target === '/export/job/render-save/promote' && init?.method === 'POST') {
       return Response.json({
         assetId: 'derived-video',
-        path: '/media/uploads/openchatcut-derived-derived-video.mp4',
+        path: '/media/uploads/alwayscut-derived-derived-video.mp4',
         name: '01-产品痛点.mp4',
         durationSeconds: 3,
         width: 1080,
@@ -143,8 +143,8 @@ try {
   const assets = draft.getDoc().assets;
   assert.equal(assets.length, 2, 'the source stays referenced and one derived asset is registered');
   const saved = assets.find((asset) => asset.id === 'derived-video');
-  assert.equal(saved?.src, '/media/uploads/openchatcut-derived-derived-video.mp4');
-  assert.deepEqual(saved?.props?.openchatcutDerivedFrom, {
+  assert.equal(saved?.src, '/media/uploads/alwayscut-derived-derived-video.mp4');
+  assert.deepEqual(saved?.props?.alwayscutDerivedFrom, {
     kind: 'sequence-export',
     timelineId: 'clip-01',
     timelineName: '01-产品痛点-3秒-9:16',
@@ -163,7 +163,7 @@ try {
   const read = await execReadProjectTool('read_project', { view: 'assets', assetId: 'derived-video' }, ctx) as {
     mediaPool?: { assets?: Array<{ derivedFrom?: unknown }> };
   };
-  assert.deepEqual(read.mediaPool?.assets?.[0]?.derivedFrom, saved?.props?.openchatcutDerivedFrom);
+  assert.deepEqual(read.mediaPool?.assets?.[0]?.derivedFrom, saved?.props?.alwayscutDerivedFrom);
 } finally {
   unsubscribe();
   globalThis.fetch = originalFetch;

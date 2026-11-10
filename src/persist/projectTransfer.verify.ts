@@ -36,14 +36,14 @@ const manifest = `${JSON.stringify({
 const originalFetch = globalThis.fetch;
 const testGlobals = globalThis as unknown as {
   window?: {
-    openChatCutDesktop?: {
+    alwaysCutDesktop?: {
       editorCredentials(): Promise<{ credential: string; mcpToken: string }>;
     };
   };
 };
 const originalWindow = testGlobals.window;
 testGlobals.window = {
-  openChatCutDesktop: {
+  alwaysCutDesktop: {
     editorCredentials: async () => ({ credential: 'project-transfer-test', mcpToken: 'project-transfer-test' }),
   },
 };

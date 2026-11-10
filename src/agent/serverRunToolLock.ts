@@ -11,7 +11,7 @@ export function serverRunToolLockName(
   runId: string,
   toolCallId: string,
 ): string {
-  return JSON.stringify(['openchatcut-server-run-tool', projectId, runId, toolCallId]);
+  return JSON.stringify(['alwayscut-server-run-tool', projectId, runId, toolCallId]);
 }
 
 export function browserServerRunLockManager(): ServerRunLockManager | null {

@@ -180,7 +180,7 @@ export function h264EncoderFallbackReason(encoder: H264Encoder, error: unknown):
 }
 
 export function resolveVaapiDevice(
-  value = process.env.OPENCHATCUT_VAAPI_DEVICE,
+  value = process.env.ALWAYSCUT_VAAPI_DEVICE,
 ): string {
   const candidate = typeof value === 'string' ? value.trim() : '';
   return VAAPI_DEVICE_PATTERN.test(candidate) ? candidate : DEFAULT_VAAPI_DEVICE;
@@ -230,7 +230,7 @@ export function h264ProbeArgs(
 }
 
 function disabledByEnvironment(): boolean {
-  return /^(?:1|true|yes)$/i.test(process.env.OPENCHATCUT_DISABLE_HARDWARE_ENCODING ?? '');
+  return /^(?:1|true|yes)$/i.test(process.env.ALWAYSCUT_DISABLE_HARDWARE_ENCODING ?? '');
 }
 
 function probeEncoder(
@@ -297,7 +297,7 @@ export function resolveH264Encoder(
   ffmpeg: string,
   platform: NodeJS.Platform = process.platform,
 ): Promise<H264Encoder> {
-  const forcedValue = process.env.OPENCHATCUT_H264_ENCODER?.trim();
+  const forcedValue = process.env.ALWAYSCUT_H264_ENCODER?.trim();
   const forced = forcedValue && Object.hasOwn(KNOWN_ENCODERS, forcedValue)
     ? forcedValue as H264Encoder
     : undefined;

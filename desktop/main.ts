@@ -145,7 +145,7 @@ function installDesktopPageGuards(win: BrowserWindow, trustedOrigin: string): vo
 }
 
 function registerDesktopHandlers(trustedOrigin: string): void {
-  ipcMain.handle('openchatcut:select-directory', trustedDesktopHandler(trustedOrigin, async (event, requestedPath: unknown) => {
+  ipcMain.handle('alwayscut:select-directory', trustedDesktopHandler(trustedOrigin, async (event, requestedPath: unknown) => {
     const parent = BrowserWindow.fromWebContents(event.sender);
     const requested = typeof requestedPath === 'string' && isAbsolute(requestedPath)
       ? requestedPath
@@ -165,7 +165,7 @@ function registerDesktopHandlers(trustedOrigin: string): void {
     directory: string;
     grant: ExportDirectoryGrantDescriptor;
   } | null = null;
-  ipcMain.handle('openchatcut:select-export-directory', trustedDesktopHandler(trustedOrigin, async (event) => {
+  ipcMain.handle('alwayscut:select-export-directory', trustedDesktopHandler(trustedOrigin, async (event) => {
     const parent = BrowserWindow.fromWebContents(event.sender);
     const options: OpenDialogOptions = {
       title: '选择导出目录',
@@ -183,7 +183,7 @@ function registerDesktopHandlers(trustedOrigin: string): void {
     await persistExportDirectory(exportStatePath, directory, grant.grantId);
     return grant;
   }));
-  ipcMain.handle('openchatcut:select-export-file', trustedDesktopHandler(trustedOrigin, async (
+  ipcMain.handle('alwayscut:select-export-file', trustedDesktopHandler(trustedOrigin, async (
     event,
     suggestedFilename: unknown,
   ) => {
@@ -208,7 +208,7 @@ function registerDesktopHandlers(trustedOrigin: string): void {
     await persistExportDirectory(exportStatePath, directory, grant.grantId);
     return { ...grant, label: filename, filename };
   }));
-  ipcMain.handle('openchatcut:restore-export-directory', trustedDesktopHandler(trustedOrigin, async () => {
+  ipcMain.handle('alwayscut:restore-export-directory', trustedDesktopHandler(trustedOrigin, async () => {
     const restored = await restorePersistedExportDirectory(exportStatePath);
     if (!restored) return null;
     if (activeExportDirectory?.directory === restored.directory) {
@@ -223,7 +223,7 @@ function registerDesktopHandlers(trustedOrigin: string): void {
     LOCAL_MEDIA_IMPORT_CHANNEL,
     trustedDesktopHandler(trustedOrigin, createLocalMediaImportHandler(importLocalMedia)),
   );
-  ipcMain.handle('openchatcut:transparent-mov-proxy', trustedDesktopHandler(trustedOrigin, async (_event, storedName: unknown) => {
+  ipcMain.handle('alwayscut:transparent-mov-proxy', trustedDesktopHandler(trustedOrigin, async (_event, storedName: unknown) => {
     if (typeof storedName !== 'string') throw new Error('invalid local media name');
     return createTransparentMovProxy(storedName);
   }));
@@ -282,7 +282,7 @@ function registerDesktopHandlers(trustedOrigin: string): void {
     if (!isTranscriptWindowPayload(value)) throw new Error('invalid transcript window payload');
     openTranscriptWindow(value);
   }));
-  ipcMain.handle('openchatcut:window-action', trustedDesktopHandler(trustedOrigin, (event, action: unknown) => {
+  ipcMain.handle('alwayscut:window-action', trustedDesktopHandler(trustedOrigin, (event, action: unknown) => {
     const win = BrowserWindow.fromWebContents(event.sender);
     if (!win || typeof action !== 'string') return;
     if (action === 'close') win.close();
@@ -295,7 +295,7 @@ function registerDesktopHandlers(trustedOrigin: string): void {
     }
   }));
   // Zoom accelerators (issue #85): step the saved UI scale and re-apply.
-  ipcMain.handle('openchatcut:zoom-step', trustedDesktopHandler(trustedOrigin, async (event, step: unknown) => {
+  ipcMain.handle('alwayscut:zoom-step', trustedDesktopHandler(trustedOrigin, async (event, step: unknown) => {
     const win = BrowserWindow.fromWebContents(event.sender);
     if (!win) return;
     if (step !== 'reset' && (typeof step !== 'number' || step === 0)) throw new Error('invalid zoom step');
@@ -305,9 +305,9 @@ function registerDesktopHandlers(trustedOrigin: string): void {
       : Math.min(DESKTOP_UI_SCALE_MAX, Math.max(DESKTOP_UI_SCALE_MIN, Math.round((current + step) * 100) / 100));
     await setKeys({ UI_SCALE: String(next) });
     applyResponsiveWindowScale(win);
-    win.webContents.send('openchatcut:ui-scale-changed', next);
+    win.webContents.send('alwayscut:ui-scale-changed', next);
   }));
-  ipcMain.handle('openchatcut:reveal-export', trustedDesktopHandler(trustedOrigin, async (
+  ipcMain.handle('alwayscut:reveal-export', trustedDesktopHandler(trustedOrigin, async (
     _event,
     destinationId: unknown,
     filename: unknown,

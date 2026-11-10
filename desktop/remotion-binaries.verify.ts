@@ -10,7 +10,7 @@ assert.equal(compositorPackageName('win32', 'x64'), '@remotion/compositor-win32-
 assert.equal(compositorPackageName('linux', 'x64'), '@remotion/compositor-linux-x64-gnu');
 assert.equal(compositorPackageName('linux', 'arm64'), '@remotion/compositor-linux-arm64-gnu');
 
-const root = await mkdtemp(join(tmpdir(), 'openchatcut-remotion-binaries-'));
+const root = await mkdtemp(join(tmpdir(), 'alwayscut-remotion-binaries-'));
 try {
   // Windows: the stock mirror keeps the compositor's own ffmpeg, which has the libfdk_aac
   // that Remotion's AAC encode needs; only the hardware mirror carries the static build.
@@ -31,7 +31,7 @@ try {
   await mkdir(legacy, { recursive: true });
   for (const name of ['remotion.exe', 'ffprobe.exe']) await writeFile(join(legacy, name), 'old');
   await writeFile(join(legacy, 'ffmpeg.exe'), 'nvenc-qsv-amf');
-  await writeFile(join(legacy, '.openchatcut-ready'), 'ok');
+  await writeFile(join(legacy, '.alwayscut-ready'), 'ok');
 
   const windows = { userDataPath: userData, version: '0.2.7', platform: 'win32' as const, compositorDirectory: compositor, ffmpegPath: richFfmpeg };
   const binaries = await ensureRemotionBinaries(windows);

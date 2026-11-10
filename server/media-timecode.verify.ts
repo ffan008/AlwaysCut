@@ -77,7 +77,7 @@ const rate = (num: number, den = 1) => ({ num, den });
 }
 
 // ── Real files from the bundled ffmpeg ──
-const root = await mkdtemp(join(tmpdir(), 'openchatcut-media-timecode-'));
+const root = await mkdtemp(join(tmpdir(), 'alwayscut-media-timecode-'));
 try {
   const picture = (fps: string) => ['-f', 'lavfi', '-i', `testsrc2=d=0.4:r=${fps}:s=64x36`];
   const tone = ['-f', 'lavfi', '-i', 'sine=d=0.4:sample_rate=48000'];

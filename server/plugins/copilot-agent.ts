@@ -318,7 +318,7 @@ function handleFailure(res: ServerResponse, error: unknown): void {
 
 export function copilotAgentPlugin(): Plugin {
   return {
-    name: 'openchatcut-copilot-agent',
+    name: 'alwayscut-copilot-agent',
     configureServer(server) {
       server.middlewares.use('/api/copilot', (req, res) => {
         void handleCopilotRequest(req, res).catch((error) => handleFailure(res, error));

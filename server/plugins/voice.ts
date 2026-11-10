@@ -38,7 +38,7 @@ function audioDescriptor(provider: VoiceProvider, outputFormat: string, audioFor
 
 export function voiceGenerationPlugin(options: VoiceOptions): Plugin {
   return {
-    name: 'openchatcut-voice-generation',
+    name: 'alwayscut-voice-generation',
     configureServer(server) {
       server.middlewares.use('/generate/voice', async (req, res) => {
         if (req.method !== 'POST') { sendJson(res, 405, { error: 'method not allowed — use POST' }); return; }

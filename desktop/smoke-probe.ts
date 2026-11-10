@@ -41,12 +41,12 @@ export async function runDesktopSmokeProbe(
     await runDesktopMcpRecoverySmoke(origin, externalMcpToken());
   }
   const pickerType = await win.webContents.executeJavaScript(
-    'typeof window.openChatCutDesktop?.selectDirectory',
+    'typeof window.alwaysCutDesktop?.selectDirectory',
   ) as unknown;
   if (pickerType !== 'function') throw new Error('desktop directory picker preload is unavailable');
   console.log('[smoke] desktop directory picker preload ok');
   const updaterType = await win.webContents.executeJavaScript(
-    'typeof window.openChatCutDesktop?.updates?.check',
+    'typeof window.alwaysCutDesktop?.updates?.check',
   ) as unknown;
   if (updaterType !== 'function') throw new Error('desktop updater preload is unavailable');
   console.log('[smoke] desktop updater preload ok');
@@ -59,7 +59,7 @@ export async function runDesktopSmokeProbe(
   }
   console.log('[smoke] background throttling disabled (bridge heartbeat safe)');
   const inference = await win.webContents.executeJavaScript(
-    'window.openChatCutDesktop?.inference?.getCapabilities()',
+    'window.alwaysCutDesktop?.inference?.getCapabilities()',
   ) as {
     version?: unknown;
     asr?: { available?: unknown };

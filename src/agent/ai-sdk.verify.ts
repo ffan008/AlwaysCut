@@ -156,7 +156,7 @@ globalThis.fetch = async (input, init) => {
   serialized.push({
     url,
     body: JSON.parse(String(init?.body ?? '{}')) as Record<string, unknown>,
-    provider: headers.get('x-openchatcut-provider'),
+    provider: headers.get('x-alwayscut-provider'),
   });
   return new Response(JSON.stringify({
     type: 'error',

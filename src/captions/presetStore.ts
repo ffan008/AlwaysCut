@@ -5,7 +5,7 @@ import type { CaptionMotionPreset, CaptionTemplate, CaptionPacing } from './type
 // delete). A tiny IndexedDB store of its own (isolated from the project DB so there's no
 // schema-version coordination), keyed by preset id. Falls back to an in-memory Map when
 // IndexedDB is unavailable (node checks / headless) so the agent actions stay testable.
-const DB_NAME = 'openchatcut-captions';
+const DB_NAME = 'alwayscut-captions';
 const STORE = 'presets';
 const memory = new Map<string, CaptionPreset>();
 const hasIdb = (): boolean => typeof indexedDB !== 'undefined';

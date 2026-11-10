@@ -37,7 +37,7 @@ assert.equal(autoGradeSampleFps(1), 10);
 assert.equal(autoGradeSampleFps(20), 0.5);
 assert.ok(Math.abs(autoGradeSampleFps(230) - (10 / 230)) < 0.000001);
 
-const work = await mkdtemp(join(tmpdir(), 'openchatcut-auto-grade-'));
+const work = await mkdtemp(join(tmpdir(), 'alwayscut-auto-grade-'));
 try {
   const eightBit = join(work, 'eight-bit.mkv');
   const tenBit = join(work, 'ten-bit.mkv');

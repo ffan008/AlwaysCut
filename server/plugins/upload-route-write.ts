@@ -327,7 +327,7 @@ async function fetchRemoteImport(
   try {
     response = await safePublicFetch(remote, {
       signal: AbortSignal.timeout(IMPORT_TIMEOUT_MS),
-      headers: { 'User-Agent': 'openchatcut-import/1.0' },
+      headers: { 'User-Agent': 'alwayscut-import/1.0' },
     });
   } catch (error) {
     if (error instanceof UnsafePublicUrlError) {

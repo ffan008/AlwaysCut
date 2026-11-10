@@ -125,7 +125,7 @@ const readableMedia = {
     },
     { id: 'image', kind: 'image', src: '/media/uploads/poster.png' },
     { id: 'remote-audio', kind: 'audio', src: 'https://cdn.example.test/audio.mp3' },
-    { id: 'live-blob', kind: 'video', src: 'blob:https://app.openchatcut.test/live-video' },
+    { id: 'live-blob', kind: 'video', src: 'blob:https://app.alwayscut.test/live-video' },
     { id: 'inline-image', kind: 'image', src: 'data:image/png;base64,AA==' },
   ],
 };
@@ -133,7 +133,7 @@ const successfulResponses: Record<string, { status: number; contentType: string 
   '/media/uploads/partial.mp4': { status: 206, contentType: 'video/mp4' },
   '/media/uploads/poster.png': { status: 200, contentType: 'image/png' },
   'https://cdn.example.test/audio.mp3': { status: 200, contentType: 'audio/mpeg' },
-  'blob:https://app.openchatcut.test/live-video': { status: 200, contentType: 'video/mp4' },
+  'blob:https://app.alwayscut.test/live-video': { status: 200, contentType: 'video/mp4' },
 };
 const successfulBodyState: ProbeBodyState = { cancels: 0, reads: 0 };
 const successfulRequests: Array<{ source: string; init: RequestInit }> = [];

@@ -22,8 +22,8 @@ export interface McpTokenLocation {
  */
 export function mcpTokenPath({ home = homedir(), profileId }: McpTokenLocation = {}): string {
   const root = profileId
-    ? join(home, '.openchatcut', 'dev-profiles', profileId)
-    : join(home, '.openchatcut');
+    ? join(home, '.alwayscut', 'dev-profiles', profileId)
+    : join(home, '.alwayscut');
   return join(root, 'mcp-token');
 }
 
@@ -40,7 +40,7 @@ export interface McpTokenResult {
  * on each app restart: the copied `claude mcp add` command carried a token that
  * no longer existed, and for a Claude Code subscriber that command is the only
  * way into the app. Persisting the first token makes registration a one-time
- * step. OPENCHATCUT_MCP_TOKEN still overrides (handled by the caller), and a
+ * step. ALWAYSCUT_MCP_TOKEN still overrides (handled by the caller), and a
  * filesystem failure falls back to the old per-process behaviour rather than
  * refusing to serve.
  */

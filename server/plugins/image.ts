@@ -402,7 +402,7 @@ async function saveImage(image: ProviderImage, fallbackExt: string): Promise<str
 
 export function imageGenerationPlugin(options: ImagePluginOptions): Plugin {
   return {
-    name: 'openchatcut-image-generation',
+    name: 'alwayscut-image-generation',
     configureServer(server) {
       server.middlewares.use('/generate/image', async (req, res) => {
         if (req.method !== 'POST') { sendJson(res, 405, { error: 'method not allowed — use POST' }); return; }

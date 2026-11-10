@@ -44,14 +44,14 @@ export async function fileExists(path: string): Promise<boolean> {
 }
 
 export async function setupGenerationJobsFixture(): Promise<GenerationJobsFixture> {
-  const storeRoot = await mkdtemp(join(tmpdir(), 'openchatcut-generation-jobs-'));
+  const storeRoot = await mkdtemp(join(tmpdir(), 'alwayscut-generation-jobs-'));
   const storePath = join(storeRoot, 'operations.json');
-  const previousStorePath = process.env.OPENCHATCUT_GENERATION_JOB_STORE;
-  const previousDataDir = process.env.OPENCHATCUT_DATA_DIR;
-  const previousDevProfile = process.env.OPENCHATCUT_DEV_PROFILE_ID;
-  process.env.OPENCHATCUT_DATA_DIR = storeRoot;
-  delete process.env.OPENCHATCUT_DEV_PROFILE_ID;
-  process.env.OPENCHATCUT_GENERATION_JOB_STORE = storePath;
+  const previousStorePath = process.env.ALWAYSCUT_GENERATION_JOB_STORE;
+  const previousDataDir = process.env.ALWAYSCUT_DATA_DIR;
+  const previousDevProfile = process.env.ALWAYSCUT_DEV_PROFILE_ID;
+  process.env.ALWAYSCUT_DATA_DIR = storeRoot;
+  delete process.env.ALWAYSCUT_DEV_PROFILE_ID;
+  process.env.ALWAYSCUT_GENERATION_JOB_STORE = storePath;
   const restoredAt = Date.now() - 1_000;
   const acceptedAt = restoredAt + 100;
   const uploadRoot = join(storeRoot, 'uploads');
@@ -59,8 +59,8 @@ export async function setupGenerationJobsFixture(): Promise<GenerationJobsFixtur
   const deleteAssetId = '11111111-1111-4111-8111-111111111111';
   const expiryAssetId = '22222222-2222-4222-8222-222222222222';
   const malformedAssetId = '33333333-3333-4333-8333-333333333333';
-  const deleteExportName = `openchatcut-export-job-${deleteAssetId}.mp4`;
-  const expiryExportName = `openchatcut-export-job-${expiryAssetId}.mp4`;
+  const deleteExportName = `alwayscut-export-job-${deleteAssetId}.mp4`;
+  const expiryExportName = `alwayscut-export-job-${expiryAssetId}.mp4`;
   const userMediaName = 'user-media.mp4';
   const providerMediaName = 'provider-output.mp4';
   for (const name of [deleteExportName, expiryExportName, userMediaName, providerMediaName]) {
@@ -318,11 +318,11 @@ export async function cleanupGenerationJobsFixture(fixture: GenerationJobsFixtur
   const { resetSqliteStoreForTests } = await import('../storage/sqlite-store.ts');
   await persistJobs();
   resetSqliteStoreForTests();
-  if (fixture.previousDataDir === undefined) delete process.env.OPENCHATCUT_DATA_DIR;
-  else process.env.OPENCHATCUT_DATA_DIR = fixture.previousDataDir;
-  if (fixture.previousDevProfile === undefined) delete process.env.OPENCHATCUT_DEV_PROFILE_ID;
-  else process.env.OPENCHATCUT_DEV_PROFILE_ID = fixture.previousDevProfile;
-  if (fixture.previousStorePath === undefined) delete process.env.OPENCHATCUT_GENERATION_JOB_STORE;
-  else process.env.OPENCHATCUT_GENERATION_JOB_STORE = fixture.previousStorePath;
+  if (fixture.previousDataDir === undefined) delete process.env.ALWAYSCUT_DATA_DIR;
+  else process.env.ALWAYSCUT_DATA_DIR = fixture.previousDataDir;
+  if (fixture.previousDevProfile === undefined) delete process.env.ALWAYSCUT_DEV_PROFILE_ID;
+  else process.env.ALWAYSCUT_DEV_PROFILE_ID = fixture.previousDevProfile;
+  if (fixture.previousStorePath === undefined) delete process.env.ALWAYSCUT_GENERATION_JOB_STORE;
+  else process.env.ALWAYSCUT_GENERATION_JOB_STORE = fixture.previousStorePath;
   await rm(fixture.storeRoot, { recursive: true, force: true });
 }

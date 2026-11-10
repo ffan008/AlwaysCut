@@ -9,7 +9,7 @@ import { normalizeMediaFile } from './media-normalization-runner.ts';
 import { sha256File } from '../shared/node-content-hash.ts';
 
 const run = promisify(execFile);
-const root = await mkdtemp(join(tmpdir(), 'openchatcut-normalize-reference-'));
+const root = await mkdtemp(join(tmpdir(), 'alwayscut-normalize-reference-'));
 const source = join(root, 'external-source.avi');
 const output = join(root, 'managed', 'normalized.mp4');
 

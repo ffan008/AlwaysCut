@@ -68,7 +68,7 @@ export async function handleMobileUploadControl(
 
 export function mobileUploadPlugin(): Plugin {
   return {
-    name: 'openchatcut-mobile-upload',
+    name: 'alwayscut-mobile-upload',
     configureServer(server) {
       const service = new MobileUploadService({
         maxBytes: maxUploadBytes(),

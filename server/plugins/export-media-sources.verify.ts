@@ -57,9 +57,9 @@ async function call(req: IncomingMessage, resolve = async (sources: readonly str
 }
 
 const editorHeaders = { host: '127.0.0.1:5173', origin: 'http://127.0.0.1:5173', 'content-type': 'application/json' };
-const previousEditorUrl = process.env.OPENCHATCUT_EDITOR_URL;
-delete process.env.OPENCHATCUT_EDITOR_URL;
-const root = await mkdtemp(join(tmpdir(), 'openchatcut-export-media-sources-'));
+const previousEditorUrl = process.env.ALWAYSCUT_EDITOR_URL;
+delete process.env.ALWAYSCUT_EDITOR_URL;
+const root = await mkdtemp(join(tmpdir(), 'alwayscut-export-media-sources-'));
 try {
   // ── Route: only the local editor page may learn source paths ──
   const body = JSON.stringify({ sources: ['/media/uploads/a.mp4'] });
@@ -247,8 +247,8 @@ try {
     }
   }
 } finally {
-  if (previousEditorUrl === undefined) delete process.env.OPENCHATCUT_EDITOR_URL;
-  else process.env.OPENCHATCUT_EDITOR_URL = previousEditorUrl;
+  if (previousEditorUrl === undefined) delete process.env.ALWAYSCUT_EDITOR_URL;
+  else process.env.ALWAYSCUT_EDITOR_URL = previousEditorUrl;
   await rm(root, { recursive: true, force: true });
 }
 

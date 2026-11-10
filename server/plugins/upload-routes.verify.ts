@@ -64,7 +64,7 @@ async function assertMissing(path: string, message: string): Promise<void> {
 }
 
 
-const directory = await mkdtemp(join(tmpdir(), 'openchatcut-upload-routes-'));
+const directory = await mkdtemp(join(tmpdir(), 'alwayscut-upload-routes-'));
 const r2Config: R2Config = {
   accountId: 'test-account',
   accessKeyId: 'test-access-key',
@@ -467,7 +467,7 @@ try {
   assert.ok(Number(largeDeclaration.json.size) > OLD_DEFAULT_BYTES);
   await abortMultipart(origin, String(largeDeclaration.json.uploadId));
 
-  assert.equal(basename(directory).startsWith('openchatcut-upload-routes-'), true);
+  assert.equal(basename(directory).startsWith('alwayscut-upload-routes-'), true);
 } finally {
   await server?.close();
   await rm(directory, { recursive: true, force: true });

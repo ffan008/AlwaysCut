@@ -102,7 +102,7 @@ async function takeEditorCall(
 }
 
 async function beginAppliedSession(context: SessionVerifierContext): Promise<AppliedSession> {
-  const client = await targetClient(context, 'openchatcut-mcp-manual-applied');
+  const client = await targetClient(context, 'alwayscut-mcp-manual-applied');
   const editSessionId = 'manual-applied-edit-session';
   const pending = client.client.callTool({
     name: 'begin_edit_session',
@@ -209,7 +209,7 @@ async function verifyCrossOwnerRejection(
   context: SessionVerifierContext,
   session: AppliedSession,
 ): Promise<ConnectedClient> {
-  const intruder = await targetClient(context, 'openchatcut-mcp-session-intruder');
+  const intruder = await targetClient(context, 'alwayscut-mcp-session-intruder');
   const mutation = await Promise.race([
     intruder.client.callTool({
       name: 'mcp_mutating_check',
@@ -268,7 +268,7 @@ async function verifyOldRevisionMutation(session: AppliedSession): Promise<void>
 async function beginOwnedDiscard(
   context: SessionVerifierContext,
 ): Promise<AppliedSession> {
-  const client = await targetClient(context, 'openchatcut-mcp-discard-owner');
+  const client = await targetClient(context, 'alwayscut-mcp-discard-owner');
   const editSessionId = 'transport-owned-edit-session';
   const pending = client.client.callTool({
     name: 'begin_edit_session',
@@ -346,7 +346,7 @@ async function verifyOwnerDiscard(
 }
 
 async function beginRejectedSession(context: SessionVerifierContext): Promise<AppliedSession> {
-  const client = await targetClient(context, 'openchatcut-mcp-manual-rejected');
+  const client = await targetClient(context, 'alwayscut-mcp-manual-rejected');
   const editSessionId = 'manual-rejected-edit-session';
   const beginPending = client.client.callTool({
     name: 'begin_edit_session',
@@ -428,7 +428,7 @@ async function beginStaleDiscard(
   context: SessionVerifierContext,
   switchedEditor: string,
 ): Promise<AppliedSession> {
-  const client = await targetClient(context, 'openchatcut-mcp-stale-discard-owner');
+  const client = await targetClient(context, 'alwayscut-mcp-stale-discard-owner');
   const editSessionId = 'stale-revision-discard-session';
   const pending = client.client.callTool({
     name: 'begin_edit_session',

@@ -245,8 +245,8 @@ function motionGraphicResourceXml(
 
 function backgroundFillMetadataXml(item: TimelineItem): string {
   return `<metadata>
-          <md key="com.openchatcut.backgroundFill" value="1" editable="1" type="boolean"/>
-          <md key="com.openchatcut.backgroundFillStrength" value="${backgroundFillStrengthOf(item)}" editable="1" type="integer"/>
+          <md key="com.alwayscut.backgroundFill" value="1" editable="1" type="boolean"/>
+          <md key="com.alwayscut.backgroundFillStrength" value="${backgroundFillStrengthOf(item)}" editable="1" type="integer"/>
         </metadata>`;
 }
 /** Entries with src (video/audio/image/gif) → asset-clip; entries without src

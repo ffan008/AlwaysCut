@@ -19,7 +19,7 @@ import {
   writeDataDirPointer,
 } from './data-dir.ts';
 
-const fixture = await mkdtemp(join(tmpdir(), 'openchatcut-data-dir-'));
+const fixture = await mkdtemp(join(tmpdir(), 'alwayscut-data-dir-'));
 try {
   const home = join(fixture, 'home');
   await mkdir(home, { recursive: true });
@@ -37,7 +37,7 @@ try {
 
   // 2. Pointer file: fixed location outside the movable root, written 0600, read back
   // expanded, and cleared by an empty value (twice in a row must not throw).
-  assert.equal(dataDirPointerPath(home), join(home, '.openchatcut', 'data-dir.json'));
+  assert.equal(dataDirPointerPath(home), join(home, '.alwayscut', 'data-dir.json'));
   assert.equal(readDataDirPointer(home), null);
   const chosen = join(fixture, 'chosen');
   await writeDataDirPointer(chosen, home);
@@ -143,7 +143,7 @@ try {
     join(destination, 'media', 'uploads'),
   );
   assert.equal(
-    relocatedMediaDestination(null, join(fixture, 'home', '.openchatcut'), defaultUploads),
+    relocatedMediaDestination(null, join(fixture, 'home', '.alwayscut'), defaultUploads),
     defaultUploads,
   );
 

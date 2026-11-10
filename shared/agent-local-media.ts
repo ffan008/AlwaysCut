@@ -1,6 +1,6 @@
 import type { DirectoryImportMediaKind } from './directory-import';
 
-export const AGENT_LOCAL_MEDIA_CHANNEL = 'openchatcut:browse-local-media';
+export const AGENT_LOCAL_MEDIA_CHANNEL = 'alwayscut:browse-local-media';
 export const AGENT_LOCAL_MEDIA_MAX_ENTRIES = 10_000;
 
 export interface AgentLocalMediaRequest {

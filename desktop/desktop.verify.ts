@@ -129,7 +129,7 @@ async function tick(): Promise<void> { await new Promise((r) => setTimeout(r, 0)
 // Windows keeps the current GPU-fast path, but a real child/renderer crash
 // repaints the window and makes the next launch use software rendering once.
 {
-  const userData = await mkdtemp(join(tmpdir(), 'openchatcut-gpu-recovery-'));
+  const userData = await mkdtemp(join(tmpdir(), 'alwayscut-gpu-recovery-'));
   const appEvents = new EventEmitter();
   let hardwareDisabled = 0;
   const fakeApp = {

@@ -390,7 +390,7 @@ globalThis.fetch = (async (input, init) => {
   if (url.startsWith('/export/stage?')) {
     assert.equal(init?.signal, qaController.signal);
     return Response.json({
-      path: '/media/uploads/openchatcut-export-stage-browser-lifecycle.mp4',
+      path: '/media/uploads/alwayscut-export-stage-browser-lifecycle.mp4',
       sizeBytes: blob.size,
     });
   }

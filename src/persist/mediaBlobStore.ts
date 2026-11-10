@@ -11,7 +11,7 @@ export { resetMediaBlobMemory } from './mediaBlobDatabase';
 export type { MediaBlobRecord, MediaBlobWriteMeta } from './mediaBlobDatabase';
 export { uploadAssetIdFromSrc } from './mediaBlobUpload';
 
-const MEDIA_IMPORT_PREFIX = 'openchatcut-media-import:';
+const MEDIA_IMPORT_PREFIX = 'alwayscut-media-import:';
 let mediaImportCounter = 0;
 export interface StagedMediaBlobImportEntry {
   /** Safe destination allocated from the decoded bytes, never from the package src. */

@@ -180,7 +180,7 @@ lines.on('line', (line) => {
 });
 `;
 
-const directory = await mkdtemp(join(tmpdir(), 'openchatcut-codex-verify-'));
+const directory = await mkdtemp(join(tmpdir(), 'alwayscut-codex-verify-'));
 const scriptPath = join(directory, 'fake-app-server.mjs');
 const previousOpenAiKey = process.env.OPENAI_API_KEY;
 const previousAccessToken = process.env.CODEX_ACCESS_TOKEN;

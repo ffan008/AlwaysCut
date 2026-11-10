@@ -6,7 +6,7 @@ import {
 } from '../../persist/projectStoreTransport';
 import { readSamplingConfig } from './samplingConfig';
 
-const DATABASE_NAME = 'openchatcut-semantic-index';
+const DATABASE_NAME = 'alwayscut-semantic-index';
 const STORE_NAME = 'vectors';
 const DATABASE_VERSION = 2;
 const SCOPE_MODEL_INDEX = 'by-scope-model';

@@ -57,7 +57,7 @@ assert.equal(args.includes('libx264'), false, 'H.264 would discard alpha');
 assert.ok(args.indexOf('-threads') > args.indexOf('-c:v'), 'VP9 encoder threads belong to the output option group');
 
 const previousMediaDir = process.env.MEDIA_DIR;
-const testRoot = await mkdtemp(join(tmpdir(), 'openchatcut-local-import-'));
+const testRoot = await mkdtemp(join(tmpdir(), 'alwayscut-local-import-'));
 const uploadDirectory = join(testRoot, 'uploads');
 const sourcePath = join(testRoot, 'source.mov');
 const originalContents = Buffer.from('independent local media snapshot');

@@ -23,7 +23,7 @@ const ALLOWED_BINARIES = new Set([
 ]);
 
 // ffmpeg and ffprobe run as the bundled builds the rest of the app uses (an
-// OPENCHATCUT_FFMPEG / OPENCHATCUT_FFPROBE override still wins inside the resolvers).
+// ALWAYSCUT_FFMPEG / ALWAYSCUT_FFPROBE override still wins inside the resolvers).
 // Packaged installs rarely have them on PATH: a macOS app opened from Finder or the
 // Dock inherits only /usr/bin:/bin:/usr/sbin:/sbin.
 const BUNDLED_BINARIES = new Map<string, () => string>([['ffmpeg', ffmpegBin], ['ffprobe', ffprobeBin]]);
@@ -170,7 +170,7 @@ async function runInSkillDir(slug: string, body: ExecRequest): Promise<unknown> 
 
 export function skillExecPlugin(): Plugin {
   return {
-    name: 'openchatcut-skill-exec',
+    name: 'alwayscut-skill-exec',
     configureServer(server) {
       server.middlewares.use('/api/skills', (req, res, next) => {
         // /api/skills/install and /api/skills/<slug>/exec are owned by their own plugins.

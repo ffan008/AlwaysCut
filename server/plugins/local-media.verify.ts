@@ -199,7 +199,7 @@ try {
 // list really mounts this route, the same check export-stage.verify runs.
 const { serverPlugins } = await import('./index.ts');
 assert.ok(
-  serverPlugins().some((plugin) => plugin.name === 'openchatcut-local-media'),
+  serverPlugins().some((plugin) => plugin.name === 'alwayscut-local-media'),
   'localMediaPlugin must be registered in serverPlugins()',
 );
 console.log('local-media.verify: registered in serverPlugins');

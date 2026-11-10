@@ -134,7 +134,7 @@ async function handleTranscription(
 
 export function transcriptionPlugin(options: TranscriptionOptions): Plugin {
   return {
-    name: 'openchatcut-transcription',
+    name: 'alwayscut-transcription',
     configureServer(server) {
       server.middlewares.use('/api/transcribe', (req, res) => {
         void handleTranscription(req, res, options, server.config.logger);

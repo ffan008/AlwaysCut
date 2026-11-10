@@ -19,7 +19,7 @@ assert.equal(requestedMcpToolExposure({
 } as never), 'progressive');
 assert.equal(requestedMcpToolExposure({
   url: '/api/external-mcp/mcp',
-  headers: { 'x-openchatcut-tool-exposure': 'progressive' },
+  headers: { 'x-alwayscut-tool-exposure': 'progressive' },
 } as never), 'progressive');
 const catalog: Tool[] = [
   { name: 'alwayscut_status', inputSchema: { type: 'object' } },

@@ -10,7 +10,7 @@ import { useDashboardModel, type DashboardProps } from './dashboard/useDashboard
 
 export function Dashboard(props: DashboardProps) {
   const model = useDashboardModel(props);
-  const isMacDesktop = window.openChatCutDesktop?.platform === 'darwin';
+  const isMacDesktop = window.alwaysCutDesktop?.platform === 'darwin';
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: theme.bg, color: theme.text, fontFamily: 'Geist, system-ui, -apple-system, sans-serif' }}>
       <UpstreamUpdateNotice />

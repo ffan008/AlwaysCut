@@ -90,7 +90,7 @@ assert.deepEqual(
   },
 );
 
-const exportDir = await mkdtemp(join(tmpdir(), 'openchatcut-export-cleanup-'));
+const exportDir = await mkdtemp(join(tmpdir(), 'alwayscut-export-cleanup-'));
 try {
   const now = Date.now();
   const staleName = exportJobFilename('00000000-0000-4000-8000-000000000001', 'mp4');
@@ -100,7 +100,7 @@ try {
   const promotedId = '00000000-0000-4000-8000-000000000005';
   const promotionSourceName = exportJobFilename(promotedId, 'mp4');
   const unrelatedName = 'user-owned-video.mp4';
-  const prefixedUserName = 'openchatcut-export-job-project.mp4';
+  const prefixedUserName = 'alwayscut-export-job-project.mp4';
   await Promise.all([
     writeFile(join(exportDir, staleName), 'stale export'),
     writeFile(join(exportDir, freshName), 'fresh export'),
@@ -120,7 +120,7 @@ try {
     assetId: promotedId,
     path: `/media/uploads/${promotionSourceName}`,
   }, exportDir);
-  assert.equal(promoted.path, `/media/uploads/openchatcut-derived-${promotedId}.mp4`);
+  assert.equal(promoted.path, `/media/uploads/alwayscut-derived-${promotedId}.mp4`);
   assert.equal(promoted.sizeBytes, Buffer.byteLength('saved sequence export'));
   assert.equal((await promoteExportResult({
     assetId: promotedId,
@@ -147,10 +147,10 @@ try {
   await rm(exportDir, { recursive: true, force: true });
 }
 
-const staleOutput = join(tmpdir(), `openchatcut-retime-check-${randomUUID()}.mp4`);
+const staleOutput = join(tmpdir(), `alwayscut-retime-check-${randomUUID()}.mp4`);
 await writeFile(staleOutput, 'stale partial output');
 await assert.rejects(
-  retimeFps('/definitely/missing/openchatcut-input.mp4', staleOutput, 30, 'vp8', 4_000_000),
+  retimeFps('/definitely/missing/alwayscut-input.mp4', staleOutput, 30, 'vp8', 4_000_000),
   /ffmpeg fps retime failed/,
 );
 assert.equal(existsSync(staleOutput), false, 'failed FPS conversion must remove partial output');

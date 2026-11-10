@@ -1,5 +1,5 @@
 // Native shared persistence of installed extensions + startup hydration (registered into the runtime registry).
-// Main storage is ~/.openchatcut/plugins; old IndexedDB data is only used for one migration and no browser service check fallback.
+// Main storage is ~/.alwayscut/plugins; old IndexedDB data is only used for one migration and no browser service check fallback.
 // Always rerun validatePack when reading (persistent data is not trustworthy), and bad packets are silently discarded.
 // Timeline rendering does not depend on this - the applied content has been snapshotted into state(fxDefs/customFrag/code),
 // Hydration only serves repository and agent tool visibility.
@@ -9,7 +9,7 @@ import type { SerializableFxDef } from '../gl/fx/uniforms';
 import type { CustomTransitionDef } from '../gl/customTransitions';
 import { registerCustomZoom, unregisterCustomZoom } from '../editor/customZooms';
 
-const DB_NAME = 'openchatcut';
+const DB_NAME = 'alwayscut';
 const STORE = 'kv';
 const PACKS_KEY = 'plugins:packs';
 const API_PATH = '/api/plugins';

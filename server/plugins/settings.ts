@@ -152,7 +152,7 @@ async function applyDataDirChange(
 
 export function settingsPlugin(): Plugin {
   return {
-    name: 'openchatcut-settings',
+    name: 'alwayscut-settings',
     configureServer(server) {
       server.middlewares.use('/api/keys', async (req, res) => {
         try {

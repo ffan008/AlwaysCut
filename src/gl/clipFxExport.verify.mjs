@@ -59,7 +59,7 @@ function meanSquaredError(left, right, invertLeft = false) {
   return total / samples;
 }
 
-const directory = await mkdtemp(join(tmpdir(), 'openchatcut-clip-fx-'));
+const directory = await mkdtemp(join(tmpdir(), 'alwayscut-clip-fx-'));
 try {
   const source = join(directory, 'source.mp4');
   await run(ffmpegPath, [
@@ -73,8 +73,8 @@ try {
   ]);
 
   setUploadsDirProvider(() => directory);
-  process.env.OPENCHATCUT_RENDER_CONCURRENCY = '8';
-  process.env.OPENCHATCUT_DISABLE_HARDWARE_ENCODING = '1';
+  process.env.ALWAYSCUT_RENDER_CONCURRENCY = '8';
+  process.env.ALWAYSCUT_DISABLE_HARDWARE_ENCODING = '1';
   // On Linux CI the headless render falls back to software GL, whose frame
   // delivery differs from the Metal path: every frame still carries the
   // effect, but scene content arrives on a different frame index. Frame-sync

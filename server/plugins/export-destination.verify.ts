@@ -43,7 +43,7 @@ function sourceRequest(url: string, source: string): IncomingMessage {
   const stream = Readable.from([]) as IncomingMessage;
   stream.method = 'PUT';
   stream.url = url;
-  stream.headers = { 'x-openchatcut-export-source': source };
+  stream.headers = { 'x-alwayscut-export-source': source };
   return stream;
 }
 
@@ -55,7 +55,7 @@ function response(): ServerResponse {
   } as unknown as ServerResponse;
 }
 
-const directory = await mkdtemp(join(tmpdir(), 'openchatcut-export-destination-'));
+const directory = await mkdtemp(join(tmpdir(), 'alwayscut-export-destination-'));
 try {
   const grant = createExportDirectoryGrant(directory);
   assert.match(grant.grantId, /^[A-Za-z0-9_-]{32,128}$/);

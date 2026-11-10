@@ -247,7 +247,7 @@ async function handleNormalizeRequest(
 
 export function normalizeMediaPlugin(options: NormalizeMediaPluginOptions = {}): Plugin {
   return {
-    name: 'openchatcut-normalize-media',
+    name: 'alwayscut-normalize-media',
     configureServer(server) {
       server.middlewares.use('/api/normalize-media', async (req, res) => {
         if (req.method !== 'POST') {

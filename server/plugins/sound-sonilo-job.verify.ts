@@ -16,8 +16,8 @@ const ffmpeg = (args: string[]) => spawnSync('ffmpeg', ['-loglevel', 'error', '-
 assert.equal(ffmpeg(['-f', 'lavfi', '-i', 'color=c=black:s=16x16:d=0.2', '-c:v', 'mpeg4', cut]).status, 0);
 
 const oldEnv = { ...process.env };
-process.env.OPENCHATCUT_DATA_DIR = root;
-process.env.OPENCHATCUT_DEV_PROFILE_ID = 'ff8ca810-a09d-4dc5-8f41-d978df5338d7';
+process.env.ALWAYSCUT_DATA_DIR = root;
+process.env.ALWAYSCUT_DEV_PROFILE_ID = 'ff8ca810-a09d-4dc5-8f41-d978df5338d7';
 for (const key of ['HTTP_PROXY', 'HTTPS_PROXY', 'http_proxy', 'https_proxy']) delete process.env[key];
 
 let providerOrigin = '';

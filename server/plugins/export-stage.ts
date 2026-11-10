@@ -8,12 +8,12 @@ import { pipeline } from 'node:stream/promises';
 import type { Plugin } from 'vite';
 import { uploadDir } from '../media-dir.ts';
 
-const STAGE_PREFIX = 'openchatcut-export-stage-';
+const STAGE_PREFIX = 'alwayscut-export-stage-';
 const STAGE_EXTENSIONS = new Set(['.mp4', '.webm']);
 const MAX_STAGE_BYTES = 64 * 1024 ** 3;
 export const EXPORT_STAGE_RETENTION_MS = 30 * 60_000;
-const STAGE_FILENAME = /^openchatcut-export-stage-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.(?:mp4|webm)$/i;
-const STAGE_PARTIAL_FILENAME = /^openchatcut-export-stage-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.(?:mp4|webm)\.part$/i;
+const STAGE_FILENAME = /^alwayscut-export-stage-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.(?:mp4|webm)$/i;
+const STAGE_PARTIAL_FILENAME = /^alwayscut-export-stage-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.(?:mp4|webm)\.part$/i;
 
 interface CleanupStageOptions {
   now?: number;
@@ -59,7 +59,7 @@ function sendJson(res: ServerResponse, status: number, body: unknown): void {
 }
 
 function stageExtension(req: IncomingMessage): string | null {
-  const url = new URL(req.url ?? '/', 'http://openchatcut.local');
+  const url = new URL(req.url ?? '/', 'http://alwayscut.local');
   const extension = extname(url.searchParams.get('name') ?? '').toLowerCase();
   return STAGE_EXTENSIONS.has(extension) ? extension : null;
 }
@@ -123,7 +123,7 @@ async function handleStage(req: IncomingMessage, res: ServerResponse): Promise<v
 
 export function exportStagePlugin(): Plugin {
   return {
-    name: 'openchatcut-export-stage',
+    name: 'alwayscut-export-stage',
     configureServer(server) {
       const cleanup = () => cleanupStaleExportStages(uploadDir()).catch((error) => {
         server.config.logger.warn(`[export-stage] cleanup failed: ${error instanceof Error ? error.message : String(error)}`);

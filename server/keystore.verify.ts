@@ -73,7 +73,7 @@ const overrideWithPunctuation = JSON.stringify([{
 }]);
 const out5 = mergeEnvText('', new Map([[MODEL_CAPABILITY_OVERRIDES_KEY, overrideWithPunctuation]]));
 const desktopValue = parseEnvText(out5)[MODEL_CAPABILITY_OVERRIDES_KEY];
-const startupDir = await mkdtemp(join(tmpdir(), 'openchatcut-env-roundtrip-'));
+const startupDir = await mkdtemp(join(tmpdir(), 'alwayscut-env-roundtrip-'));
 const previousOverride = process.env[MODEL_CAPABILITY_OVERRIDES_KEY];
 delete process.env[MODEL_CAPABILITY_OVERRIDES_KEY];
 try {
@@ -168,7 +168,7 @@ const MODEL_ROUTING_NAMES = [
   'R2_PRESIGN', // Browser pre-signed direct transmission (''=enabled/'0'=server-side write-through only)
   'MEDIA_DIR',  // Asset saving directory (''=default public/media/uploads),
   'AGENT_IMPORT_ROOTS', // Agent local-path import whitelist (comma-separated absolute dirs)
-  'OPENCHATCUT_SKILLS_DIR', // User skill files directory (''=~/.openchatcut/skills)
+  'ALWAYSCUT_SKILLS_DIR', // User skill files directory (''=~/.alwayscut/skills)
   'PROXY_URL', // Outbound network proxy (''=use HTTPS_PROXY/HTTP_PROXY env)
   'WEB_SEARCH_PROVIDER', // Basic web research routing ('' | parallel | firecrawl | disabled)
 ] as const;

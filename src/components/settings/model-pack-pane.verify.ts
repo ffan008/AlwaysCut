@@ -12,10 +12,10 @@ try {
   assert.equal(receivedId, 'music-semantics-lite');
   assert.equal(receivedHeaders.length, 1);
   for (const name of receivedHeaders[0]?.keys() ?? []) {
-    assert.ok(!/x-openchatcut/i.test(name),
+    assert.ok(!/x-alwayscut/i.test(name),
       `model-pack mutations must not carry credential headers (found ${name})`);
   }
-  assert.equal(receivedHeaders[0]?.get('x-openchatcut-editor-credential'), null,
+  assert.equal(receivedHeaders[0]?.get('x-alwayscut-editor-credential'), null,
     'no editor credential header may be attached');
 } finally {
   // Nothing else to restore: the mutation helper is pure now.

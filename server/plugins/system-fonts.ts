@@ -244,7 +244,7 @@ function sendJson(res: ServerResponse, status: number, body: unknown): void {
 
 export function systemFontsPlugin(): Plugin {
   return {
-    name: 'openchatcut-system-fonts',
+    name: 'alwayscut-system-fonts',
     configureServer(server) {
       server.middlewares.use('/api/system-fonts', async (req: IncomingMessage, res: ServerResponse) => {
         if (!projectStoreReadAuthorized(req) || (req.method === 'POST' && !projectStoreHttpAuthorized(req))) {

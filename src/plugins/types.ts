@@ -1,11 +1,11 @@
-// Content plugin (openchatcut-plugin@1) field type and upper limit. Design:docs/plugin-system-design.md.
+// Content plugin (alwayscut-plugin@1) field type and upper limit. Design:docs/plugin-system-design.md.
 // Package and distribution format for community DIY content (MG/transition/special effects/LUT/zoom).
 // Pure types and constants, keeping Node validation scripts directly executable.
 //
 // format compatibility policy: only recognize the exact string of PLUGIN_FORMAT; unknown formats will be refused to install
 // (see validatePack). In the future, @2 needs to change PLUGIN_FORMAT + migration instructions simultaneously, which is not silently compatible.
 
-export const PLUGIN_FORMAT = 'openchatcut-plugin@1';
+export const PLUGIN_FORMAT = 'alwayscut-plugin@1';
 
 /** Installation verification upper limit (third-party content is regarded as untrusted input) */
 export const PLUGIN_LIMITS = {

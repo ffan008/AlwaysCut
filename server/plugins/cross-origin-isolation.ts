@@ -10,7 +10,7 @@ import type { Plugin } from 'vite';
 
 export function crossOriginIsolationPlugin(): Plugin {
   return {
-    name: 'openchatcut-cross-origin-isolation',
+    name: 'alwayscut-cross-origin-isolation',
     configureServer(server) {
       server.middlewares.use((_req, res, next) => {
         res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');

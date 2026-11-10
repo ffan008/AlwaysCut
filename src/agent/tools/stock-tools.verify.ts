@@ -27,7 +27,7 @@ const originalWindow = Object.getOwnPropertyDescriptor(globalThis, 'window');
 Object.defineProperty(globalThis, 'window', {
   configurable: true,
   value: {
-    openChatCutDesktop: {
+    alwaysCutDesktop: {
       editorCredentials: async () => ({
         credential: 'stock-tool-test',
         mcpToken: 'stock-tool-test',

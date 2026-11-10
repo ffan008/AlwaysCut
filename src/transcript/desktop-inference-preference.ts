@@ -24,11 +24,11 @@ export function desktopNativeInferenceEnabled(
   // Auto: the desktop shell enables the packaged native runtime by default;
   // each worker chooses the best available platform backend and falls back to
   // CPU or the browser engine. Plain browsers have no native bridge.
-  return typeof window !== 'undefined' && Boolean(window.openChatCutDesktop?.inference);
+  return typeof window !== 'undefined' && Boolean(window.alwaysCutDesktop?.inference);
 }
 
 async function applyDesktopNativeInferenceEnabled(enabled: boolean): Promise<void> {
-  const bridge = typeof window === 'undefined' ? undefined : window.openChatCutDesktop?.inference;
+  const bridge = typeof window === 'undefined' ? undefined : window.alwaysCutDesktop?.inference;
   if (typeof bridge?.setEnabled === 'function') await bridge.setEnabled(enabled);
 }
 

@@ -14,7 +14,7 @@ export function useUiScaleShortcuts(): void {
       if (!(event.metaKey || event.ctrlKey)) return;
       const target = event.target instanceof Element ? event.target : null;
       if (target?.closest('input, textarea, select, [contenteditable="true"]')) return;
-      const desktop = window.openChatCutDesktop;
+      const desktop = window.alwaysCutDesktop;
       if (!desktop?.zoomStep) return;
       const key = event.key;
       if (key === '=' || key === '+') {

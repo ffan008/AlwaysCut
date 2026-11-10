@@ -24,7 +24,7 @@ import {
 } from '../external-agent/import-token.ts';
 import type { claimBrowserProjectOwnership } from '../external-agent/project-edit-ownership.ts';
 
-const REGISTRATION_CAPABILITY_HEADER = 'x-openchatcut-editor-registration';
+const REGISTRATION_CAPABILITY_HEADER = 'x-alwayscut-editor-registration';
 
 function registrationCapability(req: IncomingMessage, required: boolean): string | null {
   const raw = req.headers[REGISTRATION_CAPABILITY_HEADER];

@@ -103,7 +103,7 @@ function escapeDrawtext(text: string): string {
 /** Common macOS / Linux font paths for drawtext. */
 function fontFile(): string | null {
   const candidates = [
-    process.env.OPENCHATCUT_FONT_FILE,
+    process.env.ALWAYSCUT_FONT_FILE,
     '/System/Library/Fonts/Supplemental/Arial Unicode.ttf',
     '/System/Library/Fonts/Supplemental/Arial.ttf',
     '/System/Library/Fonts/Helvetica.ttc',

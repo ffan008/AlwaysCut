@@ -15,11 +15,11 @@ const root = await mkdtemp(join(tmpdir(), 'occ-voice-media-'));
 const emptyPath = await mkdtemp(join(tmpdir(), 'occ-empty-path-'));
 const saved = {
   path: process.env.PATH,
-  dataDir: process.env.OPENCHATCUT_DATA_DIR,
-  profileId: process.env.OPENCHATCUT_DEV_PROFILE_ID,
+  dataDir: process.env.ALWAYSCUT_DATA_DIR,
+  profileId: process.env.ALWAYSCUT_DEV_PROFILE_ID,
 };
-process.env.OPENCHATCUT_DATA_DIR = root;
-process.env.OPENCHATCUT_DEV_PROFILE_ID = 'b44abc36-d2cb-4b67-bbb2-f9c82a608ff6';
+process.env.ALWAYSCUT_DATA_DIR = root;
+process.env.ALWAYSCUT_DEV_PROFILE_ID = 'b44abc36-d2cb-4b67-bbb2-f9c82a608ff6';
 
 const restore = (name: string, value: string | undefined) => {
   if (value === undefined) delete process.env[name];
@@ -60,8 +60,8 @@ try {
   }
 } finally {
   restore('PATH', saved.path);
-  restore('OPENCHATCUT_DATA_DIR', saved.dataDir);
-  restore('OPENCHATCUT_DEV_PROFILE_ID', saved.profileId);
+  restore('ALWAYSCUT_DATA_DIR', saved.dataDir);
+  restore('ALWAYSCUT_DEV_PROFILE_ID', saved.profileId);
   await rm(root, { recursive: true, force: true });
   await rm(emptyPath, { recursive: true, force: true });
 }

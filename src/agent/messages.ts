@@ -170,13 +170,13 @@ function withoutProviderOptions<T extends object>(value: T): T {
 }
 function portableProviderOptions(value: unknown): UnknownRecord | undefined {
   const options = record(value);
-  const openchatcut = record(options?.openchatcut);
-  const names = openchatcut?.activatedTools;
+  const alwayscut = record(options?.alwayscut);
+  const names = alwayscut?.activatedTools;
   if (!Array.isArray(names)) return undefined;
   const activatedTools = [...new Set(names.filter(
     (name): name is string => typeof name === 'string' && name.length > 0,
   ))];
-  return activatedTools.length ? { openchatcut: { activatedTools } } : undefined;
+  return activatedTools.length ? { alwayscut: { activatedTools } } : undefined;
 }
 
 function withoutForeignProviderOptions<T extends object>(value: T): T {

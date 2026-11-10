@@ -7,7 +7,7 @@ import { join } from 'node:path';
 // keystore of the active profile. Point the profile at an empty directory before the
 // module graph loads (keystore resolves its profile at import time) so a developer's own
 // PROXY_URL cannot change what this check sees; the env proxy is controlled explicitly.
-process.env.OPENCHATCUT_DATA_DIR = mkdtempSync(join(tmpdir(), 'import-url-errors-'));
+process.env.ALWAYSCUT_DATA_DIR = mkdtempSync(join(tmpdir(), 'import-url-errors-'));
 const PROXY_NAMES = ['HTTPS_PROXY', 'https_proxy', 'HTTP_PROXY', 'http_proxy', 'ALL_PROXY', 'all_proxy', 'PROXY_URL'] as const;
 for (const name of PROXY_NAMES) delete process.env[name];
 

@@ -113,7 +113,7 @@ export function copyProductAssetsTo(destRoot: string): void {
  */
 export function productAssetsPlugin(): Plugin {
   return {
-    name: 'openchatcut-product-assets',
+    name: 'alwayscut-product-assets',
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
         try {

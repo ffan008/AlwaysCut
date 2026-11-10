@@ -444,7 +444,7 @@ function handleFailure(res: ServerResponse, error: unknown): void {
 
 export function codexAgentPlugin(): Plugin {
   return {
-    name: 'openchatcut-codex-agent',
+    name: 'alwayscut-codex-agent',
     configureServer(server) {
       server.middlewares.use('/api/codex', (req, res) => {
         void handleCodexRequest(req, res).catch((error) => handleFailure(res, error));

@@ -243,7 +243,7 @@ function originalPathOf(file: File): string | undefined {
   try {
     return typeof window === 'undefined'
       ? undefined
-      : window.openChatCutDesktop?.getPathForFile(file);
+      : window.alwaysCutDesktop?.getPathForFile(file);
   } catch {
     return undefined;
   }
@@ -299,7 +299,7 @@ async function uploadPreparedMedia(
   const { file, id, kind, meta, sourceFilename, sourceModifiedAt, sourceSize } = prepared;
   const transferred = await transferDesktopLocalMedia(
     file,
-    (globalThis as typeof globalThis & { openChatCutDesktop?: DesktopLocalMediaApi }).openChatCutDesktop,
+    (globalThis as typeof globalThis & { alwaysCutDesktop?: DesktopLocalMediaApi }).alwaysCutDesktop,
     uploadFile,
     hooks.onProgress ? (ratio) => hooks.onProgress!(ratio * 0.9) : undefined,
   );

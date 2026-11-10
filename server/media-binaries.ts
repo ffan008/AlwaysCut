@@ -31,14 +31,14 @@ export function unpackedPath(path: string): string {
  * production dependencies, so media import does not depend on the user's PATH.
  */
 export function ffmpegBin(): string {
-  return process.env.OPENCHATCUT_FFMPEG
+  return process.env.ALWAYSCUT_FFMPEG
     ?? process.env.FFMPEG_PATH
     ?? (ffmpegStatic ? unpackedPath(ffmpegStatic) : null)
     ?? 'ffmpeg';
 }
 
 export function ffprobeBin(): string {
-  return process.env.OPENCHATCUT_FFPROBE
+  return process.env.ALWAYSCUT_FFPROBE
     ?? process.env.FFPROBE_PATH
     ?? (ffprobeInstaller.path ? unpackedPath(ffprobeInstaller.path) : null)
     ?? 'ffprobe';
@@ -51,7 +51,7 @@ export function ffprobeBin(): string {
  * explicit override wins for locally compiled binaries.
  */
 export function whisperCliBin(): string {
-  const override = process.env.OPENCHATCUT_WHISPER_CLI;
+  const override = process.env.ALWAYSCUT_WHISPER_CLI;
   if (override) return override;
   const platformKey = `${process.platform}-${process.arch}`;
   const suffix = process.platform === 'win32' ? '.exe' : '';

@@ -446,7 +446,7 @@ export async function handleModelPackRequest(
 
 export function modelPacksPlugin(): Plugin {
   return {
-    name: 'openchatcut-model-packs',
+    name: 'alwayscut-model-packs',
     configureServer(server) {
       void ensureRecovered().catch((error) => {
         server.config.logger.error(`[model-packs] recovery failed: ${errorMessage(error)}`);

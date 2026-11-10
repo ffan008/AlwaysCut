@@ -95,7 +95,7 @@ assert.equal(existingTargetRealpathCalls, 1, 'an existing target uses its own re
 // `-hwaccel qsv` makes the retry fail on the same QSV device error.
 {
   const attempts: string[][] = [];
-  const fallbackOutputPath = join(tmpdir(), 'openchatcut-hwdecode-fallback-unwritten.mp4');
+  const fallbackOutputPath = join(tmpdir(), 'alwayscut-hwdecode-fallback-unwritten.mp4');
   const qsvDecodeFailure = 'Error creating a MFX session: -9. '
     + 'No device available for decoder: device type qsv needed for codec h264_qsv.';
   await encodeTranscodedVideo(
@@ -135,7 +135,7 @@ const restoreEnv = (name: string, value: string | undefined) => {
   if (value === undefined) delete process.env[name];
   else process.env[name] = value;
 };
-const testDir = await mkdtemp(join(tmpdir(), 'openchatcut-ingest-policy-'));
+const testDir = await mkdtemp(join(tmpdir(), 'alwayscut-ingest-policy-'));
 let server: ViteDevServer | undefined;
 let releaseEncoderGate: (() => void) | undefined;
 try {

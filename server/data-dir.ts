@@ -6,15 +6,33 @@
 // profile the keystore file itself sits inside the storage root, so reading it
 // would require already knowing the root. It is therefore recorded in a small
 // pointer file at a fixed location that never moves.
-import { existsSync, mkdirSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, renameSync } from 'node:fs';
 import { cp, mkdir, readdir, rename, rm, unlink, writeFile } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { dirname, isAbsolute, join, resolve } from 'node:path';
 import { mergePublishLedgers } from './plugins/upload-post-ledger.ts';
 
+/** One-time migration after the OpenChatCut → AlwaysCut rename: move the legacy
+ *  hidden home (~/.openchatcut) to the new name (~/.alwayscut) so a pre-rename
+ *  install keeps its projects, settings, skill installs and MCP token. Safe to
+ *  call at startup — it no-ops when the new home already exists or the legacy
+ *  one is absent, and a failed rename is swallowed rather than thrown so startup
+ *  never blocks on a migration. */
+export function migrateLegacyHomeDir(home: string = homedir()): boolean {
+  const legacy = join(home, '.openchatcut');
+  const current = join(home, '.alwayscut');
+  if (existsSync(current) || !existsSync(legacy)) return false;
+  try {
+    renameSync(legacy, current);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 /** Fixed pointer location — deliberately outside the movable storage root. */
 export function dataDirPointerPath(home: string = homedir()): string {
-  return join(home, '.openchatcut', 'data-dir.json');
+  return join(home, '.alwayscut', 'data-dir.json');
 }
 
 /** Expand ~/ and require an absolute path; anything else is rejected. */
@@ -45,7 +63,7 @@ export function readDataDirPointer(home: string = homedir()): string | null {
 /** Record the storage root, or clear it (empty value) to return to the default. */
 export async function writeDataDirPointer(dir: string | null, home: string = homedir()): Promise<void> {
   const pointer = dataDirPointerPath(home);
-  await mkdir(join(home, '.openchatcut'), { recursive: true });
+  await mkdir(join(home, '.alwayscut'), { recursive: true });
   if (!dir) {
     await unlink(pointer).catch(() => undefined);
     return;

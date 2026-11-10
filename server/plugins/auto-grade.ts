@@ -187,7 +187,7 @@ export async function analyzeColorInFile(file: string, options: AnalyzeColorOpti
 
 export function autoGradePlugin(): Plugin {
   return {
-    name: 'openchatcut-auto-grade',
+    name: 'alwayscut-auto-grade',
     configureServer(server) {
       server.middlewares.use('/api/auto-grade', async (req, res) => {
         try {

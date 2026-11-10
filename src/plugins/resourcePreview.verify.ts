@@ -5,7 +5,7 @@ import type { InstalledPack } from './store';
 import { validatePack } from './validate';
 
 const pack: InstalledPack = {
-  format: 'openchatcut-plugin@1',
+  format: 'alwayscut-plugin@1',
   id: 'preview-check',
   name: 'Preview check',
   version: '1.0.0',

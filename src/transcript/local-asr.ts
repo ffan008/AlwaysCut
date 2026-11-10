@@ -51,7 +51,7 @@ let sharedClient: LocalAsrClient | null = null;
  */
 function wasmOutOfMemoryMessage(modelId: string): string {
   const model = ASR_MODELS.find((entry) => entry.modelId === modelId)?.label ?? modelId;
-  return typeof window !== 'undefined' && window.openChatCutDesktop?.inference
+  return typeof window !== 'undefined' && window.alwaysCutDesktop?.inference
     ? t('本地转写模型 {model} 超出了浏览器引擎（wasm）的内存上限。请到 设置 → 本地模型 → 本地转写 改选更小的模型（Base / Small），或开启「桌面原生推理加速」并下载该模型，改由没有此限制的 whisper.cpp 运行。', { model })
     : t('本地转写模型 {model} 超出了浏览器引擎（wasm）的内存上限。请到 设置 → 本地模型 → 本地转写 改选更小的模型（Base / Small），或改用桌面版，由没有此限制的 whisper.cpp 原生运行。', { model });
 }

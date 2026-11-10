@@ -205,7 +205,7 @@ try {
   assert.match(browserOom, /桌面版/, 'a browser user is pointed at the desktop app');
   assert.doesNotMatch(browserOom, /exhausted the wasm heap/, 'the raw worker text is replaced');
   Object.defineProperty(globalThis, 'window', {
-    configurable: true, value: { openChatCutDesktop: { inference: {} } },
+    configurable: true, value: { alwaysCutDesktop: { inference: {} } },
   });
   const desktopOom = await outOfMemoryMessage();
   Reflect.deleteProperty(globalThis, 'window');

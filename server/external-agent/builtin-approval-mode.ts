@@ -19,8 +19,8 @@ import type { ExternalApprovalMode } from '../../src/agent/external-edit-session
  * driver) can have its approvalMode overridden by this path.
  */
 const BUILTIN_CLIENT = 'claude-code-builtin';
-export const BUILTIN_CLIENT_HEADER = 'x-openchatcut-mcp-client';
-export const BUILTIN_APPROVAL_MODE_HEADER = 'x-openchatcut-approval-mode';
+export const BUILTIN_CLIENT_HEADER = 'x-alwayscut-mcp-client';
+export const BUILTIN_APPROVAL_MODE_HEADER = 'x-alwayscut-approval-mode';
 
 function headerValue(req: IncomingMessage, name: string): string {
   const raw = req.headers[name];

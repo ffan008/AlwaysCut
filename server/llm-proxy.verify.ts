@@ -60,7 +60,7 @@ assert.equal(llmOperationPath('runcrate'), '/chat/completions');
     LLM_XAI_OAUTH_API_KEY: 'stale-oauth-token',
     LLM_API_KEY: 'ak-1',
   } as Record<string, string>);
-  const reqFor = (provider: string) => ({ headers: { 'x-openchatcut-provider': provider } } as never);
+  const reqFor = (provider: string) => ({ headers: { 'x-alwayscut-provider': provider } } as never);
   assert.throws(() => llmProviderForRequest(reqFor('retired-provider')), /Unsupported LLM provider/);
   for (const preset of LLM_PROVIDER_PRESETS) {
     assert.equal(llmProviderForRequest(reqFor(` ${preset.id.toUpperCase()} `)), preset.id);
@@ -105,8 +105,8 @@ const upstream = createServer(async (req, res) => {
   seen.push({
     url: req.url ?? '',
     authorization: typeof req.headers.authorization === 'string' ? req.headers.authorization : undefined,
-    provider: typeof req.headers['x-openchatcut-provider'] === 'string'
-      ? req.headers['x-openchatcut-provider']
+    provider: typeof req.headers['x-alwayscut-provider'] === 'string'
+      ? req.headers['x-alwayscut-provider']
       : undefined,
     cookie: typeof req.headers.cookie === 'string' ? req.headers.cookie : undefined,
     body: Buffer.concat(chunks).toString('utf8'),
@@ -145,7 +145,7 @@ try {
   seedKeystore({ LLM_ANTHROPIC_BASE_URL: `http://127.0.0.1:${upstreamPort}/v1` });
   const unsupported = await fetch(`http://127.0.0.1:${providerProxyPort}/llm/messages`, {
     method: 'POST',
-    headers: { 'x-openchatcut-provider': 'retired-provider' },
+    headers: { 'x-alwayscut-provider': 'retired-provider' },
     body: '{}',
   });
   assert.equal(unsupported.status, 400);
@@ -153,7 +153,7 @@ try {
   assert.equal(seen.length, 0, 'unsupported provider must not reach the configured fallback upstream');
   const first = await fetch(`http://127.0.0.1:${proxyPort}/llm/chat/completions?stream=true`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json', 'x-openchatcut-provider': 'kimi' },
+    headers: { 'content-type': 'application/json', 'x-alwayscut-provider': 'kimi' },
     body: '{"model":"compatible"}',
   });
   assert.equal(first.status, 200);
@@ -169,7 +169,7 @@ try {
   // Browser cookies (shared across every localhost port) must never reach upstream.
   await fetch(`http://127.0.0.1:${proxyPort}/llm/responses`, {
     method: 'POST',
-    headers: { 'x-openchatcut-provider': 'kimi', cookie: 'session=must-not-leak' },
+    headers: { 'x-alwayscut-provider': 'kimi', cookie: 'session=must-not-leak' },
     body: '{"model":"openai"}',
   });
 

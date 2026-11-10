@@ -27,16 +27,16 @@ const ENV: NodeJS.ProcessEnv = {
   ...process.env,
   HOME,
   USERPROFILE: HOME,
-  OPENCHATCUT_DATA_DIR: LIBRARY,
+  ALWAYSCUT_DATA_DIR: LIBRARY,
 };
 // An empty-string profile id is rejected by runtime-profile (it validates the
 // value when the variable is present), so remove it instead of blanking it.
-delete ENV.OPENCHATCUT_DEV_PROFILE_ID;
+delete ENV.ALWAYSCUT_DEV_PROFILE_ID;
 // The verifier's own process must read the throwaway library as well: the store
 // resolves its paths when runtime-profile.ts is first imported (further down), and
 // without this the in-process store would read — and could create — the real one.
 Object.assign(process.env, ENV);
-delete process.env.OPENCHATCUT_DEV_PROFILE_ID;
+delete process.env.ALWAYSCUT_DEV_PROFILE_ID;
 
 /** Half a second of silence at 8 kHz, as a valid 16-bit PCM WAV. */
 function toneWav(): Buffer {
@@ -128,7 +128,7 @@ try {
   // static ones would resolve the store's paths (and the active profile) before the
   // throwaway HOME/DATA_DIR above could take effect.
   const runtimeProfile = await import('../server/runtime-profile.ts');
-  assert.equal(runtimeProfile.DATA_DIR_ENV, 'OPENCHATCUT_DATA_DIR');
+  assert.equal(runtimeProfile.DATA_DIR_ENV, 'ALWAYSCUT_DATA_DIR');
 
   // 1. empty library
   assert.deepEqual(occJson<ProjectJson[]>(['project', 'list', '--json']), []);
@@ -336,7 +336,7 @@ try {
   // 16. an installed plugin pack reaches the headless catalog too
   const packId = 'occ-fixture-pack';
   const packVersion = '1.0.0';
-  const packRoot = join(HOME, '.openchatcut', 'plugins');
+  const packRoot = join(HOME, '.alwayscut', 'plugins');
   const packDir = join(packRoot, packId, Buffer.from(packVersion, 'utf8').toString('base64url'));
   mkdirSync(packDir, { recursive: true });
   const installedAt = Date.now();
@@ -345,7 +345,7 @@ try {
     JSON.stringify([{ id: packId, version: packVersion, enabled: true, installedAt }]),
   );
   writeFileSync(join(packDir, 'manifest.json'), JSON.stringify({
-    format: 'openchatcut-plugin@1',
+    format: 'alwayscut-plugin@1',
     id: packId,
     name: 'Occ fixture pack',
     version: packVersion,

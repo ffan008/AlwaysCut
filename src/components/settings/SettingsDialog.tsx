@@ -291,7 +291,7 @@ export function SettingsDialog({ onClose, initialVendor }: { onClose: () => void
     setStatus(next);
     // Desktop: the main process owns the zoom factor; re-apply after the
     // saved UI_SCALE changed so the change is visible immediately.
-    void window.openChatCutDesktop?.windowAction('apply-ui-scale');
+    void window.alwaysCutDesktop?.windowAction('apply-ui-scale');
     applySavedToAgent(next);
     // The status effect synchronizes all transcription runtime preferences.
     setValues({});

@@ -28,7 +28,7 @@ export async function tryDesktopNativeAsr(
   options: DesktopNativeAsrOptions,
 ): Promise<DesktopNativeAsrAttempt | null> {
   if (!desktopNativeInferenceEnabled() || !options.sourcePath.startsWith('/media/uploads/')) return null;
-  const api = typeof window !== 'undefined' ? window.openChatCutDesktop?.inference : undefined;
+  const api = typeof window !== 'undefined' ? window.alwaysCutDesktop?.inference : undefined;
   if (!api) return null;
   try {
     const capabilities = await api.getCapabilities();
@@ -67,7 +67,7 @@ export async function warmUpDesktopNativeAsr(
   onProgress?: (progress?: number, file?: string) => void,
 ): Promise<boolean> {
   if (!desktopNativeInferenceEnabled()) return false;
-  const api = typeof window !== 'undefined' ? window.openChatCutDesktop?.inference : undefined;
+  const api = typeof window !== 'undefined' ? window.alwaysCutDesktop?.inference : undefined;
   if (!api) return false;
   try {
     const capabilities = await api.getCapabilities();

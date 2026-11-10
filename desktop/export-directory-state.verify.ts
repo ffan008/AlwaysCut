@@ -9,7 +9,7 @@ import {
   validDesktopExportFilename,
 } from './export-directory-state.ts';
 
-const root = await mkdtemp(join(tmpdir(), 'openchatcut-export-state-'));
+const root = await mkdtemp(join(tmpdir(), 'alwayscut-export-state-'));
 try {
   const statePath = join(root, 'export-destination.json');
   const resolvedRoot = await realpath(root);

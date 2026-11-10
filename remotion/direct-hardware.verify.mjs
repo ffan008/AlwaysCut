@@ -10,7 +10,7 @@ const require = createRequire(import.meta.url);
 const ffmpeg = require('ffmpeg-static');
 const ffprobe = require('@ffprobe-installer/ffprobe').path;
 const run = promisify(execFile);
-const root = await mkdtemp(join(tmpdir(), 'openchatcut-direct-hardware-'));
+const root = await mkdtemp(join(tmpdir(), 'alwayscut-direct-hardware-'));
 const binaries = join(root, 'binaries');
 const executable = process.platform === 'win32' ? 'ffmpeg.exe' : 'ffmpeg';
 const input = join(root, 'hardware.mp4');

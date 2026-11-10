@@ -12,7 +12,7 @@ reportDirectoryWatchError(new Error(`ENOENT: ${secretPath}`), {
   },
 });
 assert.deepEqual(warnings, [
-  'OPENCHATCUT_DIRECTORY_WATCH:directory watch operation failed',
+  'ALWAYSCUT_DIRECTORY_WATCH:directory watch operation failed',
 ]);
 assert.equal(warnings.join('\n').includes(secretPath), false);
 

@@ -8,7 +8,7 @@ import { projectStoreAuthDir } from './project-store-http-auth.ts';
 
 const homeDir = resolve('runtime-profile-fixtures', 'home');
 const cwd = resolve('runtime-profile-fixtures', 'checkout');
-const globalRoot = join(homeDir, '.openchatcut');
+const globalRoot = join(homeDir, '.alwayscut');
 const defaultProfile = resolveRuntimeProfile({}, { homeDir, cwd });
 
 assert.deepEqual(defaultProfile, {
@@ -33,13 +33,13 @@ assert.deepEqual(defaultProfile, {
 const customAuth = resolve('runtime-profile-fixtures', 'custom-auth');
 const customGeneration = resolve('runtime-profile-fixtures', 'custom-generation.json');
 const overriddenDefault = resolveRuntimeProfile({
-  OPENCHATCUT_PROJECT_STORE_AUTH_DIR: ` ${customAuth} `,
-  OPENCHATCUT_GENERATION_JOB_STORE: customGeneration,
+  ALWAYSCUT_PROJECT_STORE_AUTH_DIR: ` ${customAuth} `,
+  ALWAYSCUT_GENERATION_JOB_STORE: customGeneration,
 }, { homeDir, cwd });
 assert.equal(overriddenDefault.mode, 'default');
 assert.equal(overriddenDefault.authDir, customAuth);
 assert.equal(overriddenDefault.generationJobStore, customGeneration);
-assert.equal(resolveRuntimeProfile({ OPENCHATCUT_GENERATION_JOB_STORE: '' }, {
+assert.equal(resolveRuntimeProfile({ ALWAYSCUT_GENERATION_JOB_STORE: '' }, {
   homeDir,
   cwd,
 }).generationJobStore, '');
@@ -48,8 +48,8 @@ const profileAId = '11111111-1111-4111-8111-111111111111';
 const profileBId = '22222222-2222-4222-8222-222222222222';
 const isolatedA = resolveRuntimeProfile({
   [DEV_PROFILE_ID_ENV]: profileAId,
-  OPENCHATCUT_PROJECT_STORE_AUTH_DIR: customAuth,
-  OPENCHATCUT_GENERATION_JOB_STORE: customGeneration,
+  ALWAYSCUT_PROJECT_STORE_AUTH_DIR: customAuth,
+  ALWAYSCUT_GENERATION_JOB_STORE: customGeneration,
 }, { homeDir, cwd });
 const isolatedB = resolveRuntimeProfile({ [DEV_PROFILE_ID_ENV]: profileBId }, { homeDir, cwd });
 
@@ -90,7 +90,7 @@ for (const value of [
   );
 }
 assert.throws(
-  () => resolveRuntimeProfile({ OPENCHATCUT_DEV_PROFILE_ROOT: isolatedRoot }, { homeDir, cwd }),
+  () => resolveRuntimeProfile({ ALWAYSCUT_DEV_PROFILE_ROOT: isolatedRoot }, { homeDir, cwd }),
   /Unsupported isolated development profile variable/,
 );
 
@@ -98,7 +98,7 @@ assert.throws(
 // The whole point of the setting is that projects survive removing the app, so the
 // chosen root must win over every default: the hidden global root, the per-checkout
 // media folder, and the isolated dev profile root.
-const dataDirHome = mkdtempSync(join(tmpdir(), 'openchatcut-runtime-data-dir-'));
+const dataDirHome = mkdtempSync(join(tmpdir(), 'alwayscut-runtime-data-dir-'));
 try {
   const chosen = join(dataDirHome, 'Saves', 'AlwaysCut');
   const envDataDir = resolveRuntimeProfile({ [DATA_DIR_ENV]: chosen }, { homeDir: dataDirHome, cwd });
@@ -124,7 +124,7 @@ try {
   );
   assert.equal(
     resolveRuntimeProfile({ [DATA_DIR_ENV]: '   ' }, { homeDir: dataDirHome, cwd }).rootDir,
-    join(dataDirHome, '.openchatcut'),
+    join(dataDirHome, '.alwayscut'),
   );
   // A typo must fail loudly: silently falling back would hide the projects somewhere
   // the user never chose, which is exactly what this setting exists to prevent.
@@ -136,7 +136,7 @@ try {
   // With no environment variable, the pointer file recorded by the settings UI is used,
   // and the environment variable wins over it when both are present.
   const pointed = join(dataDirHome, 'Pointed');
-  mkdirSync(join(dataDirHome, '.openchatcut'), { recursive: true });
+  mkdirSync(join(dataDirHome, '.alwayscut'), { recursive: true });
   writeFileSync(dataDirPointerPath(dataDirHome), JSON.stringify({ version: 1, dataDir: pointed }));
   assert.equal(resolveRuntimeProfile({}, { homeDir: dataDirHome, cwd }).rootDir, pointed);
   assert.equal(
@@ -147,7 +147,7 @@ try {
   writeFileSync(dataDirPointerPath(dataDirHome), 'not json at all');
   assert.equal(
     resolveRuntimeProfile({}, { homeDir: dataDirHome, cwd }).rootDir,
-    join(dataDirHome, '.openchatcut'),
+    join(dataDirHome, '.alwayscut'),
   );
 
   // An isolated dev profile accepts an EXPLICIT data dir: that is a deliberate
@@ -171,17 +171,17 @@ try {
   );
   assert.equal(
     isolatedPointer.rootDir,
-    join(dataDirHome, '.openchatcut', 'dev-profiles', profileAId),
+    join(dataDirHome, '.alwayscut', 'dev-profiles', profileAId),
     'an isolated profile ignores the machine-wide pointer file',
   );
   assert.equal(isolatedPointer.mediaDir, join(isolatedPointer.rootDir, 'media', 'uploads'));
 
   // defaultRootDir answers "where does clearing the field lead?", so it must ignore
   // the configured root in both modes.
-  assert.equal(defaultRootDir(envDataDir, dataDirHome), join(dataDirHome, '.openchatcut'));
+  assert.equal(defaultRootDir(envDataDir, dataDirHome), join(dataDirHome, '.alwayscut'));
   assert.equal(
     defaultRootDir(isolatedData, dataDirHome),
-    join(dataDirHome, '.openchatcut', 'dev-profiles', profileAId),
+    join(dataDirHome, '.alwayscut', 'dev-profiles', profileAId),
   );
 } finally {
   rmSync(dataDirHome, { recursive: true, force: true });

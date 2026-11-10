@@ -73,9 +73,9 @@ function isActivationCheckpoint(message: ModelMessage): boolean {
   return message.content.some((part) => {
     if (!part || typeof part !== 'object' || !('providerOptions' in part)) return false;
     const options = part.providerOptions;
-    if (!options || typeof options !== 'object' || !('openchatcut' in options)) return false;
+    if (!options || typeof options !== 'object' || !('alwayscut' in options)) return false;
     const names: string[] = [];
-    collectActivatedNames(options.openchatcut, names);
+    collectActivatedNames(options.alwayscut, names);
     return names.length > 0;
   });
 }
@@ -95,7 +95,7 @@ function activationScanStart(messages: readonly ModelMessage[]): number {
 
 export function activationProviderOptions(names: readonly string[]): ProviderOptions | undefined {
   const activatedTools = [...new Set(names)];
-  return activatedTools.length ? { openchatcut: { activatedTools } } : undefined;
+  return activatedTools.length ? { alwayscut: { activatedTools } } : undefined;
 }
 
 export function activatedToolNamesFromMessages(messages: readonly ModelMessage[]): string[] {
@@ -106,8 +106,8 @@ export function activatedToolNamesFromMessages(messages: readonly ModelMessage[]
       if (!part || typeof part !== 'object') continue;
       if ('providerOptions' in part) {
         const options = part.providerOptions;
-        if (options && typeof options === 'object' && 'openchatcut' in options) {
-          collectActivatedNames(options.openchatcut, names);
+        if (options && typeof options === 'object' && 'alwayscut' in options) {
+          collectActivatedNames(options.alwayscut, names);
         }
       }
       if (!('type' in part) || part.type !== 'tool-result') continue;

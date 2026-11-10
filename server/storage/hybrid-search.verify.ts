@@ -17,8 +17,8 @@ function vector(seed: number): number[] {
 async function main(): Promise<void> {
   const root = mkdtempSync(join(tmpdir(), 'occ-hybrid-verify-'));
   const restoreHome = isolateVerifyHome(root);
-  const previousSwitch = process.env.OPENCHATCUT_SQLITE_STORE;
-  delete process.env.OPENCHATCUT_SQLITE_STORE;
+  const previousSwitch = process.env.ALWAYSCUT_SQLITE_STORE;
+  delete process.env.ALWAYSCUT_SQLITE_STORE;
 
   try {
     // Runtime profile is cached at module load; install the isolated HOME first.
@@ -65,7 +65,7 @@ async function main(): Promise<void> {
     assert.ok(textOnly.some((hit) => hit.kind === 'chat'), 'text lane must still work');
 
     // Both lanes persist through restart; env=0 can no longer disable them.
-    process.env.OPENCHATCUT_SQLITE_STORE = '0';
+    process.env.ALWAYSCUT_SQLITE_STORE = '0';
     resetSqliteStoreForTests();
     assert.equal(hybridSearch('黄昏的海边', vector(1), { projectId: 'project-a' }).length, 0,
       'cached search lanes must respect readiness');
@@ -81,8 +81,8 @@ async function main(): Promise<void> {
 
     console.log('hybrid-search verify: RRF fusion / dual-lane / scoping / default SQLite restart passed');
   } finally {
-    if (previousSwitch === undefined) delete process.env.OPENCHATCUT_SQLITE_STORE;
-    else process.env.OPENCHATCUT_SQLITE_STORE = previousSwitch;
+    if (previousSwitch === undefined) delete process.env.ALWAYSCUT_SQLITE_STORE;
+    else process.env.ALWAYSCUT_SQLITE_STORE = previousSwitch;
     restoreHome();
     rmSync(root, { recursive: true, force: true });
   }

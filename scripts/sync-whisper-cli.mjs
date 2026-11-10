@@ -2,7 +2,7 @@
 //
 // Platform sources:
 // - darwin-arm64 / darwin-x64: no official release asset exists; the build
-//   machine compiles from source, or OPENCHATCUT_WHISPER_CLI supplies a
+//   machine compiles from source, or ALWAYSCUT_WHISPER_CLI supplies a
 //   prebuilt binary.
 // - win32-x64 / linux-x64 / linux-arm64: official GitHub release assets
 //   (whisper-bin-*), checked against the size and sha256 pinned below BEFORE
@@ -39,7 +39,7 @@ export const PLATFORMS = {
   'darwin-arm64': {
     asset: null,
     executable: 'whisper-cli',
-    note: 'compile from source; OPENCHATCUT_WHISPER_CLI overrides',
+    note: 'compile from source; ALWAYSCUT_WHISPER_CLI overrides',
   },
   // No official darwin-x64 release asset exists; compile from source (or run
   // the arm64 build under Rosetta where available).
@@ -288,7 +288,7 @@ async function buildFromSource(srcDir, buildDir) {
   try {
     await run('cmake', ['--version']);
   } catch {
-    throw new Error('cmake is required to build whisper.cpp on this platform (brew install cmake); or set OPENCHATCUT_WHISPER_CLI to a prebuilt binary');
+    throw new Error('cmake is required to build whisper.cpp on this platform (brew install cmake); or set ALWAYSCUT_WHISPER_CLI to a prebuilt binary');
   }
   await run('cmake', ['-B', join(buildDir, 'build'), '-DCMAKE_BUILD_TYPE=Release', ...metalFlag, srcDir]);
   await run('cmake', ['--build', join(buildDir, 'build'), '--config', 'Release', '-j', '--target', 'whisper-cli', 'whisper-server']);
@@ -367,7 +367,7 @@ async function main() {
   if (!spec) throw new Error(`unsupported platform ${platformKey}`);
   const targetDir = join(OUT_DIR, platformKey);
   const binPath = join(targetDir, spec.executable);
-  const override = process.env.OPENCHATCUT_WHISPER_CLI;
+  const override = process.env.ALWAYSCUT_WHISPER_CLI;
 
   if (!override) {
     const state = await inspectProvisioned(binPath, spec);

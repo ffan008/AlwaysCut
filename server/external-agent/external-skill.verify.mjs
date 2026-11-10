@@ -19,7 +19,7 @@ for (const reference of references) {
 
 const skillVersion = /## Skill version\s+\n`([^`]+)`/.exec(skill)?.[1];
 const mcp = readFileSync(resolve(root, 'server/external-agent/mcp.ts'), 'utf8');
-const serverBaseline = /OPENCHATCUT_SKILL_BASELINE = '([^']+)'/.exec(mcp)?.[1];
+const serverBaseline = /ALWAYSCUT_SKILL_BASELINE = '([^']+)'/.exec(mcp)?.[1];
 assert.equal(skillVersion, serverBaseline, 'skill version must match the MCP baseline');
 const knownErrors = readFileSync(resolve(skillRoot, 'references/known-errors.md'), 'utf8');
 assert.match(knownErrors, /`list_edit_sessions`/);

@@ -164,7 +164,7 @@ export function registerRenderClipRoute(server: ViteDevServer): void {
         requestAbort.controller.signal.throwIfAborted();
         bakeOut = null;
       } else {
-        tmpOut = join(tmpdir(), `openchatcut-clip-${randomUUID()}.${ext}`);
+        tmpOut = join(tmpdir(), `alwayscut-clip-${randomUUID()}.${ext}`);
         await withExportPermit(async () => renderClip({
           state: renderState,
           outputLocation: tmpOut,

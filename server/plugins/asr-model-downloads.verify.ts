@@ -29,7 +29,7 @@ function sha256(content: Buffer): string {
 // Every catalog tier: ONNX files land where inspection and the hf-proxy file
 // server read them, the companion lands in <cache>/ggml/.
 {
-  const cacheDir = join(tmpdir(), 'openchatcut-asr-download-plan');
+  const cacheDir = join(tmpdir(), 'alwayscut-asr-download-plan');
   for (const entry of ASR_MODELS) {
     const downloads = asrModelDownloads(entry, cacheDir);
     assert.equal(downloads.length, entry.files.length + (entry.ggmlFile ? 1 : 0), `${entry.id}: every file is planned`);
@@ -55,7 +55,7 @@ function sha256(content: Buffer): string {
 
 // The download routine hands exactly those destinations to the transport.
 {
-  const cacheDir = await mkdtemp(join(tmpdir(), 'openchatcut-asr-download-'));
+  const cacheDir = await mkdtemp(join(tmpdir(), 'alwayscut-asr-download-'));
   const onnx = Buffer.from('synthetic-onnx');
   const ggml = Buffer.from('synthetic-ggml');
   const entry: AsrModelEntry = {

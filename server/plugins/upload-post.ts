@@ -144,7 +144,7 @@ function publishBody(
   // Node's FormData encoder can leave a changed file Blob's read rejection
   // unhandled. A composite Blob streams the same file-backed parts, but routes
   // stream errors into fetch's rejected promise so delivery remains ambiguous.
-  const boundary = `----openchatcut-${randomUUID()}`;
+  const boundary = `----alwayscut-${randomUUID()}`;
   const parts: BlobPart[] = [];
   for (const [name, value] of form) {
     parts.push(`--${boundary}\r\nContent-Disposition: form-data; name="${name}"\r\n\r\n`
@@ -429,7 +429,7 @@ async function handle(req: IncomingMessage, res: ServerResponse): Promise<void> 
 
 export function uploadPostPlugin(): Plugin {
   return {
-    name: 'openchatcut-upload-post',
+    name: 'alwayscut-upload-post',
     configureServer(server) {
       server.middlewares.use('/api/upload-post', async (req, res) => {
         try {

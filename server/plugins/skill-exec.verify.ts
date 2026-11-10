@@ -17,13 +17,13 @@ type Middleware = (req: IncomingMessage, res: ServerResponse, next: () => void) 
 interface ExecResult { ok?: boolean; stdout?: string; stderr?: string; error?: string }
 
 const ENV_KEYS = [
-  'PATH', 'OPENCHATCUT_DATA_DIR', 'OPENCHATCUT_DEV_PROFILE_ID', 'OPENCHATCUT_FFMPEG',
+  'PATH', 'ALWAYSCUT_DATA_DIR', 'ALWAYSCUT_DEV_PROFILE_ID', 'ALWAYSCUT_FFMPEG',
   'HTTP_PROXY', 'HTTPS_PROXY', 'http_proxy', 'https_proxy',
 ] as const;
 const savedEnv = new Map(ENV_KEYS.map((key) => [key, process.env[key]]));
 const root = await mkdtemp(join(tmpdir(), 'occ-skill-exec-'));
-process.env.OPENCHATCUT_DATA_DIR = join(root, 'data');
-process.env.OPENCHATCUT_DEV_PROFILE_ID = '4f0c9a7e-2b6d-4c1a-9e8f-3d5b7a1c6e20';
+process.env.ALWAYSCUT_DATA_DIR = join(root, 'data');
+process.env.ALWAYSCUT_DEV_PROFILE_ID = '4f0c9a7e-2b6d-4c1a-9e8f-3d5b7a1c6e20';
 for (const key of ['HTTP_PROXY', 'HTTPS_PROXY', 'http_proxy', 'https_proxy']) delete process.env[key];
 
 /** A PATH entry that runs node but has no ffmpeg or ffprobe in it. */
@@ -54,7 +54,7 @@ try {
   ].join('\n'));
 
   const { seedKeystore } = await import('../keystore.ts');
-  seedKeystore({ OPENCHATCUT_SKILLS_DIR: skillsRoot });
+  seedKeystore({ ALWAYSCUT_SKILLS_DIR: skillsRoot });
   const { skillExecPlugin, skillProcessPath } = await import('./skill-exec.ts');
 
   let route: Middleware | undefined;
@@ -96,7 +96,7 @@ try {
   assert.deepEqual(entries.slice(-2), ['/first', '/second']);
   assert.ok(entries.slice(0, -2).length > 0 && entries.slice(0, -2).every((entry) => isAbsolute(entry)));
   // A bare-name override has no directory to add, and must never become a relative entry.
-  process.env.OPENCHATCUT_FFMPEG = 'ffmpeg';
+  process.env.ALWAYSCUT_FFMPEG = 'ffmpeg';
   assert.ok(skillProcessPath('/only').split(delimiter).every((entry) => isAbsolute(entry)),
     'a bare ffmpeg override must not put "." on the skill PATH');
 } finally {

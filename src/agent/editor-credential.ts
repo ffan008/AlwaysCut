@@ -9,9 +9,9 @@ let pending: Promise<EditorBootstrapInfo> | null = null;
 async function requestEditorBootstrap(signal?: AbortSignal): Promise<EditorBootstrapInfo> {
   let value: unknown;
   const desktopWindow = typeof window === 'undefined' ? undefined : window as typeof window & {
-    openChatCutDesktop?: { editorCredentials?: () => Promise<EditorBootstrapInfo> };
+    alwaysCutDesktop?: { editorCredentials?: () => Promise<EditorBootstrapInfo> };
   };
-  const desktop = desktopWindow?.openChatCutDesktop?.editorCredentials;
+  const desktop = desktopWindow?.alwaysCutDesktop?.editorCredentials;
   if (desktop) {
     value = await desktop();
   } else {

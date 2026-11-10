@@ -77,7 +77,7 @@ try {
   await once(server, 'close');
 }
 
-const root = await mkdtemp(join(tmpdir(), 'openchatcut-model-pack-'));
+const root = await mkdtemp(join(tmpdir(), 'alwayscut-model-pack-'));
 try {
   const installed = join(root, 'installed');
   const staged = join(root, 'staged');

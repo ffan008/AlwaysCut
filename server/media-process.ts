@@ -13,7 +13,7 @@ import { availableParallelism, constants, setPriority } from 'node:os';
 /** Cap ffmpeg worker threads so a single encode cannot saturate the whole
  * machine and starve the editor or other Node/Electron applications. */
 export function ffmpegThreadCount(cores: number = availableParallelism()): number {
-  const override = Number(process.env.OPENCHATCUT_FFMPEG_THREADS);
+  const override = Number(process.env.ALWAYSCUT_FFMPEG_THREADS);
   if (Number.isFinite(override) && override >= 1) {
     return Math.max(1, Math.min(Math.floor(override), Math.max(1, cores)));
   }

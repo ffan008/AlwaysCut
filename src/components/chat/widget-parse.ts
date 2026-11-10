@@ -76,7 +76,7 @@ export function safeWidgetMediaUrl(raw: string | undefined, baseUrl?: string): s
   if (SAFE_WIDGET_DATA_URL.test(value)) return value;
   if (value.startsWith('data:')) return null;
   try {
-    const base = baseUrl ?? (typeof window !== 'undefined' ? window.location.href : 'http://openchatcut.local/');
+    const base = baseUrl ?? (typeof window !== 'undefined' ? window.location.href : 'http://alwayscut.local/');
     const resolved = new URL(value, base);
     const allowedOrigin = new URL(base).origin;
     if (!['http:', 'https:', 'file:'].includes(resolved.protocol)) return null;

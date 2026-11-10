@@ -225,11 +225,11 @@ export function claudeCodeMcpConfig(
         url: mcpUrl,
         headers: {
           Authorization: `Bearer ${mcpToken}`,
-          'x-openchatcut-mcp-client': 'claude-code-builtin',
+          'x-alwayscut-mcp-client': 'claude-code-builtin',
           // Auto-apply is a property of the run, not a choice the model makes:
           // the server overrides begin_edit_session's approvalMode with this.
           // See server/external-agent/builtin-approval-mode.ts.
-          ...(approvalMode ? { 'x-openchatcut-approval-mode': approvalMode } : {}),
+          ...(approvalMode ? { 'x-alwayscut-approval-mode': approvalMode } : {}),
         },
       },
     },

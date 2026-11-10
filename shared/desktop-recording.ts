@@ -10,8 +10,8 @@
 // (optionally with microphone audio) → stop → importLocalMedia → media pool.
 
 export const DESKTOP_RECORDING_CHANNELS = {
-  listSources: 'openchatcut:recording-list-sources',
-  progress: 'openchatcut:recording-progress',
+  listSources: 'alwayscut:recording-list-sources',
+  progress: 'alwayscut:recording-progress',
 } as const;
 
 export type DesktopRecordingSourceKind = 'screen' | 'window';

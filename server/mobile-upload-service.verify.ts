@@ -10,7 +10,7 @@ assert.equal(isLoopbackAddress('::1'), true);
 assert.equal(isLoopbackAddress('::ffff:127.0.0.1'), true);
 assert.equal(isLoopbackAddress('192.168.1.20'), false);
 
-const tempDir = await mkdtemp(join(tmpdir(), 'openchatcut-mobile-upload-'));
+const tempDir = await mkdtemp(join(tmpdir(), 'alwayscut-mobile-upload-'));
 const service = new MobileUploadService({
   bindHost: '127.0.0.1',
   addresses: () => ['127.0.0.1'],

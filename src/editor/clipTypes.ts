@@ -61,7 +61,7 @@ export interface ZoomEffect {
   shape?: ZoomShape;
   easeInFrames?: number;
   easeOutFrames?: number;
-  /** sparse keyframes (__openchatcutReframeCurve); overrides the shape curve */
+  /** sparse keyframes (__alwayscutReframeCurve); overrides the shape curve */
   reframeCurve?: ReframeCurveV1;
   /** Plugin scaling curve: 0..1 (can reach 1.5 overshoot) envelope, linear sampling of the entire clip.
    * Priority: reframeCurve > envelope > shape. */

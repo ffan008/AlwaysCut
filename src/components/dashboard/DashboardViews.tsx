@@ -85,7 +85,7 @@ function ProjectToolbar({ projects, model }: { projects: ProjectMeta[]; model: D
         <ProjectSearch value={model.query} onChange={model.setQuery} />
         <button onClick={() => model.setDialog('cleanup', true)} style={importBtn} title={t('清理所有工程都不引用的上传素材(测试/已删工程残留)')}><Icon name="trash" size={13} /> {t('清理素材')}</button>
         <button onClick={() => model.transfer.fileRef.current?.click()} disabled={model.transfer.busy} style={importBtn} title={t('导入 .ccproj 工程文件(兼容旧 .ccproj.json)')}><Icon name="upload" size={13} /> {t('导入工程')}</button>
-        <input ref={model.transfer.fileRef} type="file" accept=".ccproj,.json,application/json,application/x-openchatcut-project" onChange={model.transfer.pickImport} style={{ display: 'none' }} />
+        <input ref={model.transfer.fileRef} type="file" accept=".ccproj,.json,application/json,application/x-alwayscut-project" onChange={model.transfer.pickImport} style={{ display: 'none' }} />
         <span style={{ color: theme.textDim, fontSize: 12.5 }}>
           {model.normalizedQuery
             ? t('{n} / {total} 个', { n: model.visibleProjects.length, total: projects.length })

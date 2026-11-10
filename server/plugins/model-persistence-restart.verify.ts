@@ -98,7 +98,7 @@ function fixtureConfig(cacheDir: string): {
 }
 
 async function verifyRestartPersistence(): Promise<void> {
-  const home = await mkdtemp(join(tmpdir(), 'openchatcut-model-restart-'));
+  const home = await mkdtemp(join(tmpdir(), 'alwayscut-model-restart-'));
   const { config, files } = fixtureConfig(modelCachePath(home));
   const configPath = join(home, 'probe.json');
 

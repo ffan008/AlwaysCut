@@ -4,7 +4,7 @@
 // preview canvas (category 'region', composition coordinates) and transcript word
 // spans (category 'transcript'). Each pick becomes a mention chip whose prompt
 // token is @t[…] (time) / @r[…] (region) / @q[…] (transcript) / @[…] (item).
-// Panels report picks via a window event (window "openchatcut:items-clicked|time-marked|
+// Panels report picks via a window event (window "alwayscut:items-clicked|time-marked|
 // canvas-region-marked|transcript-selected"); a module store carries the
 // selection-mode flag (isSelectionMode) so panels deep inside other
 // panels (transcript lives in LibraryPanel) need no prop drilling.
@@ -399,7 +399,7 @@ export function transcriptRefFromDomSelection(
 // ── selection-mode store + pick event bus ────────────────────────────────────
 // The composer toggle drives the flag; Timeline/Preview/Transcript read it via
 // useSelectionRefMode() and report picks with emitSelectionRef(). This uses an
-// isSelectionMode flag + window "openchatcut:*" CustomEvents and avoids
+// isSelectionMode flag + window "alwayscut:*" CustomEvents and avoids
 // prop-drilling through LibraryPanel (transcript panel lives inside it).
 
 let selectionModeOn = false;

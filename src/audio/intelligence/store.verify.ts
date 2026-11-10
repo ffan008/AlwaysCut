@@ -1,6 +1,6 @@
 // Phase B verify: music-analysis results are served by the project store
 // (server → SQLite after migration) with IndexedDB as offline fallback.
-// Runs in Node: window.openChatCutDesktop mocks the project-store transport;
+// Runs in Node: window.alwaysCutDesktop mocks the project-store transport;
 // the memory map covers the no-IndexedDB path.
 import assert from 'node:assert/strict';
 import type { MediaAsset } from '../../editor/types';
@@ -14,7 +14,7 @@ const requests: Array<{ request: unknown }> = [];
 function installTransport(store: Record<string, unknown>): void {
   requests.length = 0;
   (globalThis as Record<string, unknown>).window = {
-    openChatCutDesktop: {
+    alwaysCutDesktop: {
       projectStore: async (request: { operation: string; key?: string; value?: unknown; entries?: Record<string, unknown> }) => {
         requests.push({ request });
         if (request.operation === 'entry') {

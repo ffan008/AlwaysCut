@@ -18,8 +18,8 @@ function vector(seed: number): number[] {
 async function main(): Promise<void> {
   const root = mkdtempSync(join(tmpdir(), 'occ-semantic-vec-verify-'));
   const restoreHome = isolateVerifyHome(root);
-  const previousEnv = process.env.OPENCHATCUT_SQLITE_STORE;
-  delete process.env.OPENCHATCUT_SQLITE_STORE;
+  const previousEnv = process.env.ALWAYSCUT_SQLITE_STORE;
+  delete process.env.ALWAYSCUT_SQLITE_STORE;
 
   try {
     // Runtime profile is cached at module load; install the isolated HOME first.
@@ -95,7 +95,7 @@ async function main(): Promise<void> {
     resetSemanticVectorsForTests();
     resetSqliteStoreForTests();
     assert.equal(semanticVectorsAvailable(), false, 'readiness gates reopen after restart');
-    process.env.OPENCHATCUT_SQLITE_STORE = '0';
+    process.env.ALWAYSCUT_SQLITE_STORE = '0';
     await initializeSqliteProjectStore();
     const reopened = searchSemanticVectors('project-a', vector(7), 10);
     assert.equal(reopened.length, 1, 'vectors must survive a connection reopen');
@@ -105,8 +105,8 @@ async function main(): Promise<void> {
 
     console.log('✓ semantic-vectors verify: upsert/replace/search/scope-isolation/prune/clear/reopen all passed');
   } finally {
-    if (previousEnv === undefined) delete process.env.OPENCHATCUT_SQLITE_STORE;
-    else process.env.OPENCHATCUT_SQLITE_STORE = previousEnv;
+    if (previousEnv === undefined) delete process.env.ALWAYSCUT_SQLITE_STORE;
+    else process.env.ALWAYSCUT_SQLITE_STORE = previousEnv;
     restoreHome();
     rmSync(root, { recursive: true, force: true });
   }

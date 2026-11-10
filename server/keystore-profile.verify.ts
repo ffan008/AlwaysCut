@@ -4,16 +4,16 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 const profileId = 'ffffffff-ffff-4fff-8fff-ffffffffffff';
-const fixture = await mkdtemp(join(tmpdir(), 'openchatcut-keystore-profile-'));
+const fixture = await mkdtemp(join(tmpdir(), 'alwayscut-keystore-profile-'));
 const checkout = join(fixture, 'checkout');
 const home = join(fixture, 'home');
-const profileRoot = join(home, '.openchatcut', 'dev-profiles', profileId);
+const profileRoot = join(home, '.alwayscut', 'dev-profiles', profileId);
 const checkoutEnv = join(checkout, '.env.local');
 const profileEnv = join(profileRoot, 'settings.env');
 const previousCwd = process.cwd();
 const previousHome = process.env.HOME;
 const previousUserProfile = process.env.USERPROFILE;
-const previousProfile = process.env.OPENCHATCUT_DEV_PROFILE_ID;
+const previousProfile = process.env.ALWAYSCUT_DEV_PROFILE_ID;
 
 try {
   await Promise.all([
@@ -25,7 +25,7 @@ try {
   // os.homedir() resolves USERPROFILE on Windows; HOME alone only covers POSIX.
   process.env.HOME = home;
   process.env.USERPROFILE = home;
-  process.env.OPENCHATCUT_DEV_PROFILE_ID = profileId;
+  process.env.ALWAYSCUT_DEV_PROFILE_ID = profileId;
   // Intentional module-boundary test: cwd, HOME, and profile ID must be set before initialization.
   const { setKeys } = await import('./keystore.ts');
   await setKeys({ OPENAI_API_KEY: 'isolated-secret', LLM_MODEL: 'isolated-model' });
@@ -42,7 +42,7 @@ try {
   else process.env.HOME = previousHome;
   if (previousUserProfile === undefined) delete process.env.USERPROFILE;
   else process.env.USERPROFILE = previousUserProfile;
-  if (previousProfile === undefined) delete process.env.OPENCHATCUT_DEV_PROFILE_ID;
-  else process.env.OPENCHATCUT_DEV_PROFILE_ID = previousProfile;
+  if (previousProfile === undefined) delete process.env.ALWAYSCUT_DEV_PROFILE_ID;
+  else process.env.ALWAYSCUT_DEV_PROFILE_ID = previousProfile;
   await rm(fixture, { recursive: true, force: true });
 }

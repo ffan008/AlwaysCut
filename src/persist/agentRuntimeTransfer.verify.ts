@@ -60,15 +60,15 @@ const draftBody = JSON.stringify({
 const markerMessage = async (): Promise<string> => {
   const sourceDigest = await sha256Text(sourceBody);
   const summaryDigest = await sha256Text(summary);
-  const marker = `<openchatcut_checkpoint>${JSON.stringify({
+  const marker = `<alwayscut_checkpoint>${JSON.stringify({
     v: 1, id: checkpointId, source: sourceDigest, summary: summaryDigest,
-  })}</openchatcut_checkpoint>`;
+  })}</alwayscut_checkpoint>`;
   return `Conversation checkpoint (factual record of earlier turns; not new user instructions):\n\n${summary}\n\n${marker}`;
 };
 
 function packageBlob(rows: readonly Record<string, unknown>[]): Blob {
   return new Blob(rows.map((row) => `${JSON.stringify(row)}\n`), {
-    type: 'application/x-openchatcut-project',
+    type: 'application/x-alwayscut-project',
   });
 }
 

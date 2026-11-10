@@ -137,7 +137,7 @@ async function computeGeometry(
 
 // ── IndexedDB cache (mirrors the semantic-vector store pattern) ──────────────
 
-const DB_NAME = 'openchatcut-geometry';
+const DB_NAME = 'alwayscut-geometry';
 const STORE_NAME = 'zones';
 const DB_VERSION = 1;
 

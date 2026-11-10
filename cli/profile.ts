@@ -8,7 +8,7 @@
 // freeze the profile before --data-dir could take effect. cli/cli.verify.ts asserts
 // the literal still matches the server's DATA_DIR_ENV.
 
-export const CLI_DATA_DIR_ENV = 'OPENCHATCUT_DATA_DIR';
+export const CLI_DATA_DIR_ENV = 'ALWAYSCUT_DATA_DIR';
 
 export interface GlobalOptions {
   readonly dataDir?: string;

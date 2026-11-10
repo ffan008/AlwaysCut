@@ -3,10 +3,10 @@ import type { MediaAsset, TrackKind } from '../editor/types';
 import { isTimelineMediaAssetKind } from '../editor/mediaTypes';
 import { setEditorDrag } from '../editor/editorDrag';
 
-const MEDIA_DRAG_MIME = 'application/x-openchatcut-media-asset';
+const MEDIA_DRAG_MIME = 'application/x-alwayscut-media-asset';
 const MEDIA_DRAG_KIND_MIME: Record<'video' | 'audio', string> = {
-  video: 'application/x-openchatcut-media-video',
-  audio: 'application/x-openchatcut-media-audio',
+  video: 'application/x-alwayscut-media-video',
+  audio: 'application/x-alwayscut-media-audio',
 };
 const MAX_ASSET_ID_LENGTH = 200;
 

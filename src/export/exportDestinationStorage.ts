@@ -10,7 +10,7 @@ const promiseConstructor = Promise as unknown as {
   withResolvers<T>(): PromiseResolvers<T>;
 };
 
-const DATABASE_NAME = 'openchatcut-export-destinations';
+const DATABASE_NAME = 'alwayscut-export-destinations';
 const STORE_NAME = 'destinations';
 const LAST_BROWSER_DIRECTORY_KEY = 'last-browser-directory';
 function openDestinationDatabase(): Promise<IDBDatabase> {

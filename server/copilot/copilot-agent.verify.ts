@@ -30,17 +30,17 @@ const turnBody = {
   tools: [],
 };
 
-const cliOverride = process.env.OPENCHATCUT_COPILOT_PATH;
+const cliOverride = process.env.ALWAYSCUT_COPILOT_PATH;
 const packageFixture = await mkdtemp(join(tmpdir(), 'copilot package with spaces-'));
 try {
-  delete process.env.OPENCHATCUT_COPILOT_PATH;
+  delete process.env.ALWAYSCUT_COPILOT_PATH;
   const bundled = fileURLToPath(import.meta.resolve(`@github/copilot-${process.platform}-${process.arch}`));
   assert.equal(await resolveCopilotCli(), bundled, 'the installed platform package is discovered without a PATH installation');
   const archivePath = join(packageFixture, 'app.asar', 'node_modules', 'copilot', 'copilot');
   const unpacked = archivePath.replace('app.asar', 'app.asar.unpacked');
   await mkdir(dirname(unpacked), { recursive: true });
   await copyFile(bundled, unpacked);
-  process.env.OPENCHATCUT_COPILOT_PATH = archivePath;
+  process.env.ALWAYSCUT_COPILOT_PATH = archivePath;
   assert.equal(await resolveCopilotCli(), unpacked,
     'packaged executables resolve to their on-disk asar twin, including paths with spaces');
   const cmd = join(packageFixture, 'override.cmd');
@@ -53,8 +53,8 @@ try {
     'a shim-only installation is unavailable to both the version probe and SDK spawn');
 } finally {
   await rm(packageFixture, { recursive: true, force: true });
-  if (cliOverride === undefined) delete process.env.OPENCHATCUT_COPILOT_PATH;
-  else process.env.OPENCHATCUT_COPILOT_PATH = cliOverride;
+  if (cliOverride === undefined) delete process.env.ALWAYSCUT_COPILOT_PATH;
+  else process.env.ALWAYSCUT_COPILOT_PATH = cliOverride;
 }
 const session = copilotSessionConfig(turnBody, () => undefined);
 assert.equal(session.streaming, true, 'the SDK must emit the delta events consumed by the turn manager');
