@@ -29,6 +29,8 @@ import type {
   DirectoryWatchStartResult,
 } from '../shared/directory-import';
 import type { TranscriptWindowPayload } from '../shared/transcript-window';
+import type { DesktopRecordingSourceInfo } from '../shared/desktop-recording';
+import type { EnhanceCapabilities, EnhanceRequest, EnhanceResult } from '../shared/desktop-enhance';
 interface DesktopExportDirectoryGrant {
   readonly grantId: string;
   readonly label: string;
@@ -54,6 +56,14 @@ interface DesktopInferenceApi {
   rhythm(request: DesktopRhythmRequest): Promise<DesktopRhythmResponse>;
   cancel(requestId: string): Promise<void>;
   subscribeProgress(listener: (progress: DesktopInferenceProgress) => void): () => void;
+}
+interface DesktopRecordingApi {
+  listSources(): Promise<DesktopRecordingSourceInfo[]>;
+}
+interface DesktopEnhanceApi {
+  getCapabilities(): Promise<EnhanceCapabilities>;
+  run(request: EnhanceRequest): Promise<EnhanceResult>;
+  cancel(requestId: string): Promise<void>;
 }
 
 declare global {
@@ -91,6 +101,8 @@ declare global {
       editorCredentials(): Promise<EditorBootstrapInfo>;
       updates: DesktopUpdateApi;
       inference: DesktopInferenceApi;
+      recording: DesktopRecordingApi;
+      enhance: DesktopEnhanceApi;
     };
   }
 }
