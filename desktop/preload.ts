@@ -53,6 +53,17 @@ import {
 } from '../shared/directory-import.ts';
 import { isTranscriptWindowPayload, TRANSCRIPT_WINDOW_CHANNELS, type TranscriptWindowPayload } from '../shared/transcript-window.ts';
 import { AGENT_LOCAL_MEDIA_CHANNEL, type AgentLocalMediaRequest, type AgentLocalMediaResult } from '../shared/agent-local-media.ts';
+import {
+  DESKTOP_RECORDING_CHANNELS,
+  isDesktopRecordingSourceList,
+  type DesktopRecordingSourceInfo,
+} from '../shared/desktop-recording.ts';
+import {
+  DESKTOP_ENHANCE_CHANNELS,
+  type EnhanceCapabilities,
+  type EnhanceRequest,
+  type EnhanceResult,
+} from '../shared/desktop-enhance.ts';
 
 export interface DesktopExportDirectoryGrant {
   readonly grantId: string;
@@ -80,6 +91,14 @@ export interface DesktopInferenceApi {
   rhythm(request: DesktopRhythmRequest): Promise<DesktopRhythmResponse>;
   cancel(requestId: string): Promise<void>;
   subscribeProgress(listener: (progress: DesktopInferenceProgress) => void): () => void;
+}
+export interface DesktopRecordingApi {
+  listSources(): Promise<DesktopRecordingSourceInfo[]>;
+}
+export interface DesktopEnhanceApi {
+  getCapabilities(): Promise<EnhanceCapabilities>;
+  run(request: EnhanceRequest): Promise<EnhanceResult>;
+  cancel(requestId: string): Promise<void>;
 }
 
 
@@ -117,6 +136,8 @@ export interface OpenChatCutDesktopApi {
   editorCredentials(): Promise<EditorBootstrapInfo>;
   updates: DesktopUpdateApi;
   inference: DesktopInferenceApi;
+  recording: DesktopRecordingApi;
+  enhance: DesktopEnhanceApi;
 }
 
 const localMediaPreloadDependencies: LocalMediaPreloadDependencies<File> = {
@@ -259,6 +280,21 @@ const api: OpenChatCutDesktopApi = {
       ipcRenderer.on(DESKTOP_UPDATE_CHANNELS.state, handleState);
       return () => { ipcRenderer.removeListener(DESKTOP_UPDATE_CHANNELS.state, handleState); };
     },
+  },
+  recording: {
+    listSources: async () => {
+      const value: unknown = await ipcRenderer.invoke(DESKTOP_RECORDING_CHANNELS.listSources);
+      if (!isDesktopRecordingSourceList(value)) throw new Error('invalid desktop recording source list');
+      return value;
+    },
+  },
+  enhance: {
+    getCapabilities: () =>
+      ipcRenderer.invoke(DESKTOP_ENHANCE_CHANNELS.capabilities) as Promise<EnhanceCapabilities>,
+    run: (request) =>
+      ipcRenderer.invoke(DESKTOP_ENHANCE_CHANNELS.run, request) as Promise<EnhanceResult>,
+    cancel: (requestId) =>
+      ipcRenderer.invoke(DESKTOP_ENHANCE_CHANNELS.cancel, requestId) as Promise<void>,
   },
 };
 

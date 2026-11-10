@@ -107,3 +107,4 @@ public/whisper-cli/
 
 # Agent tooling local state (Command Code taste captures)
 .commandcode/
+.workbuddy/

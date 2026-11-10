@@ -25,6 +25,8 @@ import { installEditorAuthIpc } from './editor-auth-ipc.ts';
 import { installDesktopUpdateIpc } from './update-ipc.ts';
 import { supportsDirectDesktopUpdates } from './update-service.ts';
 import { installDesktopInferenceIpc } from './native-inference-ipc.ts';
+import { installDesktopRecordingIpc } from './recording-ipc.ts';
+import { installDesktopEnhanceIpc } from './enhance-ipc.ts';
 import { detectDesktopHardwareProfile } from './native-hardware-profile.ts';
 import { installDirectoryWatchIpc } from './directory-watch-ipc.ts';
 import {
@@ -397,7 +399,13 @@ async function boot(): Promise<void> {
     modelCachePath(app.getPath('home')),
     hardware,
   );
-  app.once('before-quit', () => desktopInference.dispose());
+  const desktopRecording = installDesktopRecordingIpc(origin);
+  const desktopEnhance = installDesktopEnhanceIpc(origin);
+  app.once('before-quit', () => {
+    desktopInference.dispose();
+    desktopRecording.dispose();
+    desktopEnhance.dispose();
+  });
   console.log(`[desktop] ${devOrigin ? 'live source' : 'embedded server'} at ${origin}`);
 
   // A UI_SCALE saved before the shipped base changed is rebased once, so the window
