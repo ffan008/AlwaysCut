@@ -1,10 +1,10 @@
 {
-  "name": "openchatcut",
+  "name": "alwayscut",
   "private": true,
   "version": "0.2.17",
-  "description": "Open-source ChatCut alternative: local-first, agent-native AI video editor with MCP.",
+  "description": "AlwaysCut: local-first, agent-native AI video editor with MCP.",
   "license": "AGPL-3.0-or-later",
-  "author": "OpenChatCut Contributors",
+  "author": "AlwaysCut Contributors",
   "type": "module",
   "main": "desktop-dist/main.mjs",
   "bin": {

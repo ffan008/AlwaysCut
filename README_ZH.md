@@ -2,7 +2,7 @@
   <img src="public/openchatcut-icon.png" width="96" alt="OpenChatCut" />
 </p>
 
-<h1 align="center">OpenChatCut</h1>
+<h1 align="center">AlwaysCut</h1>
 
 <p align="center">
   <strong>简体中文</strong> · <a href="README.md">English</a>
@@ -89,7 +89,7 @@ OfoxAI 是统一的 AI API 平台，汇集文本、图像和视频模型，支�
 
 ---
 
-## OpenChatCut 是什么
+## AlwaysCut 是什么
 
 OpenChatCut 是 **开源 ChatCut 替代方案**：把 **对话式 Agent** 和 **专业时间线编辑** 放在同一工作区的 AI 视频编辑器。独立开源（AGPL），与商业版 ChatCut 无隶属关系。
 

@@ -66,8 +66,8 @@ const updateChannel = target.includes('arm64') ? 'latest-arm64' : 'latest-x64';
 const hasMacSigningCertificate = Boolean(process.env.CSC_LINK || process.env.CSC_NAME);
 
 export default {
-  appId: 'dev.openchatcut.app',
-  productName: 'OpenChatCut',
+  appId: 'dev.alwayscut.app',
+  productName: 'AlwaysCut',
   artifactName: '${productName}-${version}-${arch}.${ext}',
   directories: { output: 'release' },
   // 7z LZMA maximum compression for the distributable installers (dmg/zip/nsis/AppImage).

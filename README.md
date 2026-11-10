@@ -2,7 +2,7 @@
   <img src="public/openchatcut-icon.png" width="96" alt="OpenChatCut" />
 </p>
 
-<h1 align="center">OpenChatCut</h1>
+<h1 align="center">AlwaysCut</h1>
 
 <p align="center">
   <a href="README_ZH.md">简体中文</a> · <strong>English</strong>
@@ -89,7 +89,7 @@ If OpenChatCut helps you, you can support its continued development on Ko-fi or 
 
 ---
 
-## What is OpenChatCut?
+## What is AlwaysCut?
 
 OpenChatCut is an **open-source ChatCut alternative**: a video editor that brings **conversational agents** and **professional timeline editing** into the same workspace. It is independent open source (AGPL), not affiliated with the commercial ChatCut product.
 
