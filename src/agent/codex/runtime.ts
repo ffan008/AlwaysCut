@@ -196,7 +196,7 @@ async function settleToolError(
   execution.onEvent({ type: 'tool', name: schema.name, args, result: failed });
   return { success: false, result: failed };
 }
-export async function executeOpenChatCutTool(
+export async function executeAlwaysCutTool(
   schema: AgentToolSchema,
   args: Record<string, unknown>,
   execution: LocalToolExecutionContext,

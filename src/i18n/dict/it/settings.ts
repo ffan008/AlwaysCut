@@ -115,14 +115,14 @@ const overrides: Record<string, string> = {
   'Codex 模型': 'Modello Codex',
   'Copilot 模型': 'Modello Copilot',
   'Copilot 默认模型': 'Modello Copilot predefinito',
-  '使用 GitHub Copilot 订阅：官方 Copilot CLI 管理登录与凭据（终端运行 copilot login），OpenChatCut 通过 Copilot SDK 直接驱动编辑工具，不会读取或显示凭据。会话状态隔离在 ~/.openchatcut/copilot，不影响你自己的 ~/.copilot。':
-    'Usa un abbonamento GitHub Copilot: la CLI Copilot ufficiale gestisce accesso e credenziali (esegui `copilot login` nel terminale). OpenChatCut controlla gli strumenti di editing direttamente tramite il Copilot SDK e non legge né mostra le credenziali. Lo stato della sessione è isolato in ~/.openchatcut/copilot e non influisce sul tuo ~/.copilot.',
+  '使用 GitHub Copilot 订阅：官方 Copilot CLI 管理登录与凭据（终端运行 copilot login），AlwaysCut 通过 Copilot SDK 直接驱动编辑工具，不会读取或显示凭据。会话状态隔离在 ~/.openchatcut/copilot，不影响你自己的 ~/.copilot。':
+    'Usa un abbonamento GitHub Copilot: la CLI Copilot ufficiale gestisce accesso e credenziali (esegui `copilot login` nel terminale). AlwaysCut controlla gli strumenti di editing direttamente tramite il Copilot SDK e non legge né mostra le credenziali. Lo stato della sessione è isolato in ~/.openchatcut/copilot e non influisce sul tuo ~/.copilot.',
   '登录后可读取当前订阅可用的模型，也可以手动填写模型 ID。仅支持工具调用的模型可用于编辑。':
     'Dopo l\'accesso puoi caricare i modelli disponibili per questo abbonamento o inserire manualmente un ID modello. Solo i modelli con supporto tool possono essere usati per l\'editing.',
   'Codex 默认模型': 'Modello Codex predefinito',
   '推理强度': 'Intensita ragionamento',
   '读取模型后显示当前模型支持的档位；留空使用该模型的默认值。': 'Carica i modelli per vedere i livelli supportati. Lascia vuoto per usare il valore predefinito.',
-  '使用 ChatGPT 订阅登录，由官方 Codex CLI 管理凭据、续期与退出。OpenChatCut 不会读取或显示 OAuth 凭据。': 'Accedi con un abbonamento ChatGPT. La CLI ufficiale Codex gestisce credenziali, rinnovo e logout; OpenChatCut non legge ne mostra credenziali OAuth.',
+  '使用 ChatGPT 订阅登录，由官方 Codex CLI 管理凭据、续期与退出。AlwaysCut 不会读取或显示 OAuth 凭据。': 'Accedi con un abbonamento ChatGPT. La CLI ufficiale Codex gestisce credenziali, rinnovo e logout; AlwaysCut non legge ne mostra credenziali OAuth.',
   '登录后可读取当前账号可用的模型，也可以手动填写模型 ID。': 'Dopo l’accesso puoi leggere i modelli disponibili o inserire manualmente un ID modello.',
   '状态未知': 'Stato sconosciuto',
   'CLI 未安装': 'CLI non installata',
@@ -194,10 +194,10 @@ const overrides: Record<string, string> = {
   'Codex 返回了无效的登录地址。': 'Codex ha restituito un URL di accesso non valido.',
   'Codex 返回了无效的验证地址。': 'Codex ha restituito un URL di verifica non valido.',
 
-  '内置 Agent 可使用 Anthropic API Key，也可以在下方「Anthropic · Claude Code」页用 Claude 订阅登录（无需 API Key）。独立运行的 Claude Code 会话也可以通过「外部 Agent 接入 (MCP)」驱动 OpenChatCut。':
-    'L’Agent integrato puo usare una API Key Anthropic, oppure accedere con un abbonamento Claude nella pagina “Anthropic · Claude Code” qui sotto (senza API Key). Una sessione Claude Code autonoma puo anche pilotare OpenChatCut tramite “Agenti esterni (MCP)”.',
-  '使用 Claude 订阅登录，由官方 Claude Code CLI 管理凭据、续期与退出，OpenChatCut 不会读取或显示 OAuth 凭据。在终端运行 claude auth login（或 claude setup-token 获取长期令牌）完成登录后，点击“重新检测”。':
-    'Accedi con un abbonamento Claude. La CLI ufficiale Claude Code gestisce credenziali, rinnovo e logout; OpenChatCut non legge ne mostra credenziali OAuth. Esegui claude auth login (o claude setup-token per un token a lungo termine) nel terminale, poi fai clic su “Ricontrolla”.',
+  '内置 Agent 可使用 Anthropic API Key，也可以在下方「Anthropic · Claude Code」页用 Claude 订阅登录（无需 API Key）。独立运行的 Claude Code 会话也可以通过「外部 Agent 接入 (MCP)」驱动 AlwaysCut。':
+    'L’Agent integrato puo usare una API Key Anthropic, oppure accedere con un abbonamento Claude nella pagina “Anthropic · Claude Code” qui sotto (senza API Key). Una sessione Claude Code autonoma puo anche pilotare AlwaysCut tramite “Agenti esterni (MCP)”.',
+  '使用 Claude 订阅登录，由官方 Claude Code CLI 管理凭据、续期与退出，AlwaysCut 不会读取或显示 OAuth 凭据。在终端运行 claude auth login（或 claude setup-token 获取长期令牌）完成登录后，点击“重新检测”。':
+    'Accedi con un abbonamento Claude. La CLI ufficiale Claude Code gestisce credenziali, rinnovo e logout; AlwaysCut non legge ne mostra credenziali OAuth. Esegui claude auth login (o claude setup-token per un token a lungo termine) nel terminale, poi fai clic su “Ricontrolla”.',
   'Claude Code 模型': 'Modello Claude Code',
   'Claude Code 默认模型': 'Modello Claude Code predefinito',
   '登录后可从可用模型中选择，也可以手动填写别名（如 sonnet / opus / haiku）。':
@@ -409,7 +409,7 @@ const overrides: Record<string, string> = {
   '图片与时间线帧由所选视觉模型理解后以文本注入。': 'Immagini e frame timeline sono interpretati dal modello visivo scelto e inseriti come testo.',
   '主模型不支持图片时维持现状（图片剥离为文本）。': 'Mantieni il comportamento attuale quando il modello principale non supporta immagini (immagini convertite in testo).',
   '不描述图片，一律剥离。': 'Non descrivere immagini; estrai sempre solo testo.',
-  '内置 Agent 需要 Anthropic API Key。Claude Code 订阅用户请通过「外部 Agent 接入 (MCP)」连接；OpenChatCut 不接收 Claude OAuth。': 'L’Agent integrato richiede una chiave API Anthropic. Gli utenti Claude Code possono collegarsi tramite “Agent esterno (MCP)”; OpenChatCut non accetta OAuth di Claude.',
+  '内置 Agent 需要 Anthropic API Key。Claude Code 订阅用户请通过「外部 Agent 接入 (MCP)」连接；AlwaysCut 不接收 Claude OAuth。': 'L’Agent integrato richiede una chiave API Anthropic. Gli utenti Claude Code possono collegarsi tramite “Agent esterno (MCP)”; AlwaysCut non accetta OAuth di Claude.',
   '该模型不在内置目录，以上数值为估算（上下文 {context} / 输出 {output}）。若与实际不符，点「展开」手动修改。': 'Questo modello non è nel catalogo integrato: i valori sono stimati (contesto {context} / output {output}). Se non corrispondono, apri “Espandi” e modificali manualmente.',
   '默认 https://api-singapore.klingai.com': 'Predefinito: https://api-singapore.klingai.com',
   '默认 https://api.atlascloud.ai/api/v1': 'Predefinito: https://api.atlascloud.ai/api/v1',
@@ -433,7 +433,7 @@ const overrides: Record<string, string> = {
   'xAI · Grok (订阅登录)': 'xAI · Grok (Accesso con abbonamento)',
   'xAI · Grok Imagine (视频)': 'xAI · Grok Imagine (Video)',
   '会话有效期至': 'Sessione valida fino al',
-  '使用 SuperGrok 或 X Premium+ 订阅登录：官方 Grok CLI 管理登录与凭据（终端运行 grok login），OpenChatCut 导入会话并自动续期，不会读取或显示 OAuth 凭据。': 'Accedi con un abbonamento SuperGrok o X Premium+: la CLI ufficiale di Grok gestisce accesso e credenziali (esegui grok login nel terminale). OpenChatCut importa e rinnova automaticamente la sessione senza leggere o mostrare le credenziali OAuth.',
+  '使用 SuperGrok 或 X Premium+ 订阅登录：官方 Grok CLI 管理登录与凭据（终端运行 grok login），AlwaysCut 导入会话并自动续期，不会读取或显示 OAuth 凭据。': 'Accedi con un abbonamento SuperGrok o X Premium+: la CLI ufficiale di Grok gestisce accesso e credenziali (esegui grok login nel terminale). AlwaysCut importa e rinnova automaticamente la sessione senza leggere o mostrare le credenziali OAuth.',
   '使用 xAI 订阅会话（SuperGrok / X Premium+，优先）或 LLM_XAI_API_KEY 生成图片。文生图：最多 4 张，1K / 2K。': 'Genera immagini con la sessione di abbonamento xAI (SuperGrok / X Premium+, preferita) o con LLM_XAI_API_KEY. Da testo a immagine: fino a 4 immagini, 1K / 2K.',
   '使用 xAI 订阅会话（SuperGrok / X Premium+，优先）或 LLM_XAI_API_KEY 生成视频。文生视频：1–15 秒，自带音轨，480p / 720p / 1080p。': 'Genera video con la sessione di abbonamento xAI (SuperGrok / X Premium+, preferita) o con LLM_XAI_API_KEY. Da testo a video: 1-15 secondi, traccia audio inclusa, 480p / 720p / 1080p.',
   '使用 GEMINI_API_KEY（与 Nano Banana 生图相同）。文生视频 / 图生视频 / 首尾帧 / 最多 6 张参考图；比例仅 16:9 与 9:16；分辨率 360p / 720p / 1080p / 4k；时长 3–15 秒（首尾帧 3–10 秒，不填默认 10 秒）。默认模型 gemini-omni-1.2-flash。': 'Usa GEMINI_API_KEY (la stessa chiave delle immagini Nano Banana). Da testo a video / da immagine a video / primo e ultimo fotogramma / fino a 6 immagini di riferimento; solo 16:9 e 9:16; 360p / 720p / 1080p / 4k; 3–15 secondi (3–10 con primo e ultimo fotogramma, 10 se non indicato). Modello predefinito gemini-omni-1.2-flash.',

@@ -291,7 +291,7 @@ const releaseResultPost = Promise.withResolvers<void>();
 globalThis.fetch = async (input, init) => {
   const url = String(input);
   integrationCapabilities.push(
-    new Headers(init?.headers).get('X-OpenChatCut-Run-Capability'),
+    new Headers(init?.headers).get('X-AlwaysCut-Run-Capability'),
   );
   if (url.endsWith('/tool-claim')) {
     integrationClaims += 1;

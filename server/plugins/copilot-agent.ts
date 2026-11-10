@@ -163,7 +163,7 @@ async function copilotStatus(): Promise<CopilotAgentStatus> {
       account: null,
       error: error instanceof CopilotProcessError
         ? error.message
-        : 'Copilot CLI is unavailable. Restart OpenChatCut and try again.',
+        : 'Copilot CLI is unavailable. Restart AlwaysCut and try again.',
     };
   }
 }

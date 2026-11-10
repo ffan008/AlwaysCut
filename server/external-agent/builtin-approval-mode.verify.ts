@@ -58,7 +58,7 @@ assert.equal(
 // config the CLI actually receives rather than trusting the plumbing above.
 function headersOf(config: Record<string, unknown>): Record<string, string> {
   const servers = config.mcpServers as Record<string, { headers: Record<string, string> }>;
-  return servers['openchatcut-builtin'].headers;
+  return servers['alwayscut-builtin'].headers;
 }
 
 const autoHeaders = headersOf(claudeCodeMcpConfig('http://127.0.0.1:5199/mcp', 'tok', 'auto'));

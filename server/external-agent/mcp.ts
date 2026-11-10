@@ -80,7 +80,7 @@ async function callControlTool(
   args: Record<string, unknown>,
   baseUrl: string,
 ): Promise<unknown | undefined> {
-  if (name === 'openchatcut_status') return mcpStatus(session);
+  if (name === 'alwayscut_status') return mcpStatus(session);
   if (name === 'list_projects') {
     const projects = await listExternalProjects(args.includeDeleted === true);
     return projects.map((project) => ({
@@ -196,7 +196,7 @@ async function activateMcpResult(
 
 function makeServer(baseUrl: string, session: McpSession): Server {
   const server = new Server(
-    { name: 'openchatcut', version: '1.0.0' },
+    { name: 'alwayscut', version: '1.0.0' },
     {
       capabilities: { tools: { listChanged: true }, prompts: {} },
       instructions: mcpServerInstructions(OPENCHATCUT_SKILL_BASELINE, session.exposure.mode),

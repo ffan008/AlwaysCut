@@ -4,7 +4,7 @@ import { INITIAL } from '../../editor/initial.ts';
 import { docFromTimeline } from '../../persist/projectStore.ts';
 import { DEFAULT_AGENT_SETTINGS } from '../settings/agentSettings.ts';
 import { TOOL_SCHEMAS } from '../tools.ts';
-import { executeOpenChatCutTool } from './runtime.ts';
+import { executeAlwaysCutTool } from './runtime.ts';
 
 const context: AgentContext = {
   commands: {} as AgentContext['commands'],
@@ -18,7 +18,7 @@ const context: AgentContext = {
 
 const removeItemSchema = TOOL_SCHEMAS.find((schema) => schema.name === 'remove_item');
 assert.ok(removeItemSchema);
-const rejectedMutation = await executeOpenChatCutTool(
+const rejectedMutation = await executeAlwaysCutTool(
   removeItemSchema,
   { itemId: 'missing' },
   {
@@ -33,7 +33,7 @@ assert.match(JSON.stringify(rejectedMutation.result), /no item missing/);
 const followupSchema = TOOL_SCHEMAS.find((schema) => schema.name === 'ask_followup_questions');
 assert.ok(followupSchema);
 const settlementOrder: string[] = [];
-const settledFollowup = await executeOpenChatCutTool(
+const settledFollowup = await executeAlwaysCutTool(
   followupSchema,
   { fields: [{ id: 'style', label: 'Which style?', type: 'text' }] },
   {

@@ -1,7 +1,7 @@
 // Thai translations for the external agent (MCP) guide.
 export default {
   '外部 Agent 接入 (MCP)': 'เชื่อม Agent ภายนอก (MCP)',
-  'OpenChatCut 暴露一个 Streamable HTTP MCP 端点。Claude Code / Codex / Cursor 等外部 Agent 接入后,与内置 Agent 共用同一套编辑工具,可直接读写当前工程。': 'OpenChatCut เปิด endpoint MCP แบบ Streamable HTTP Agent ภายนอกอย่าง Claude Code / Codex / Cursor ใช้ชุดเครื่องมือตัดต่อเดียวกับ Agent ในตัว และอ่าน/เขียนโปรเจกต์ปัจจุบันได้โดยตรง',
+  'AlwaysCut 暴露一个 Streamable HTTP MCP 端点。Claude Code / Codex / Cursor 等外部 Agent 接入后,与内置 Agent 共用同一套编辑工具,可直接读写当前工程。': 'AlwaysCut เปิด endpoint MCP แบบ Streamable HTTP Agent ภายนอกอย่าง Claude Code / Codex / Cursor ใช้ชุดเครื่องมือตัดต่อเดียวกับ Agent ในตัว และอ่าน/เขียนโปรเจกต์ปัจจุบันได้โดยตรง',
   '端点地址': 'ที่อยู่ Endpoint',
   '内置 Agent 与外部 MCP': 'Agent ในตัวกับ MCP ภายนอก',
   '内置 Agent 会先生成可预览的修改提案，由你应用或拒绝；外部 MCP 使用独立编辑会话，manual 模式等待审核，auto 模式在 review 时直接应用。两者都只通过 EditorCore 命令修改工程。': 'Agent ในตัวจะสร้างข้อเสนอแก้ไขที่พรีวิวได้ก่อน ให้คุณนำไปใช้หรือปฏิเสธ MCP ภายนอกใช้เซสชันตัดต่อแยก: โหมด manual รอรีวิว โหมด auto นำไปใช้ตอนรีวิว ทั้งคู่แก้โปรเจกต์ผ่านคำสั่ง EditorCore เท่านั้น',

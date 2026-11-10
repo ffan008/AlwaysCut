@@ -78,7 +78,7 @@ export default {
   publish: [{
     provider: 'github',
     owner: '0xsline',
-    repo: 'OpenChatCut',
+    repo: 'AlwaysCut',
     channel: updateChannel,
   }],
   files: [
@@ -122,7 +122,7 @@ export default {
   mac: {
     target: ['dmg', 'zip'],
     category: 'public.app-category.video',
-    icon: 'assets/branding/openchatcut-icon.icns',
+    icon: 'assets/branding/alwayscut-icon.icns',
     entitlements: 'desktop/entitlements.mac.plist',
     entitlementsInherit: 'desktop/entitlements.mac.plist',
     // Hardened runtime is required for Developer ID distribution. Ad-hoc local
@@ -135,7 +135,7 @@ export default {
   },
   win: {
     target: ['nsis'],
-    icon: 'public/openchatcut-icon.png',
+    icon: 'public/alwayscut-icon.png',
   },
   nsis: {
     oneClick: false,
@@ -143,10 +143,10 @@ export default {
   },
   linux: {
     target: ['AppImage'],
-    icon: 'public/openchatcut-icon.png',
+    icon: 'public/alwayscut-icon.png',
     category: 'AudioVideo',
-    // Keep the executable name stable for release/linux-unpacked/openchatcut and CI smoke tests.
-    executableName: 'openchatcut',
+    // Keep the executable name stable for release/linux-unpacked/alwayscut and CI smoke tests.
+    executableName: 'alwayscut',
     // Pair with package.json desktopName so desktop environments associate the window with its .desktop entry.
     syncDesktopName: true,
   },

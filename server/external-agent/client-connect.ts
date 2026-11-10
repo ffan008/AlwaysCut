@@ -1,4 +1,4 @@
-// One-click external client connection: writes the OpenChatCut MCP endpoint
+// One-click external client connection: writes the AlwaysCut MCP endpoint
 // and token into well-known local client config files. Only the `openchatcut`
 // entry is touched; every other server in each file is preserved. JSON files
 // are merged atomically (write-to-temp + rename) and never clobbered when the
@@ -126,7 +126,7 @@ async function connectJsonClients(
   for (const file of files) {
     const result = await mergeJsonConfig(file, (root) => {
       const servers = (root.mcpServers as Record<string, unknown> | undefined) ?? {};
-      servers.openchatcut = entry;
+      servers.alwayscut = entry;
       root.mcpServers = servers;
     });
     if (!result.ok) return result;
@@ -211,7 +211,7 @@ async function saveTokenToZshrc(token: string, baseDir: string, codexConfig: str
       await writeAtomic(zshrc, lines.join('\n'));
     } else {
       const suffix = text && !text.endsWith('\n') ? '\n' : '';
-      await writeAtomic(zshrc, `${text}${suffix}# OpenChatCut MCP token (added by OpenChatCut)\n${wanted}\n`);
+      await writeAtomic(zshrc, `${text}${suffix}# AlwaysCut MCP token (added by AlwaysCut)\n${wanted}\n`);
     }
   } catch (error) {
     return { ok: false, error: 'config-write-error', detail: error instanceof Error ? error.message : String(error) };
@@ -239,7 +239,7 @@ async function connectCodex(endpoint: string, token: string, baseDir: string, op
   const platform = options.platform ?? process.platform;
   const run = options.runCommand ?? spawnCommand;
   const env: NodeJS.ProcessEnv = { ...process.env, HOME: baseDir, CODEX_HOME: path.join(baseDir, '.codex') };
-  const args = ['mcp', 'add', 'openchatcut', '--url', endpoint, '--bearer-token-env-var', TOKEN_ENV_VAR];
+  const args = ['mcp', 'add', 'alwayscut', '--url', endpoint, '--bearer-token-env-var', TOKEN_ENV_VAR];
   let lastStderr = 'codex CLI not found';
   for (const bin of await codexCandidates(baseDir, platform, options)) {
     const { code, stderr } = await run({ ...codexCommand(bin, args, platform), env });

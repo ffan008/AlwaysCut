@@ -6,7 +6,7 @@ import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/
 import { fetchWithProxy, isHttpUrl, truncate } from './firecrawl-shared.ts';
 
 const ENDPOINT = 'https://search.parallel.ai/mcp';
-const USER_AGENT = 'OpenChatCut (+https://github.com/0xsline/OpenChatCut)';
+const USER_AGENT = 'AlwaysCut (+https://github.com/ffan008/AlwaysCut)';
 
 type Body = Record<string, unknown>;
 
@@ -35,7 +35,7 @@ export async function parallelWebRequest(
   if (typeof body.sessionId === 'string' && /^[a-f0-9-]{36}$/.test(body.sessionId)) {
     args.session_id = body.sessionId;
   }
-  const client = new Client({ name: 'openchatcut', version: '0.2.17' });
+  const client = new Client({ name: 'alwayscut', version: '0.2.17' });
   const transport = new StreamableHTTPClientTransport(new URL(ENDPOINT), {
     fetch: (input, init) => {
       const headers = new Headers(init?.headers);

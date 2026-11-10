@@ -2,8 +2,8 @@
 // Override: components/chat/*.
 export default {
   '请按“{name}”工作流处理当前工程：{summary}。先检查素材和时间线，再执行并检查成片。': 'ทำตามเวิร์กโฟลว์ “{name}” สำหรับโปรเจกต์ปัจจุบัน: {summary} ตรวจสื่อและไทม์ไลน์ก่อน แล้วดำเนินการและตรวจผล',
-  '展开 OpenChatCut Agent': 'ขยาย OpenChatCut Agent',
-  '收起 OpenChatCut Agent': 'ย่อ OpenChatCut Agent',
+  '展开 AlwaysCut Agent': 'ขยาย AlwaysCut Agent',
+  '收起 AlwaysCut Agent': 'ย่อ AlwaysCut Agent',
   '清空对话': 'ล้างแชท',
   'Agent 仍在运行中，无法清空对话。请先等待运行结束或停止当前运行，再试一次。': 'Agent ยังทำงานอยู่ ล้างแชทไม่ได้ รอให้รันจบหรือหยุดก่อน แล้วลองใหม่',
   'Agent 工作台': 'พื้นที่ทำงาน Agent',

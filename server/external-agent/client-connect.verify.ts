@@ -12,7 +12,7 @@ import { connectExternalClient, type ConnectCommand, type ConnectCommandRunner }
 
 const ENDPOINT = 'http://localhost:5199/api/external-mcp/mcp';
 const TOKEN = 'tok_AbC123-_xyz';
-const CODEX_ARGS = ['mcp', 'add', 'openchatcut', '--url', ENDPOINT, '--bearer-token-env-var', 'OPENCHATCUT_MCP_TOKEN'];
+const CODEX_ARGS = ['mcp', 'add', 'alwayscut', '--url', ENDPOINT, '--bearer-token-env-var', 'OPENCHATCUT_MCP_TOKEN'];
 
 /** Records every command; `reply` decides each exit code (default: success). */
 function recordingRunner(
@@ -34,9 +34,9 @@ async function main(): Promise<void> {
     assert.equal(cursor.ok, true);
     assert.deepEqual(cursor.paths, ['~/.cursor/mcp.json']);
     const cursorConfig = JSON.parse(await readFile(path.join(home, '.cursor/mcp.json'), 'utf8'));
-    assert.equal(cursorConfig.mcpServers.openchatcut.type, 'http');
-    assert.equal(cursorConfig.mcpServers.openchatcut.url, ENDPOINT);
-    assert.equal(cursorConfig.mcpServers.openchatcut.headers.Authorization, `Bearer ${TOKEN}`);
+    assert.equal(cursorConfig.mcpServers.alwayscut.type, 'http');
+    assert.equal(cursorConfig.mcpServers.alwayscut.url, ENDPOINT);
+    assert.equal(cursorConfig.mcpServers.alwayscut.headers.Authorization, `Bearer ${TOKEN}`);
 
     // 2. Idempotent reconnect and existing-server preservation.
     await writeFile(
@@ -47,7 +47,7 @@ async function main(): Promise<void> {
     assert.equal(again.ok, true);
     const merged = JSON.parse(await readFile(path.join(home, '.cursor/mcp.json'), 'utf8'));
     assert.equal(merged.mcpServers.other.command, 'other', 'existing server preserved');
-    assert.equal(merged.mcpServers.openchatcut.url, ENDPOINT, 'openchatcut rewritten');
+    assert.equal(merged.mcpServers.alwayscut.url, ENDPOINT, 'alwayscut rewritten');
 
     // 3. Invalid JSON is refused without touching the file.
     await writeFile(path.join(home, '.cursor/mcp.json'), '{broken');
@@ -66,24 +66,24 @@ async function main(): Promise<void> {
     assert.equal(ag.ok, true);
     const agConfig = JSON.parse(await readFile(path.join(home, '.gemini/antigravity/mcp_config.json'), 'utf8'));
     assert.equal(agConfig.mcpServers.keep.httpUrl, 'http://x');
-    assert.equal(agConfig.mcpServers.openchatcut.httpUrl, ENDPOINT);
-    assert.equal(agConfig.mcpServers.openchatcut.headers.Authorization, `Bearer ${TOKEN}`);
+    assert.equal(agConfig.mcpServers.alwayscut.httpUrl, ENDPOINT);
+    assert.equal(agConfig.mcpServers.alwayscut.headers.Authorization, `Bearer ${TOKEN}`);
 
     // 5. Claude: creates ~/.claude.json with a user-scope mcpServers entry.
     const claude = await connectExternalClient('claude', ENDPOINT, TOKEN, { baseDir: home });
     assert.equal(claude.ok, true);
     const claudeConfig = JSON.parse(await readFile(path.join(home, '.claude.json'), 'utf8'));
-    assert.equal(claudeConfig.mcpServers.openchatcut.type, 'http');
-    assert.equal(claudeConfig.mcpServers.openchatcut.url, ENDPOINT);
+    assert.equal(claudeConfig.mcpServers.alwayscut.type, 'http');
+    assert.equal(claudeConfig.mcpServers.alwayscut.url, ENDPOINT);
 
     // 6. Qoder: neither build home exists yet, so the documented ~/.qoder wins.
     const qoderFirst = await connectExternalClient('qoder', ENDPOINT, TOKEN, { baseDir: home });
     assert.equal(qoderFirst.ok, true);
     if (qoderFirst.ok) assert.deepEqual(qoderFirst.paths, ['~/.qoder/settings.json']);
     const qoderConfig = JSON.parse(await readFile(path.join(home, '.qoder/settings.json'), 'utf8'));
-    assert.equal(qoderConfig.mcpServers.openchatcut.type, 'http');
-    assert.equal(qoderConfig.mcpServers.openchatcut.url, ENDPOINT);
-    assert.equal(qoderConfig.mcpServers.openchatcut.headers.Authorization, `Bearer ${TOKEN}`);
+    assert.equal(qoderConfig.mcpServers.alwayscut.type, 'http');
+    assert.equal(qoderConfig.mcpServers.alwayscut.url, ENDPOINT);
+    assert.equal(qoderConfig.mcpServers.alwayscut.headers.Authorization, `Bearer ${TOKEN}`);
     // An unrelated entry survives the merge. Qoder's settings.json is the app's
     // whole settings file rather than a dedicated MCP config, so keys outside
     // mcpServers must survive too.
@@ -100,8 +100,8 @@ async function main(): Promise<void> {
     assert.equal(qoderInternational.theme, 'dark', 'unrelated settings preserved');
     for (const file of ['.qoder/settings.json', '.qoder-cn/settings.json']) {
       const config = JSON.parse(await readFile(path.join(home, file), 'utf8'));
-      assert.equal(config.mcpServers.openchatcut.url, ENDPOINT, `${file} points at OpenChatCut`);
-      assert.equal(config.mcpServers.openchatcut.headers.Authorization, 'Bearer tok_QOD2', `${file} refreshed`);
+      assert.equal(config.mcpServers.alwayscut.url, ENDPOINT, `${file} points at AlwaysCut`);
+      assert.equal(config.mcpServers.alwayscut.headers.Authorization, 'Bearer tok_QOD2', `${file} refreshed`);
     }
 
     // 7. Codex: stub CLI must receive the right args; .zshrc export is added,
@@ -118,10 +118,10 @@ async function main(): Promise<void> {
     const stubArgs = (await readFile(path.join(home, '.codex/stub-args'), 'utf8')).trim();
     assert.equal(
       stubArgs,
-      `mcp add openchatcut --url ${ENDPOINT} --bearer-token-env-var OPENCHATCUT_MCP_TOKEN`,
+      `mcp add alwayscut --url ${ENDPOINT} --bearer-token-env-var OPENCHATCUT_MCP_TOKEN`,
     );
     const zshrcFirst = await readFile(path.join(home, '.zshrc'), 'utf8');
-    assert.match(zshrcFirst, /# OpenChatCut MCP token \(added by OpenChatCut\)\nexport OPENCHATCUT_MCP_TOKEN='tok_AbC123-_xyz'\n$/);
+    assert.match(zshrcFirst, /# AlwaysCut MCP token \(added by AlwaysCut\)\nexport OPENCHATCUT_MCP_TOKEN='tok_AbC123-_xyz'\n$/);
     const rotated = await connectExternalClient('codex', ENDPOINT, 'tok_NEW456', { baseDir: home, codexBin: stub });
     assert.equal(rotated.ok, true);
     const zshrcSecond = await readFile(path.join(home, '.zshrc'), 'utf8');
@@ -185,7 +185,7 @@ async function main(): Promise<void> {
     const [winAdd, winSave] = win.calls;
     assert.match(winAdd.executable, /cmd\.exe$/i, 'a .cmd shim needs cmd.exe');
     assert.equal(winAdd.windowsVerbatimArguments, true);
-    assert.match(winAdd.args[3], /codex\.cmd \^"mcp\^" \^"add\^" \^"openchatcut\^"/);
+    assert.match(winAdd.args[3], /codex\.cmd \^"mcp\^" \^"add\^" \^"alwayscut\^"/);
     assert.match(winAdd.args[3], /\^"--bearer-token-env-var\^" \^"OPENCHATCUT_MCP_TOKEN\^"/);
     assert.equal(winAdd.env.CODEX_HOME, path.join(winHome, '.codex'));
     assert.match(winSave.executable, /^[A-Z]:\\Windows\\System32\\WindowsPowerShell\\v1\.0\\powershell\.exe$/i,

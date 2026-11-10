@@ -164,7 +164,7 @@ try {
     body: '{',
   });
   assert.equal(invalidJson.status, 400, 'MCP POST JSON is parsed before transport dispatch');
-  const boundA = await connectClient(mcpUrl, 'openchatcut-mcp-binding-a');
+  const boundA = await connectClient(mcpUrl, 'alwayscut-mcp-binding-a');
   clients.push(boundA);
   let notify!: () => void;
   const changed = new Promise<void>((resolve) => { notify = resolve; });
@@ -177,8 +177,8 @@ try {
   ]);
   assert.ok((await boundA.client.listTools()).tools.some((tool) => tool.name === extraTool.name));
   const exposureHeaders = { 'x-openchatcut-tool-exposure': 'progressive' };
-  const progressiveA = await connectClient(mcpUrl, 'openchatcut-progressive-a', exposureHeaders);
-  const progressiveB = await connectClient(mcpUrl, 'openchatcut-progressive-b', exposureHeaders);
+  const progressiveA = await connectClient(mcpUrl, 'alwayscut-progressive-a', exposureHeaders);
+  const progressiveB = await connectClient(mcpUrl, 'alwayscut-progressive-b', exposureHeaders);
   clients.push(progressiveA, progressiveB);
   const initialProgressive = await progressiveA.client.listTools();
   assert.equal(initialProgressive.tools.some((tool) => tool.name === 'ToolSearch'), true);
@@ -246,7 +246,7 @@ try {
     mcpSessionsForTest().find((session) => session.id === boundA.sessionId)?.binding,
     { projectId: projectA, editorInstanceId: editorA, baseRevision: revisionA },
   );
-  const boundB = await connectClient(mcpUrl, 'openchatcut-mcp-binding-b');
+  const boundB = await connectClient(mcpUrl, 'alwayscut-mcp-binding-b');
   clients.push(boundB);
   assert.notEqual((await boundB.client.callTool({
     name: 'target_project',
@@ -266,7 +266,7 @@ try {
   settleEditorCall(begin!.id, 'applied', { editSessionId: 'recovery-draft', status: 'drafting' });
   await beginPending;
   registerEditor(projectA, editorA, 'v2-mcp-project-a', editorTools);
-  const statusAfterSave = await boundA.client.callTool({ name: 'openchatcut_status', arguments: {} });
+  const statusAfterSave = await boundA.client.callTool({ name: 'alwayscut_status', arguments: {} });
   assert.notEqual(statusAfterSave.isError, true, 'read-only status survives autosave revision changes');
   const adoptedPending = boundA.client.callTool({ name: dynamicTool.name, arguments: {} });
   const adopted = await nextEditorCall(projectA, editorA, 'v2-mcp-project-a', AbortSignal.timeout(1_000));
@@ -300,7 +300,7 @@ try {
   const staleSession = await boundA.client.callTool({ name: dynamicTool.name, arguments: {} });
   assert.equal(staleSession.isError, true);
   assert.equal(callOutcome(staleSession), 'stale', 'replacement editors require an explicit rebind');
-  assert.notEqual((await boundA.client.callTool({ name: 'openchatcut_status', arguments: {} })).isError, true);
+  assert.notEqual((await boundA.client.callTool({ name: 'alwayscut_status', arguments: {} })).isError, true);
   assert.equal((await rawSessionRequest(mcpUrl, boundA.sessionId, 'POST')).status, 200);
   assert.equal(mcpSessionsForTest().some((session) => session.id === boundA.sessionId), true,
     'a stale editor binding must not evict the MCP transport session');
@@ -320,7 +320,7 @@ try {
   assert.notEqual((await resumedPending).isError, true, 'the same transport can call the recovered editor');
   registerEditor(projectA, editorA, revisionA, editorTools);
 
-  const switchClient = await connectClient(mcpUrl, 'openchatcut-mcp-switch');
+  const switchClient = await connectClient(mcpUrl, 'alwayscut-mcp-switch');
   clients.push(switchClient);
   await switchClient.client.callTool({
     name: 'target_project',
@@ -338,7 +338,7 @@ try {
   assert.equal(pendingEditorCallsForTest(switchClient.sessionId).length, 0);
 
   registerEditor(projectA, editorA, 'v3-mcp-project-a', editorTools);
-  const closeClientConnection = await connectClient(mcpUrl, 'openchatcut-mcp-close');
+  const closeClientConnection = await connectClient(mcpUrl, 'alwayscut-mcp-close');
   clients.push(closeClientConnection);
   await closeClientConnection.client.callTool({
     name: 'target_project',
@@ -367,7 +367,7 @@ try {
     editorTools,
   });
 
-  const expiredClient = await connectClient(mcpUrl, 'openchatcut-mcp-expired');
+  const expiredClient = await connectClient(mcpUrl, 'alwayscut-mcp-expired');
   clients.push(expiredClient);
   setMcpSessionLastUsedForTest(
     expiredClient.sessionId,
@@ -385,7 +385,7 @@ try {
   await resetMcpSessionsForTest();
   const cappedClients: ConnectedClient[] = [];
   for (let index = 0; index < MCP_SESSION_COUNT_LIMIT; index += 1) {
-    cappedClients.push(await connectClient(mcpUrl, `openchatcut-mcp-cap-${index}`));
+    cappedClients.push(await connectClient(mcpUrl, `alwayscut-mcp-cap-${index}`));
   }
   await cappedClients[1].client.callTool({
     name: 'target_project',
@@ -404,7 +404,7 @@ try {
     200,
     'a live request updates session lastUsed',
   );
-  cappedClients.push(await connectClient(mcpUrl, 'openchatcut-mcp-cap-overflow'));
+  cappedClients.push(await connectClient(mcpUrl, 'alwayscut-mcp-cap-overflow'));
   clients.push(...cappedClients);
   const cappedOutcome = await Promise.race([
     cappedTerminal,

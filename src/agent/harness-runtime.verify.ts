@@ -19,7 +19,7 @@ import {
   type ToolOutcomeInput,
 } from './runtime-ledger';
 import { ExternalSessionRunLedger } from './external-run-ledger';
-import { executeOpenChatCutTool, type CodexToolExecution } from './codex/runtime';
+import { executeAlwaysCutTool, type CodexToolExecution } from './codex/runtime';
 import type { AgentToolSchema } from './tool-schema';
 import { computeAgentRequestShapeFingerprint } from './runtime';
 import type { Proposal } from './proposal';
@@ -60,7 +60,7 @@ async function executeWithRecorder(
   recorder: AgentRunRecorder,
   executeTool: () => Promise<unknown>,
 ) {
-  return executeOpenChatCutTool(aspectSchema, { ratio: '9:16' }, {
+  return executeAlwaysCutTool(aspectSchema, { ratio: '9:16' }, {
     ctx, settings, runRecorder: recorder, toolCallId: 'call-1',
     toolCatalog: TOOL_SCHEMAS, activeToolCatalog: [aspectSchema],
     onEvent: () => undefined,
@@ -72,7 +72,7 @@ async function executeInstallSkill(
   log: string[],
   executeTool: () => Promise<unknown>,
 ): Promise<CodexToolExecution> {
-  return executeOpenChatCutTool(installSkillSchema, { repo: 'owner/skill' }, {
+  return executeAlwaysCutTool(installSkillSchema, { repo: 'owner/skill' }, {
     ctx, settings, runRecorder: fakeRecorder(log), toolCallId: crypto.randomUUID(),
     toolCatalog: TOOL_SCHEMAS, activeToolCatalog: [installSkillSchema],
     onEvent: () => undefined,
@@ -136,7 +136,7 @@ async function verifySkillBoundaryNormalization(): Promise<void> {
   const loadSkill = TOOL_SCHEMAS.find((schema) => schema.name === 'load_skill')!;
   const received: Record<string, unknown>[] = [];
   const events: unknown[] = [];
-  const run = (args: Record<string, unknown>) => executeOpenChatCutTool(loadSkill, args, {
+  const run = (args: Record<string, unknown>) => executeAlwaysCutTool(loadSkill, args, {
     ctx, settings, toolCallId: crypto.randomUUID(),
     toolCatalog: TOOL_SCHEMAS, activeToolCatalog: [loadSkill],
     onEvent: (event) => { if (event.type === 'tool') events.push(event.args); },
@@ -230,7 +230,7 @@ async function verifyAbortFence(): Promise<void> {
   const slow = Promise.withResolvers<unknown>();
   const ordered: string[] = [];
   let projectedToDocument = false;
-  const pending = executeOpenChatCutTool(aspectSchema, { ratio: '9:16' }, {
+  const pending = executeAlwaysCutTool(aspectSchema, { ratio: '9:16' }, {
     ctx, settings, runRecorder: fakeRecorder(ordered), signal: controller.signal,
     toolCatalog: TOOL_SCHEMAS, activeToolCatalog: [aspectSchema],
     onEvent: (event) => {
@@ -418,7 +418,7 @@ async function verifyYoloSkipsAllGuards(): Promise<void> {
     getState: () => ({ items: [], transitions: [] }),
     getApprovalMode: () => 'auto' as const,
   } as unknown as AgentContext;
-  const execution = await executeOpenChatCutTool(aspectSchema, { ratio: '9:16' }, {
+  const execution = await executeAlwaysCutTool(aspectSchema, { ratio: '9:16' }, {
     ctx: yoloCtx, settings, runRecorder: fakeRecorder(log), toolCallId: 'yolo-1',
     toolCatalog: TOOL_SCHEMAS, activeToolCatalog: [aspectSchema],
     onEvent: () => undefined,

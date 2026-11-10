@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/openchatcut-icon.png" width="96" alt="OpenChatCut" />
+  <img src="public/alwayscut-icon.png" width="96" alt="AlwaysCut" />
 </p>
 
 <h1 align="center">AlwaysCut</h1>
@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="https://openchatcut.com/pro"><strong>OpenChatCut Pro</strong></a> · Desktop edition: install it and start cutting
+  <a href="https://openchatcut.com/pro"><strong>AlwaysCut Pro</strong></a> · Desktop edition: install it and start cutting
 </p>
 
 <p align="center">
@@ -34,7 +34,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/0xsline/OpenChatCut"><img alt="GitHub Repository" src="https://img.shields.io/badge/GitHub-Repository-181717?style=flat&logo=github" /></a>
+  <a href="https://github.com/ffan008/AlwaysCut"><img alt="GitHub Repository" src="https://img.shields.io/badge/GitHub-Repository-181717?style=flat&logo=github" /></a>
   <a href="https://discord.gg/bSGUAeWYkh"><img alt="Discord Community" src="https://img.shields.io/badge/Discord-Join_Community-5865F2?style=flat&logo=discord&logoColor=white" /></a>
   <img alt="Status" src="https://img.shields.io/badge/status-active_development-FF8A3D?style=flat" />
   <img alt="Local First" src="https://img.shields.io/badge/data-local_first-111827?style=flat" />
@@ -51,11 +51,11 @@
 </p>
 
 <p align="center">
-  <a href="https://www.producthunt.com/products/openchatcut?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-openchatcut" target="_blank" rel="noopener noreferrer"><img alt="OpenChatCut - Open-source AI agent video editor with a real timeline | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1201995&amp;theme=light&amp;t=1784645557617" /></a>
+  <a href="https://www.producthunt.com/products/openchatcut?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-openchatcut" target="_blank" rel="noopener noreferrer"><img alt="AlwaysCut - Open-source AI agent video editor with a real timeline | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1201995&amp;theme=light&amp;t=1784645557617" /></a>
 </p>
 
 <p align="center">
-  <img src="assets/readme-pic/01-editor-overview.png" alt="OpenChatCut editor overview with the agent workspace, media pool, preview, and multitrack timeline" />
+  <img src="assets/readme-pic/01-editor-overview.png" alt="AlwaysCut editor overview with the agent workspace, media pool, preview, and multitrack timeline" />
 </p>
 
 <p align="center">
@@ -76,14 +76,14 @@ OfoxAI is a unified API platform for text, image, and video AI, with video model
 
 <br />
 
-If OpenChatCut helps you, you can support its continued development on Ko-fi or Afdian.
+If AlwaysCut helps you, you can support its continued development on Ko-fi or Afdian.
 
 <p align="center">
   <a href="https://ko-fi.com/Y5N2241IP5">
     <img alt="Support me on Ko-fi" src="https://img.shields.io/badge/Support_me_on-Ko--fi-72a4f2?logo=kofi&amp;logoColor=white" />
   </a>
   <a href="https://www.ifdian.net/a/sline?utm_source=copylink&amp;utm_medium=link">
-    <img alt="Support OpenChatCut on Afdian" src="https://img.shields.io/badge/Support_on-Afdian-946CE6" />
+    <img alt="Support AlwaysCut on Afdian" src="https://img.shields.io/badge/Support_on-Afdian-946CE6" />
   </a>
 </p>
 
@@ -91,17 +91,17 @@ If OpenChatCut helps you, you can support its continued development on Ko-fi or 
 
 ## What is AlwaysCut?
 
-OpenChatCut is an **open-source ChatCut alternative**: a video editor that brings **conversational agents** and **professional timeline editing** into the same workspace. It is independent open source (AGPL), not affiliated with the commercial ChatCut product.
+AlwaysCut is an **open-source ChatCut alternative**: a video editor that brings **conversational agents** and **professional timeline editing** into the same workspace. It is independent open source (AGPL), not affiliated with the commercial ChatCut product.
 
-**OpenChatCut = local video projects + multitrack timeline + AI agents + MCP + production-ready exports.**
+**AlwaysCut = local video projects + multitrack timeline + AI agents + MCP + production-ready exports.**
 
 It does not merely generate a video that can no longer be changed. Every edit is written to real tracks, clips, transitions, captions, effects, and media inside the project. You can continue editing manually, undo or redo changes, save versions, or hand the project to another agent.
 
-OpenChatCut is built for creators and developers who want AI to participate in the actual editing workflow without giving up professional control, rather than starting over from an empty chat box or an immutable generated result.
+AlwaysCut is built for creators and developers who want AI to participate in the actual editing workflow without giving up professional control, rather than starting over from an empty chat box or an immutable generated result.
 
 - Website: [https://openchatcut.com](https://openchatcut.com)
 - Open-source ChatCut alternative guide: [https://openchatcut.com/blog/open-source-chatcut-alternative](https://openchatcut.com/blog/open-source-chatcut-alternative)
-- ChatCut vs OpenChatCut: [https://openchatcut.com/blog/chatcut-vs-openchatcut](https://openchatcut.com/blog/chatcut-vs-openchatcut)
+- ChatCut vs AlwaysCut: [https://openchatcut.com/blog/chatcut-vs-openchatcut](https://openchatcut.com/blog/chatcut-vs-openchatcut)
 
 - 🤖 **Agent-native**: the built-in agent and external MCP agents share the same editing tools.
 - 🎞️ **Real timeline**: multiple video and audio tracks, transitions, effects, LUTs, zooms, and keyframes.
@@ -114,26 +114,26 @@ OpenChatCut is built for creators and developers who want AI to participate in t
 
 ## Community
 
-Join the OpenChatCut community to discuss workflows, share feedback, and follow development:
+Join the AlwaysCut community to discuss workflows, share feedback, and follow development:
 
 - [Join Discord](https://discord.gg/bSGUAeWYkh)
 - Scan the QR code below with WeChat.
 
 <p align="center">
   <br />
-  <img src="assets/readme-pic/wechat-community.jpg" width="220" alt="OpenChatCut WeChat community QR code" />
+  <img src="assets/readme-pic/wechat-community.jpg" width="220" alt="AlwaysCut WeChat community QR code" />
 </p>
 
 ---
 
 ## Product Tour
 
-The following screenshots show real OpenChatCut projects and editor states, not static mockups.
+The following screenshots show real AlwaysCut projects and editor states, not static mockups.
 
 <table>
   <tr>
     <td width="50%" valign="top" align="center">
-      <img src="assets/readme-pic/02-project-dashboard.png" alt="OpenChatCut local project dashboard" /><br />
+      <img src="assets/readme-pic/02-project-dashboard.png" alt="AlwaysCut local project dashboard" /><br />
       <sub><b>Local project management</b> — Create, import, duplicate, export, and continue editing multiple real projects.</sub>
     </td>
     <td width="50%" valign="top" align="center">
@@ -147,17 +147,17 @@ The following screenshots show real OpenChatCut projects and editor states, not 
       <sub><b>Motion Graphics and agents</b> — Browse motion templates or let an agent generate and assemble editable MG clips.</sub>
     </td>
     <td width="50%" valign="top" align="center">
-      <img src="assets/readme-pic/05-effects.png" alt="OpenChatCut WebGL visual effects library" /><br />
+      <img src="assets/readme-pic/05-effects.png" alt="AlwaysCut WebGL visual effects library" /><br />
       <sub><b>WebGL visual effects</b> — Apply pixelation, duotone, fisheye, kaleidoscope, softening, light leaks, and more directly to clips.</sub>
     </td>
   </tr>
   <tr>
     <td width="50%" valign="top" align="center">
-      <img src="assets/readme-pic/06-zoom.png" alt="OpenChatCut camera movement and zoom effects library" /><br />
+      <img src="assets/readme-pic/06-zoom.png" alt="AlwaysCut camera movement and zoom effects library" /><br />
       <sub><b>Camera movement and zoom</b> — Push, pull, slow zoom, fast zoom, and eased camera effects work directly with the timeline.</sub>
     </td>
     <td width="50%" valign="top" align="center">
-      <img src="assets/readme-pic/07-lut.png" alt="Comparing LUT color styles in OpenChatCut using a Tokyo Tower reference image" /><br />
+      <img src="assets/readme-pic/07-lut.png" alt="Comparing LUT color styles in AlwaysCut using a Tokyo Tower reference image" /><br />
       <sub><b>LUTs and color styles</b> — Compare camera transforms and film looks in real time against a consistent reference frame.</sub>
     </td>
   </tr>
@@ -165,11 +165,11 @@ The following screenshots show real OpenChatCut projects and editor states, not 
 
 ---
 
-## Why OpenChatCut?
+## Why AlwaysCut?
 
-Traditional editors excel at precise control. One-shot AI video generators excel at producing results quickly. OpenChatCut connects both approaches through one continuously editable project:
+Traditional editors excel at precise control. One-shot AI video generators excel at producing results quickly. AlwaysCut connects both approaches through one continuously editable project:
 
-| Capability | Traditional timeline editor | One-shot AI video generation | **OpenChatCut** |
+| Capability | Traditional timeline editor | One-shot AI video generation | **AlwaysCut** |
 |---|:---:|:---:|:---:|
 | Track- and clip-level precision | ✅ | ❌ | **✅** |
 | Modify a project with natural language | ❌ | ✅ | **✅** |
@@ -208,18 +208,18 @@ Describe the goal → Agent reads the project → Produces verifiable edits → 
 
 ## Community Resources
 
-The [OpenChatCut resource library](https://openchatcut.com/resources) is a shared catalog for reusable MG animations, sound effects, transitions, visual effects, zooms, and LUTs.
+The [AlwaysCut resource library](https://openchatcut.com/resources) is a shared catalog for reusable MG animations, sound effects, transitions, visual effects, zooms, and LUTs.
 
 <p align="center">
   <a href="https://openchatcut.com/resources">
-    <img src="assets/readme-pic/08-community-resources.en.png" alt="OpenChatCut community resource library" />
+    <img src="assets/readme-pic/08-community-resources.en.png" alt="AlwaysCut community resource library" />
   </a>
 </p>
 
 ### Discover and install
 
 - Hover visual cards to watch the complete result, or play audio resources before downloading.
-- Copy a resource's install URL into OpenChatCut's Extension Center, or download its original package.
+- Copy a resource's install URL into AlwaysCut's Extension Center, or download its original package.
 - Browse the website catalog inside the editor and manage installed extensions locally.
 
 ### Contribute a resource
@@ -228,7 +228,7 @@ The [OpenChatCut resource library](https://openchatcut.com/resources) is a share
 2. Upload the resource and the category-specific preview inputs; the site renders the published preview.
 3. Add the creator and license information, then submit it for review and publication.
 
-Installable visual resources use the editor's `openchatcut-plugin@1` format and runtime validation. Official OpenChatCut resources use the MIT license; community contributors select a license during submission, and each published card identifies its creator and license.
+Installable visual resources use the editor's `openchatcut-plugin@1` format and runtime validation. Official AlwaysCut resources use the MIT license; community contributors select a license during submission, and each published card identifies its creator and license.
 
 ---
 
@@ -255,7 +255,7 @@ Installable visual resources use the editor's `openchatcut-plugin@1` format and 
 
 ### Desktop installers
 
-Download the latest macOS, Windows, and Linux builds from [GitHub Releases](https://github.com/0xsline/OpenChatCut/releases/latest). The release currently includes DMG installers for Apple Silicon and Intel Macs, an x64 Windows installer, and an x64 Linux AppImage.
+Download the latest macOS, Windows, and Linux builds from [GitHub Releases](https://github.com/ffan008/AlwaysCut/releases/latest). The release currently includes DMG installers for Apple Silicon and Intel Macs, an x64 Windows installer, and an x64 Linux AppImage.
 
 These are early builds. The macOS packages are not yet signed or notarized, so the operating system may require manual approval on first launch.
 
@@ -266,8 +266,8 @@ Requires Node.js 24.x and npm. The supported Node.js range is enforced by `packa
 On Linux x64, `npm install` also downloads ONNX Runtime's optional CUDA provider (several hundred MB from NuGet). For a CPU-only install, run `ONNXRUNTIME_NODE_INSTALL=skip npm install` instead.
 
 ```bash
-git clone https://github.com/0xsline/OpenChatCut.git
-cd OpenChatCut
+git clone https://github.com/ffan008/AlwaysCut.git
+cd AlwaysCut
 npm install
 cp .env.example .env.local
 npm run dev
@@ -279,7 +279,7 @@ Open:
 http://localhost:5199
 ```
 
-The editor needs a browser [secure context](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Secure_Contexts): open OpenChatCut at `http://localhost` or `http://127.0.0.1` on the machine running it, or serve it over HTTPS. Over plain HTTP from another device (a LAN IP or reverse proxy), browsers disable Web Crypto, WebCodecs, and the clipboard, so the project list still loads but the editor shows this requirement instead of opening.
+The editor needs a browser [secure context](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Secure_Contexts): open AlwaysCut at `http://localhost` or `http://127.0.0.1` on the machine running it, or serve it over HTTPS. Over plain HTTP from another device (a LAN IP or reverse proxy), browsers disable Web Crypto, WebCodecs, and the clipboard, so the project list still loads but the editor shows this requirement instead of opening.
 
 Only add the model or media-service credentials you actually use to `.env.local`. Features without configured third-party credentials report the missing key explicitly; local timeline editing, built-in media, and other configured capabilities continue to work.
 
@@ -292,16 +292,16 @@ the legacy shared development store.
 ### Built-in Agent authentication
 
 - **API keys:** open **Settings → Agent model**, choose a provider, and save its API key and model. Keys remain server-side.
-- **ChatGPT subscription:** install the official Codex CLI 0.146.0 or newer, then open **Settings → Agent model → OpenAI · Codex**. Sign in through the browser or device-code flow, load the account's models, choose a model-specific reasoning effort (or keep its default), and select Codex from the chat model picker. OpenChatCut uses a dedicated Codex profile; the official CLI owns credential storage, token renewal, and logout, while OAuth tokens are never exposed to the browser.
-- **Claude subscription:** OpenChatCut does not collect Claude OAuth credentials. Use Claude Code through the local MCP connection below. The built-in Agent can use Anthropic through an API key.
+- **ChatGPT subscription:** install the official Codex CLI 0.146.0 or newer, then open **Settings → Agent model → OpenAI · Codex**. Sign in through the browser or device-code flow, load the account's models, choose a model-specific reasoning effort (or keep its default), and select Codex from the chat model picker. AlwaysCut uses a dedicated Codex profile; the official CLI owns credential storage, token renewal, and logout, while OAuth tokens are never exposed to the browser.
+- **Claude subscription:** AlwaysCut does not collect Claude OAuth credentials. Use Claude Code through the local MCP connection below. The built-in Agent can use Anthropic through an API key.
 
 The built-in Agent always runs the model loop on the local server. Chat, drafts, and proposals survive page refreshes and local service restarts. Timeline changes still go through the active editor's validated, undoable commands.
 
 ### Agent local-path access (advanced)
 
-Desktop agents can browse any local directory allowed by the operating system by default, including mounted media drives. `browse_local_media` lists folders and supported media, searches by filename or relative path and media type, and returns paginated results without importing. The agent can then use `import_assets` for up to 100 selected paths, `import_asset` for one path, or `import_folder` for a whole folder. Imports reuse media probing and reference registration, preserve source files, and skip duplicate content, including duplicates within one batch. Document files such as TXT, Markdown, DOCX, and PDF should be attached to chat instead. In the desktop app these tools are enabled by default; in a browser session they also work, but only for directories listed in `AGENT_IMPORT_ROOTS` and while the editor is served from the same machine that runs OpenChatCut.
+Desktop agents can browse any local directory allowed by the operating system by default, including mounted media drives. `browse_local_media` lists folders and supported media, searches by filename or relative path and media type, and returns paginated results without importing. The agent can then use `import_assets` for up to 100 selected paths, `import_asset` for one path, or `import_folder` for a whole folder. Imports reuse media probing and reference registration, preserve source files, and skip duplicate content, including duplicates within one batch. Document files such as TXT, Markdown, DOCX, and PDF should be attached to chat instead. In the desktop app these tools are enabled by default; in a browser session they also work, but only for directories listed in `AGENT_IMPORT_ROOTS` and while the editor is served from the same machine that runs AlwaysCut.
 
-To restrict local access, set a comma-separated value such as `AGENT_IMPORT_ROOTS=/Volumes/Media,D:\Projects` in `.env.local`; leave it empty for default unrestricted directory access in the desktop app (a browser session requires the allowlist and refuses these tools while it is empty). Explicit restrictions apply to both browsing and import. Source checkouts read the repository file at startup. Packaged desktop builds read it from Electron's user-data directory: `~/Library/Application Support/OpenChatCut/` on macOS, `%APPDATA%\OpenChatCut\` on Windows, and `$XDG_CONFIG_HOME/OpenChatCut/` (normally `~/.config/OpenChatCut/`) on Linux. Restart after editing the file.
+To restrict local access, set a comma-separated value such as `AGENT_IMPORT_ROOTS=/Volumes/Media,D:\Projects` in `.env.local`; leave it empty for default unrestricted directory access in the desktop app (a browser session requires the allowlist and refuses these tools while it is empty). Explicit restrictions apply to both browsing and import. Source checkouts read the repository file at startup. Packaged desktop builds read it from Electron's user-data directory: `~/Library/Application Support/AlwaysCut/` on macOS, `%APPDATA%\AlwaysCut\` on Windows, and `$XDG_CONFIG_HOME/AlwaysCut/` (normally `~/.config/AlwaysCut/`) on Linux. Restart after editing the file.
 
 
 Local H.264 exports automatically prefer VideoToolbox on macOS and NVENC on compatible Windows systems, then fall back to software encoding. Tune render concurrency and the heavy-export limit with `OPENCHATCUT_RENDER_CONCURRENCY` and `OPENCHATCUT_MAX_ACTIVE_EXPORTS`, disable hardware encoding with `OPENCHATCUT_DISABLE_HARDWARE_ENCODING`, or override FFmpeg-side encoder selection with `OPENCHATCUT_H264_ENCODER`; see [`.env.example`](.env.example).
@@ -320,21 +320,21 @@ The desktop app uses an Electron shell with the same embedded services. The web 
 
 ## Project Status
 
-OpenChatCut is under active development. The editor, project format, and agent tools will continue to evolve. Prebuilt macOS, Windows, and Linux installers are published on [GitHub Releases](https://github.com/0xsline/OpenChatCut/releases); running from source remains the most transparent option for development and troubleshooting.
+AlwaysCut is under active development. The editor, project format, and agent tools will continue to evolve. Prebuilt macOS, Windows, and Linux installers are published on [GitHub Releases](https://github.com/ffan008/AlwaysCut/releases); running from source remains the most transparent option for development and troubleshooting.
 
 The core timeline, local projects, built-in media, and manual editing do not depend on cloud services. Connected features such as AI models, online media, generation, and transcription are enabled only after you configure the corresponding services.
 
 ---
 
-## Using OpenChatCut with Codex / Claude Code
+## Using AlwaysCut with Codex / Claude Code
 
-Install the single OpenChatCut Agent Skill:
+Install the single AlwaysCut Agent Skill:
 
 ```bash
-npx skills add 0xsline/OpenChatCut
+npx skills add ffan008/AlwaysCut
 ```
 
-Then tell the agent `Set up OpenChatCut`. The installed router registers the
+Then tell the agent `Set up AlwaysCut`. The installed router registers the
 local MCP connection and loads the editor's 26 specialized skills on demand,
 so the agent's skill list stays compact.
 
@@ -351,22 +351,22 @@ Dropping a SKILL.md into that directory makes it available to the agent, and
 selecting a workflow from the chat's `/` command or the creative-mode picker
 activates it for the next message.
 
-OpenChatCut exposes a Streamable HTTP MCP endpoint:
+AlwaysCut exposes a Streamable HTTP MCP endpoint:
 
 ```text
 http://localhost:5199/api/external-mcp/mcp
 ```
 
-The repository's root `.mcp.json` already contains the local connection. Before using timeline tools, run OpenChatCut and open the target project. Project listing, creation, and navigation tools do not require the editor to remain open.
+The repository's root `.mcp.json` already contains the local connection. Before using timeline tools, run AlwaysCut and open the target project. Project listing, creation, and navigation tools do not require the editor to remain open.
 
 Codex app/CLI and Claude Code use the same session workflow:
 
 1. Call `begin_edit_session` and keep the returned `editSessionId`. Set `approvalMode` to `manual` (the default) or `auto`.
 2. Pass that id to every project read/edit tool. Changes are applied only to an isolated draft.
 3. Call `review_edit_session` when the draft is ready.
-4. In `manual` mode, review, preview, select, and approve or reject the proposal inside the open OpenChatCut project. In `auto` mode, `review_edit_session` applies the complete draft immediately. The client can poll `get_edit_session` for `applied`, `rejected`, or `discarded` status.
+4. In `manual` mode, review, preview, select, and approve or reject the proposal inside the open AlwaysCut project. In `auto` mode, `review_edit_session` applies the complete draft immediately. The client can poll `get_edit_session` for `applied`, `rejected`, or `discarded` status.
 
-Approval in Codex or Claude controls whether the client may call a tool. OpenChatCut project approval is required only for `manual` sessions; `auto` sessions explicitly bypass that review. Either mode commits the applied operations atomically as one undo step.
+Approval in Codex or Claude controls whether the client may call a tool. AlwaysCut project approval is required only for `manual` sessions; `auto` sessions explicitly bypass that review. Either mode commits the applied operations atomically as one undo step.
 If an `auto` session becomes stale, it returns an error instead of falling back to manual approval; discard it and start a new session.
 Only draft-safe project read/edit tools are exposed in these sessions. Generation, export, project deletion, and other immediate side-effect tools stay unavailable because a rejected proposal could not roll them back.
 
@@ -389,10 +389,10 @@ claude mcp add --transport http openchatcut \
 You can then describe an editing task directly to the agent:
 
 ```text
-Start an OpenChatCut edit session. Read the draft, add a scratch sound effect
+Start an AlwaysCut edit session. Read the draft, add a scratch sound effect
 at 8 seconds on the second audio track, and add a glitch transition between
 the adjacent video clips. Submit the draft for review and wait for the user to
-approve it in OpenChatCut before reporting that the edit was applied.
+approve it in AlwaysCut before reporting that the edit was applied.
 ```
 
 External agents invoke the same internal editing tools and `EditorCore` commands as the editor itself. There are no separate project formats that can drift apart, and the live timeline is not changed while an external draft is being prepared.
@@ -425,7 +425,7 @@ Restart Qoder afterwards to load the server.
 ### Qwen Work (千问办公)
 
 千问办公 keeps custom MCP servers inside its own connector store rather than a
-config file, so OpenChatCut cannot write this one for you. In the guide, use
+config file, so AlwaysCut cannot write this one for you. In the guide, use
 **Copy config** on the 千问办公 card, then in 千问办公 open
 连接器 → 自定义 MCP → 添加, paste the JSON, and save:
 
@@ -457,7 +457,7 @@ Clients must send `Authorization: Bearer <token>`. The current bridge is designe
 ## Architecture
 
 <p align="center">
-  <img src="assets/readme-pic/openchatcut-runtime.en.svg" alt="OpenChatCut runtime architecture connecting agents, MCP, EditorCore, local storage, preview, rendering, and export" />
+  <img src="assets/readme-pic/openchatcut-runtime.en.svg" alt="AlwaysCut runtime architecture connecting agents, MCP, EditorCore, local storage, preview, rendering, and export" />
 </p>
 
 <p align="center">
@@ -547,11 +547,11 @@ npm run build
 
 ## Technical Foundations
 
-OpenChatCut is built with the following core projects and specifications:
+AlwaysCut is built with the following core projects and specifications:
 
-| Project / specification | Role in OpenChatCut |
+| Project / specification | Role in AlwaysCut |
 |---|---|
-| [ChatCut-Inc/agent-plugin](https://github.com/ChatCut-Inc/agent-plugin) | Agent Skills foundation. OpenChatCut adapts the plugin's skill structure and workflows for its local editor, storage, MCP, and tool architecture. See the [Agent Skills attribution notice](src/agent/skills/NOTICE.md). |
+| [ChatCut-Inc/agent-plugin](https://github.com/ChatCut-Inc/agent-plugin) | Agent Skills foundation. AlwaysCut adapts the plugin's skill structure and workflows for its local editor, storage, MCP, and tool architecture. See the [Agent Skills attribution notice](src/agent/skills/NOTICE.md). |
 | [Remotion](https://www.remotion.dev/) | Core foundation for React-based video preview, composition, and server-side rendering. |
 | [Model Context Protocol](https://modelcontextprotocol.io/) | Protocol foundation that enables Codex, Claude Code, and other external agents to access projects and timeline tools. |
 | [Vercel AI SDK](https://ai-sdk.dev/) | Provider-neutral model streaming and tool calling for the built-in Agent. |
@@ -565,18 +565,18 @@ This list covers the project's major technical foundations. It does not replace 
 
 ## Changelog
 
-See the bilingual [`CHANGELOG.md`](CHANGELOG.md) for notable changes, or browse all published packages on [GitHub Releases](https://github.com/0xsline/OpenChatCut/releases).
+See the bilingual [`CHANGELOG.md`](CHANGELOG.md) for notable changes, or browse all published packages on [GitHub Releases](https://github.com/ffan008/AlwaysCut/releases).
 
 ---
 
 ## Star Growth
 
 <p align="center">
-  <a href="https://www.star-history.com/?type=date&repos=0xsline%2FOpenChatCut">
+  <a href="https://www.star-history.com/?type=date&repos=0xsline%2FAlwaysCut">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=0xsline/OpenChatCut&type=date&theme=dark&legend=top-left&sealed_token=KKfeYtGGCjyG1QN9_Ev6Tvyyrcp5LW6bzOT8ZKED1EE0qNRqM3KrThzzbXWdcP6K-sr3vKbmoFZYDviSMtf8SI5UqAPYQf9v8qXCpM04S2C4LQTAKPbexT66SI3Q8pcHJJoMT7VCZnGp93LqIXZchAyYfTMmKy_y_LFOJ-_ruEq8GP1kVESXshaFzJfC" />
-      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=0xsline/OpenChatCut&type=date&legend=top-left&sealed_token=KKfeYtGGCjyG1QN9_Ev6Tvyyrcp5LW6bzOT8ZKED1EE0qNRqM3KrThzzbXWdcP6K-sr3vKbmoFZYDviSMtf8SI5UqAPYQf9v8qXCpM04S2C4LQTAKPbexT66SI3Q8pcHJJoMT7VCZnGp93LqIXZchAyYfTMmKy_y_LFOJ-_ruEq8GP1kVESXshaFzJfC" />
-      <img alt="OpenChatCut Star History Chart" src="https://api.star-history.com/chart?repos=0xsline/OpenChatCut&type=date&legend=top-left&sealed_token=KKfeYtGGCjyG1QN9_Ev6Tvyyrcp5LW6bzOT8ZKED1EE0qNRqM3KrThzzbXWdcP6K-sr3vKbmoFZYDviSMtf8SI5UqAPYQf9v8qXCpM04S2C4LQTAKPbexT66SI3Q8pcHJJoMT7VCZnGp93LqIXZchAyYfTMmKy_y_LFOJ-_ruEq8GP1kVESXshaFzJfC" />
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=ffan008/AlwaysCut&type=date&theme=dark&legend=top-left&sealed_token=KKfeYtGGCjyG1QN9_Ev6Tvyyrcp5LW6bzOT8ZKED1EE0qNRqM3KrThzzbXWdcP6K-sr3vKbmoFZYDviSMtf8SI5UqAPYQf9v8qXCpM04S2C4LQTAKPbexT66SI3Q8pcHJJoMT7VCZnGp93LqIXZchAyYfTMmKy_y_LFOJ-_ruEq8GP1kVESXshaFzJfC" />
+      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=ffan008/AlwaysCut&type=date&legend=top-left&sealed_token=KKfeYtGGCjyG1QN9_Ev6Tvyyrcp5LW6bzOT8ZKED1EE0qNRqM3KrThzzbXWdcP6K-sr3vKbmoFZYDviSMtf8SI5UqAPYQf9v8qXCpM04S2C4LQTAKPbexT66SI3Q8pcHJJoMT7VCZnGp93LqIXZchAyYfTMmKy_y_LFOJ-_ruEq8GP1kVESXshaFzJfC" />
+      <img alt="AlwaysCut Star History Chart" src="https://api.star-history.com/chart?repos=ffan008/AlwaysCut&type=date&legend=top-left&sealed_token=KKfeYtGGCjyG1QN9_Ev6Tvyyrcp5LW6bzOT8ZKED1EE0qNRqM3KrThzzbXWdcP6K-sr3vKbmoFZYDviSMtf8SI5UqAPYQf9v8qXCpM04S2C4LQTAKPbexT66SI3Q8pcHJJoMT7VCZnGp93LqIXZchAyYfTMmKy_y_LFOJ-_ruEq8GP1kVESXshaFzJfC" />
     </picture>
   </a>
 </p>
@@ -585,7 +585,7 @@ See the bilingual [`CHANGELOG.md`](CHANGELOG.md) for notable changes, or browse 
 
 ## License
 
-OpenChatCut is licensed under the [GNU Affero General Public License v3.0 or later](LICENSE).
+AlwaysCut is licensed under the [GNU Affero General Public License v3.0 or later](LICENSE).
 Third-party components and assets remain subject to their respective licenses.
 
 ---
@@ -617,4 +617,4 @@ the chat starts a new ID; the project ID and chat text are never used as that ID
 3. Run `npm test`, `npm run lint`, and `npm run build` before committing.
 4. Open a Pull Request and include screenshots or acceptance evidence for UI or video-behavior changes.
 
-Use [GitHub Issues](https://github.com/0xsline/OpenChatCut/issues) for bug reports and feature requests.
+Use [GitHub Issues](https://github.com/ffan008/AlwaysCut/issues) for bug reports and feature requests.

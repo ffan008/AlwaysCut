@@ -42,7 +42,7 @@ assert.deepEqual(posixCommand, { executable: '/usr/local/bin/claude', args: ['--
 {
   const pending = new Map<string, { name: string; args: unknown }>();
   const init = translateClaudeCodeLine(
-    { type: 'system', subtype: 'init', session_id: 'sess-1', mcp_servers: [{ name: 'openchatcut', status: 'connected' }] },
+    { type: 'system', subtype: 'init', session_id: 'sess-1', mcp_servers: [{ name: 'alwayscut', status: 'connected' }] },
     pending,
   );
   assert.deepEqual(init, [{ type: 'session', sessionId: 'sess-1' }]);
@@ -85,11 +85,11 @@ assert.deepEqual(posixCommand, { executable: '/usr/local/bin/claude', args: ['--
   const toolUse = translateClaudeCodeLine(
     {
       type: 'assistant',
-      message: { content: [{ type: 'tool_use', id: 'call-1', name: 'mcp__openchatcut__read_project', input: { a: 1 } }] },
+      message: { content: [{ type: 'tool_use', id: 'call-1', name: 'mcp__alwayscut__read_project', input: { a: 1 } }] },
     },
     pending,
   );
-  assert.deepEqual(toolUse, [{ type: 'tool-start', callId: 'call-1', name: 'mcp__openchatcut__read_project', args: { a: 1 } }]);
+  assert.deepEqual(toolUse, [{ type: 'tool-start', callId: 'call-1', name: 'mcp__alwayscut__read_project', args: { a: 1 } }]);
   assert.equal(pending.has('call-1'), true, 'pending tool-use is tracked by callId for later tool-end pairing');
 
   const toolResult = translateClaudeCodeLine(
@@ -97,7 +97,7 @@ assert.deepEqual(posixCommand, { executable: '/usr/local/bin/claude', args: ['--
     pending,
   );
   assert.deepEqual(toolResult, [{
-    type: 'tool-end', callId: 'call-1', name: 'mcp__openchatcut__read_project', args: { a: 1 }, result: 'ok', success: true,
+    type: 'tool-end', callId: 'call-1', name: 'mcp__alwayscut__read_project', args: { a: 1 }, result: 'ok', success: true,
   }]);
   assert.equal(pending.has('call-1'), false, 'settled tool-use is removed from the pending map');
 
@@ -134,7 +134,7 @@ assert.deepEqual(posixCommand, { executable: '/usr/local/bin/claude', args: ['--
 // (supportedEffortLevels, description) the picker does not use.
 const initResponse = (models: unknown, subtype = 'success') => ({
   type: 'control_response',
-  response: { subtype, request_id: 'openchatcut-models', response: { models, account: {} } },
+  response: { subtype, request_id: 'alwayscut-models', response: { models, account: {} } },
 });
 const CLI_MODELS = [
   { value: 'default', resolvedModel: 'claude-opus-5-5', displayName: 'Default (recommended)',
@@ -210,7 +210,7 @@ function valueAfter(flag) {
   return i === -1 ? undefined : args[i + 1];
 }
 if (!has('--strict-mcp-config')) process.exit(61);
-if (!has('--allowedTools') || valueAfter('--allowedTools') !== 'mcp__openchatcut-builtin__*') process.exit(62);
+if (!has('--allowedTools') || valueAfter('--allowedTools') !== 'mcp__alwayscut-builtin__*') process.exit(62);
 // The turn must run sandboxed: restricted mode + deny list + fail-closed prompts.
 // bypassPermissions is refused by --restricted (2.1.263) and must never come back.
 if (has('--permission-mode')) process.exit(63);
@@ -226,9 +226,9 @@ for (const denied of ['Bash', 'Write', 'Edit', 'WebFetch', 'WebSearch', 'Task'])
 if (!process.cwd().split(/[\\/]/).pop().startsWith('occ-claude-code-')) process.exit(69);
 if (!has('--mcp-config')) process.exit(64);
 // Regression guard: the MCP server this turn spawns must NOT be named plain
-// "openchatcut". Claude Code caches auth failures by server NAME in
+// "alwayscut". Claude Code caches auth failures by server NAME in
 // ~/.claude/mcp-needs-auth-cache.json, so sharing the name with a user- or
-// project-scoped "openchatcut" entry (the repo's own .mcp.json is one) lets a
+// project-scoped "alwayscut" entry (the repo's own .mcp.json is one) lets a
 // single unrelated auth failure route this bearer-authenticated config into the
 // OAuth path, hiding every editor tool behind authenticate/complete_authentication.
 const mcpConfigPath = valueAfter('--mcp-config');
@@ -236,17 +236,17 @@ if (!mcpConfigPath || !existsSync(mcpConfigPath)) process.exit(70);
 const mcpServers = JSON.parse(readFileSync(mcpConfigPath, 'utf8')).mcpServers ?? {};
 const serverNames = Object.keys(mcpServers);
 if (serverNames.length !== 1) process.exit(71);
-if (serverNames[0] === 'openchatcut') process.exit(72);
+if (serverNames[0] === 'alwayscut') process.exit(72);
 if (!valueAfter('--allowedTools').includes(serverNames[0])) process.exit(73);
 if (!mcpServers[serverNames[0]].headers?.Authorization?.startsWith('Bearer ')) process.exit(74);
 // The system prompt must arrive as a FILE. Inline (--append-system-prompt)
-// overflows the ~32KB Windows command-line cap for a real OpenChatCut system
+// overflows the ~32KB Windows command-line cap for a real AlwaysCut system
 // prompt and spawn dies with ENAMETOOLONG.
 if (has('--append-system-prompt')) process.exit(65);
 if (!has('--append-system-prompt-file')) process.exit(66);
 const promptFile = valueAfter('--append-system-prompt-file');
 if (!promptFile || !existsSync(promptFile)) process.exit(67);
-if (!readFileSync(promptFile, 'utf8').includes('OpenChatCut')) process.exit(68);
+if (!readFileSync(promptFile, 'utf8').includes('AlwaysCut')) process.exit(68);
 // Guard the whole command line, not just the system prompt.
 if (args.join(' ').length > 8000) process.exit(69);
 const promptIndex = args.indexOf('-p');
@@ -272,7 +272,7 @@ if (prompt.startsWith('hang-forever:')) {
 }
 `;
 
-const directory = await mkdtemp(join(tmpdir(), 'openchatcut-claude-code-verify-'));
+const directory = await mkdtemp(join(tmpdir(), 'alwayscut-claude-code-verify-'));
 const scriptPath = join(directory, 'fake-claude.mjs');
 await writeFile(scriptPath, FAKE_CLI, 'utf8');
 let shimPath = scriptPath;
@@ -303,11 +303,11 @@ try {
     ], 'a successful fake turn translates init/text/usage/done in order');
   }
   {
-    // Regression: a real OpenChatCut system prompt is tens of KB. Passed inline
+    // Regression: a real AlwaysCut system prompt is tens of KB. Passed inline
     // it blew the ~32KB Windows command-line cap and spawn failed with
     // ENAMETOOLONG before the CLI ever started. 200KB here is far past any
     // platform limit, so this fails loudly if the prompt returns to argv.
-    const huge = `OpenChatCut ${'x'.repeat(200_000)}`;
+    const huge = `AlwaysCut ${'x'.repeat(200_000)}`;
     const events: ClaudeCodeTurnStreamEvent[] = [];
     await runClaudeCodeTurn(
       shimPath,
@@ -415,7 +415,7 @@ lines.on('line', (line) => {
 });
 `;
 
-const modelsDirectory = await mkdtemp(join(tmpdir(), 'openchatcut-claude-code-models-'));
+const modelsDirectory = await mkdtemp(join(tmpdir(), 'alwayscut-claude-code-models-'));
 try {
   const script = join(modelsDirectory, 'fake-claude-models.mjs');
   await writeFile(script, `const MODELS = ${JSON.stringify(CLI_MODELS)};\n${FAKE_MODELS_CLI}`, 'utf8');

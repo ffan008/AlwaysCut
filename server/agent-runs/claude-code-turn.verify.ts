@@ -102,15 +102,15 @@ function sequence(events: readonly ClaudeCodeTurnStreamEvent[]): ServerClaudeCod
       emit({
         type: 'tool-start',
         callId: 'call-1',
-        name: 'mcp__openchatcut__search_media',
+        name: 'mcp__alwayscut__search_media',
         args: { query: 'clips' },
       });
       // Unlike Codex, Claude Code's own MCP client executes the call itself —
-      // OpenChatCut never claims/settles it; the tool-end just arrives.
+      // AlwaysCut never claims/settles it; the tool-end just arrives.
       emit({
         type: 'tool-end',
         callId: 'call-1',
-        name: 'mcp__openchatcut__search_media',
+        name: 'mcp__alwayscut__search_media',
         args: { query: 'clips' },
         result: { items: [{ name: 'a.mp4' }] },
         success: true,
@@ -135,11 +135,11 @@ function sequence(events: readonly ClaudeCodeTurnStreamEvent[]): ServerClaudeCod
   assert.ok(result, 'tool-end is surfaced as a display tool-result event');
   const resultData = result!.data as { toolCallId: string; toolName: string; result?: unknown };
   assert.equal(resultData.toolCallId, 'call-1');
-  assert.equal(resultData.toolName, 'mcp__openchatcut__search_media');
+  assert.equal(resultData.toolName, 'mcp__alwayscut__search_media');
   assert.deepEqual(resultData.result, { items: [{ name: 'a.mp4' }] });
   const histories = outcome.messages.filter((message) =>
     typeof message.content === 'string'
-    && String(message.content).includes('[tool call: mcp__openchatcut__search_media]'));
+    && String(message.content).includes('[tool call: mcp__alwayscut__search_media]'));
   assert.equal(histories.length, 1, 'merged tool history entry is rebuilt for conversation continuity');
 }
 
@@ -150,9 +150,9 @@ function sequence(events: readonly ClaudeCodeTurnStreamEvent[]): ServerClaudeCod
   const run = makeRun();
   const input = makeInput(run);
   const outcome = await executeServerClaudeCodeTurn(input, sequence([
-    { type: 'tool-start', callId: 'call-big', name: 'mcp__openchatcut__read_project', args: {} },
+    { type: 'tool-start', callId: 'call-big', name: 'mcp__alwayscut__read_project', args: {} },
     {
-      type: 'tool-end', callId: 'call-big', name: 'mcp__openchatcut__read_project',
+      type: 'tool-end', callId: 'call-big', name: 'mcp__alwayscut__read_project',
       args: {}, result: { text: 'x'.repeat(200_000) }, success: true,
     },
     { type: 'text-delta', delta: 'Read it.' },
@@ -176,9 +176,9 @@ function sequence(events: readonly ClaudeCodeTurnStreamEvent[]): ServerClaudeCod
   const input = makeInput(run);
   const outcome = await executeServerClaudeCodeTurn(input, sequence([
     { type: 'text-delta', delta: 'I will add the title properly.', startsMessage: true },
-    { type: 'tool-start', callId: 'call-3', name: 'mcp__openchatcut__search_media', args: {} },
+    { type: 'tool-start', callId: 'call-3', name: 'mcp__alwayscut__search_media', args: {} },
     {
-      type: 'tool-end', callId: 'call-3', name: 'mcp__openchatcut__search_media',
+      type: 'tool-end', callId: 'call-3', name: 'mcp__alwayscut__search_media',
       args: {}, result: { items: [] }, success: true,
     },
     { type: 'text-delta', delta: 'Now adding the clip.', startsMessage: true },
@@ -265,9 +265,9 @@ function sequence(events: readonly ClaudeCodeTurnStreamEvent[]): ServerClaudeCod
   const run = makeRun();
   const input = makeInput(run);
   const deps = sequence([
-    { type: 'tool-start', callId: 'call-2', name: 'mcp__openchatcut__search_media', args: { query: 'missing' } },
+    { type: 'tool-start', callId: 'call-2', name: 'mcp__alwayscut__search_media', args: { query: 'missing' } },
     {
-      type: 'tool-end', callId: 'call-2', name: 'mcp__openchatcut__search_media',
+      type: 'tool-end', callId: 'call-2', name: 'mcp__alwayscut__search_media',
       args: { query: 'missing' }, result: 'media is unavailable', success: false,
     },
     { type: 'done' },

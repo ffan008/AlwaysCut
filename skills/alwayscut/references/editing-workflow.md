@@ -1,8 +1,8 @@
-# Edit an OpenChatCut project
+# Edit an AlwaysCut project
 
 ## Start with current state
 
-1. Call `openchatcut_status`.
+1. Call `alwayscut_status`.
 2. Call `list_projects` when the project is not already identified.
 3. Call `target_project` with the selected project ID.
 4. When specialized guidance applies, call `load_skill`; it requires no edit
@@ -46,7 +46,7 @@ argument.
 ## Review and finish
 
 1. Call `review_edit_session` after all draft edits are ready.
-2. For manual mode, tell the user the proposal is ready inside OpenChatCut.
+2. For manual mode, tell the user the proposal is ready inside AlwaysCut.
 3. Poll `get_edit_session` when the client needs the final state.
 4. Report completion only when the status is `applied`.
 5. If the status is `rejected` or `discarded`, report that exact result.

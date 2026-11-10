@@ -3,7 +3,7 @@ import type { AgentContext } from './context';
 import type { AgentRunRecorder } from './runtime-ledger';
 import type { HarnessToolExecutionContext } from './harness-context';
 import type { AgentSettings } from './settings/agentSettings';
-import { executeOpenChatCutTool, type CodexToolExecution } from './codex/runtime';
+import { executeAlwaysCutTool, type CodexToolExecution } from './codex/runtime';
 import {
   estimateTextTokens,
   verifyCanonicalContextCheckpoint,
@@ -150,7 +150,7 @@ export async function executeCodexTool(request: CodexToolRequest): Promise<{
   // the current request did not activate it. Activation is a token optimization,
   // not a security boundary — canonical membership above already gates the call.
   const admitted = activation.admit(name);
-  const execution = await executeOpenChatCutTool(schema, args, {
+  const execution = await executeAlwaysCutTool(schema, args, {
     ctx,
     onEvent,
     settings,

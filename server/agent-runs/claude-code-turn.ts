@@ -149,16 +149,16 @@ export interface ServerClaudeCodeTurnDeps {
 /**
  * Run one Agent turn through the server-side Claude Code executor.
  *
- * Unlike Codex, Claude Code CLI's own MCP client calls OpenChatCut's MCP
+ * Unlike Codex, Claude Code CLI's own MCP client calls AlwaysCut's MCP
  * server directly and executes tools itself (the CLI is launched with
  * --mcp-config pointing at this instance's own /api/external-mcp/mcp and
- * --allowedTools "mcp__openchatcut-builtin__*"). There is no tool-execution bridge
+ * --allowedTools "mcp__alwayscut-builtin__*"). There is no tool-execution bridge
  * and no result-settlement RPC: `tool-start`/`tool-end` stream events here
  * are for chat-UI display and conversation-history reconstruction only.
  *
  * KNOWN LIMITATION (documented, not silently glossed over): because tool
  * calls bypass `executeBrowserTool`, they are not gated by this run's
- * ToolActivation (the CLI is given a blanket "mcp__openchatcut-builtin__*" allow
+ * ToolActivation (the CLI is given a blanket "mcp__alwayscut-builtin__*" allow
  * list, not the same turn-by-turn activated subset the API/Codex paths
  * enforce), and any proposal/undo-batch bookkeeping that only lives inside
  * `executeBrowserTool` does not apply to these calls either — the display
@@ -198,7 +198,7 @@ export async function executeServerClaudeCodeTurn(
     sessionGeneration: input.run.sessionGeneration,
     model: input.model,
   });
-  // Compaction rewrites OpenChatCut's history but leaves the CLI's own
+  // Compaction rewrites AlwaysCut's history but leaves the CLI's own
   // transcript untouched, so the two have diverged and a resumed session would
   // carry the pre-summary conversation the compaction was meant to shed.
   if (prepared.usage.compacted) forgetClaudeCodeSession(resumeKey);

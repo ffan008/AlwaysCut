@@ -6,7 +6,7 @@ import {
   effectiveToolInvocationArgs,
   policyForTool,
 } from './execution-policy';
-import { executeOpenChatCutTool } from './codex/runtime';
+import { executeAlwaysCutTool } from './codex/runtime';
 import {
   digestAgentToolArgs, startAgentRun, type AgentRunRecorder,
 } from './runtime-ledger';
@@ -40,7 +40,7 @@ async function executeDesign(
   log: string[],
   runRecorder?: AgentRunRecorder,
 ) {
-  return executeOpenChatCutTool(designSchema, args, {
+  return executeAlwaysCutTool(designSchema, args, {
     ctx, settings, runRecorder, toolCallId: crypto.randomUUID(),
     toolCatalog: TOOL_SCHEMAS, activeToolCatalog: [designSchema], onEvent: () => undefined,
     executeTool: async () => { log.push('global-mutation'); return { ok: true }; },
@@ -105,7 +105,7 @@ async function verifyExplicitTranscriptionProviders(): Promise<void> {
     recovery: 'idempotent',
   });
   let dispatchedLocalArgs: Record<string, unknown> | undefined;
-  await executeOpenChatCutTool(transcribeSchema, { track: 'A2', provider: 'local' }, {
+  await executeAlwaysCutTool(transcribeSchema, { track: 'A2', provider: 'local' }, {
     ctx,
     settings,
     toolCatalog: TOOL_SCHEMAS,
@@ -144,7 +144,7 @@ async function verifySettingBackedTranscriptionProvider(saved: Record<string, st
     },
     recordToolOutcome: async () => undefined,
   } as unknown as AgentRunRecorder;
-  await executeOpenChatCutTool(transcribeSchema, { track: 'A2' }, {
+  await executeAlwaysCutTool(transcribeSchema, { track: 'A2' }, {
     ctx,
     settings,
     runRecorder: runtimeRecorder,

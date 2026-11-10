@@ -135,15 +135,15 @@ export function Icon({ name, size = 16, color = 'currentColor', strokeWidth = 1.
  * (Skin Discipline Guaranteed ≥4.5 vs.). Use this when replacing sparkles before wordmark. */
 export function BrandMark({ size = 16 }: { size?: number }) {
   return (
-    <img src="/openchatcut-icon.png" alt="" aria-hidden width={size} height={size} style={{ display: 'block' }} />
+    <img src="/alwayscut-icon.png" alt="" aria-hidden width={size} height={size} style={{ display: 'block' }} />
   );
 }
 
-/** OpenChatCut word mark: OPEN reverse white badge + Chat Cut solid word mark. */
-export function OpenChatCutWordmark({ width = 126 }: { width?: number }) {
+/** AlwaysCut word mark: OPEN reverse white badge + Chat Cut solid word mark. */
+export function AlwaysCutWordmark({ width = 126 }: { width?: number }) {
   return (
     <svg
-      aria-label="OpenChatCut"
+      aria-label="AlwaysCut"
       role="img"
       width={width}
       height={width / 4}

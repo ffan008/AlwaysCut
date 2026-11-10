@@ -102,7 +102,7 @@ export interface DesktopEnhanceApi {
 }
 
 
-export interface OpenChatCutDesktopApi {
+export interface AlwaysCutDesktopApi {
   getPathForFile(file: File): string | undefined;
   platform: NodeJS.Platform;
   selectDirectory(defaultPath?: string): Promise<string | null>;
@@ -154,7 +154,7 @@ async function invokeDesktopUpdate(
   return state;
 }
 
-const api: OpenChatCutDesktopApi = {
+const api: AlwaysCutDesktopApi = {
   getPathForFile: (file) => webUtils.getPathForFile(file) || undefined,
   platform: process.platform,
   selectDirectory: (defaultPath) =>

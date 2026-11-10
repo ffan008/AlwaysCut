@@ -33,7 +33,7 @@ import {
 import { normalizeLlmMessages } from './messages';
 import { loadAgentSettings, type AgentSettings } from './settings/agentSettings';
 import { completeAbortedTurn } from './abortedTurn';
-import { executeOpenChatCutTool, type CodexToolExecution } from './codex/runtime';
+import { executeAlwaysCutTool, type CodexToolExecution } from './codex/runtime';
 import { toolFailureReason, ToolFailureTracker } from './toolFailure';
 import type {
   AgentEvent,
@@ -73,7 +73,7 @@ function createAgentTools(
         schema.input_schema as Parameters<typeof jsonSchema<Record<string, unknown>>>[0],
       ),
       execute: async (input, options) => {
-        const execution = await executeOpenChatCutTool(schema, input ?? {}, {
+        const execution = await executeAlwaysCutTool(schema, input ?? {}, {
           ctx,
           onEvent,
           settings,

@@ -21,7 +21,7 @@ console.log('web-tools.check: OK', names.join(', '));
 // model itself is scripted here; every owned request and consumed result is real.
 const { createServer } = await import('node:http');
 const { firecrawlPlugin } = await import('../../../server/plugins/firecrawl');
-const { executeOpenChatCutTool } = await import('../codex/runtime');
+const { executeAlwaysCutTool } = await import('../codex/runtime');
 const { DEFAULT_AGENT_SETTINGS } = await import('../settings/agentSettings');
 const { INITIAL } = await import('../../editor/initial');
 const { docFromTimeline } = await import('../../persist/projectStore');
@@ -70,7 +70,7 @@ globalThis.fetch = async (input, init) => {
   }
   assert.equal(url, 'https://search.parallel.ai/mcp');
   const headers = new Headers(init?.headers);
-  assert.equal(headers.get('User-Agent'), 'OpenChatCut (+https://github.com/0xsline/OpenChatCut)');
+  assert.equal(headers.get('User-Agent'), 'AlwaysCut (+https://github.com/ffan008/AlwaysCut)');
   assert.equal(headers.get('Authorization'), null, 'no ambient credentials enter anonymous MCP');
   if (init?.method === 'GET') return new Response('', { status: 405 });
   const message = JSON.parse(String(init?.body ?? '{}')) as Record<string, unknown>;
@@ -111,7 +111,7 @@ async function invoke(name: string, args: Record<string, unknown>, ctx = a, sign
   const schema = WEB_TOOL_SCHEMAS.find((candidate) => candidate.name === name)!;
   const events: import('../runtime').AgentEvent[] = [];
   callerSignal = signal;
-  const execution = await executeOpenChatCutTool(schema, args, {
+  const execution = await executeAlwaysCutTool(schema, args, {
     ctx, signal, settings: DEFAULT_AGENT_SETTINGS, onEvent: (event) => events.push(event),
   });
   assert.ok(events.some((event) => event.type === 'tool'), 'result reaches the agent tool event consumer');
@@ -189,7 +189,7 @@ try {
   assert.equal((await invoke('web_browser', { url: 'file:///etc/passwd' })).success, false);
   assert.equal((await invoke('web_browser', { url: 'https://example.com', formats: ['screenshot'] })).success, false);
   assert.equal((await invoke('web_search', { query: 'filtered', country: 'US' })).success, false);
-  const denied = await executeOpenChatCutTool(byName.web_search!, { query: 'unavailable tool' }, {
+  const denied = await executeAlwaysCutTool(byName.web_search!, { query: 'unavailable tool' }, {
     ctx: a, settings: DEFAULT_AGENT_SETTINGS, activeToolCatalog: [], onEvent() {},
   });
   assert.equal(denied.success, false);

@@ -33,7 +33,7 @@ export async function runDesktopSmokeProbe(
       },
     }),
   });
-  if (!mcp.ok || !(await mcp.text()).includes('"name":"openchatcut"')) {
+  if (!mcp.ok || !(await mcp.text()).includes('"name":"alwayscut"')) {
     throw new Error(`/api/external-mcp/mcp → HTTP ${mcp.status}`);
   }
   console.log('[smoke] external MCP endpoint ok');

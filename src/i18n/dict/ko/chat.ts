@@ -1,8 +1,8 @@
 // KO dictionary (field fragmentation mirroring dict/en, key = Chinese original text).
 export default {
   '请按“{name}”工作流处理当前工程：{summary}。先检查素材和时间线，再执行并检查成片。': '현재 프로젝트에 ‘{name}’ 워크플로를 적용하세요: {summary}. 먼저 미디어와 타임라인을 검토한 다음 실행하고 결과를 확인하세요.',
-  '展开 OpenChatCut Agent': 'OpenChatCut Agent 펼치기',
-  '收起 OpenChatCut Agent': 'OpenChatCut Agent 접기',
+  '展开 AlwaysCut Agent': 'AlwaysCut Agent 펼치기',
+  '收起 AlwaysCut Agent': 'AlwaysCut Agent 접기',
   '清空对话': '대화 지우기',
   'Agent 仍在运行中，无法清空对话。请先等待运行结束或停止当前运行，再试一次。': '에이전트가 아직 실행 중이라 대화를 지울 수 없습니다. 실행이 끝날 때까지 기다리거나 먼저 중지한 후 다시 시도하세요.',
   'Agent 工作台': '에이전트 작업 공간',

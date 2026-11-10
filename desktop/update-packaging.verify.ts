@@ -26,7 +26,7 @@ const arm64 = await configFor('darwin-arm64');
 assert.deepEqual(arm64.publish, [{
   provider: 'github',
   owner: '0xsline',
-  repo: 'OpenChatCut',
+  repo: 'AlwaysCut',
   channel: 'latest-arm64',
 }]);
 assert.deepEqual(arm64.mac?.target, ['dmg', 'zip'], 'macOS updates need a zip artifact in addition to the DMG');
@@ -171,7 +171,7 @@ for (const blockmap of [
   'x64.exe.blockmap',
 ]) {
   assert.ok(
-    workflow.includes(`release-files/OpenChatCut-\${EXPECTED_VERSION}-${blockmap}`),
+    workflow.includes(`release-files/AlwaysCut-\${EXPECTED_VERSION}-${blockmap}`),
     `release gate must require ${blockmap}`,
   );
 }
@@ -183,7 +183,7 @@ assert.match(workflow, /release-files\/\*/, 'GitHub Release must publish install
 
 assert.doesNotMatch(
   workflow,
-  /find release -type d -name OpenChatCut\.app|(?:mac|win|linux)-unpacked\b/,
+  /find release -type d -name AlwaysCut\.app|(?:mac|win|linux)-unpacked\b/,
   'desktop smoke tests must never launch unpacked electron-builder output',
 );
 assert.equal(
@@ -204,23 +204,23 @@ assert.match(
 assert.match(workflow, /hdiutil attach[\s\S]*?"\$\{dmgs\[0\]\}"/, 'macOS smoke must mount the generated DMG');
 assert.match(
   workflow,
-  /"\$mounted_app\/Contents\/MacOS\/OpenChatCut"/,
+  /"\$mounted_app\/Contents\/MacOS\/AlwaysCut"/,
   'macOS smoke must launch the app from the mounted DMG',
 );
 assert.match(workflow, /unzip -tq "\$\{zips\[0\]\}"/, 'macOS smoke must validate the generated update ZIP');
 assert.match(
   workflow,
-  /OpenChatCut\.app\/Contents\/MacOS\/OpenChatCut/,
+  /AlwaysCut\.app\/Contents\/MacOS\/AlwaysCut/,
   'macOS update ZIP must contain the application executable',
 );
 assert.match(
   workflow,
-  /OpenChatCut\.app\/Contents\/Frameworks\/Electron Framework\.framework\/Versions\/A\/Electron Framework/,
+  /AlwaysCut\.app\/Contents\/Frameworks\/Electron Framework\.framework\/Versions\/A\/Electron Framework/,
   'macOS update ZIP must contain the Electron runtime',
 );
 assert.match(
   workflow,
-  /render_runtime="OpenChatCut\.app\/Contents\/Resources\/chrome-headless-shell\//,
+  /render_runtime="AlwaysCut\.app\/Contents\/Resources\/chrome-headless-shell\//,
   'macOS update ZIP must contain the packaged render runtime',
 );
 assert.match(

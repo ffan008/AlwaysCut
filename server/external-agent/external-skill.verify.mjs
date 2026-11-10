@@ -4,11 +4,11 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
-const skillRoot = resolve(root, 'skills/openchatcut');
+const skillRoot = resolve(root, 'skills/alwayscut');
 const skillPath = resolve(skillRoot, 'SKILL.md');
 const skill = readFileSync(skillPath, 'utf8').replace(/\r\n?/g, '\n');
 
-assert.match(skill, /^---\nname: openchatcut\ndescription: .+\n---/);
+assert.match(skill, /^---\nname: alwayscut\ndescription: .+\n---/);
 assert.ok(skill.split('\n').length <= 500, 'SKILL.md must stay within 500 lines');
 
 const references = [...skill.matchAll(/`(references\/[^`]+\.md)`/g)].map((match) => match[1]);

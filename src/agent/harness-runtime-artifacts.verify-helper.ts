@@ -23,7 +23,7 @@ import {
   startAgentRun,
   type AgentRunRecorder,
 } from './runtime-ledger';
-import { executeOpenChatCutTool } from './codex/runtime';
+import { executeAlwaysCutTool } from './codex/runtime';
 import { execAgentRuntimeTool } from './tools/agent-runtime-tools';
 
 const projectId = 'harness-runtime-verify';
@@ -70,7 +70,7 @@ async function verifyArchivedLargeResult(recorder: AgentRunRecorder): Promise<st
     __images: [{ base64: 'a'.repeat(20_000), mediaType: 'image/jpeg' }],
   };
   const keysBefore = Object.keys(live);
-  const execution = await executeOpenChatCutTool(aspectSchema, { ratio: '9:16' }, {
+  const execution = await executeAlwaysCutTool(aspectSchema, { ratio: '9:16' }, {
     ctx, settings, runRecorder: recorder, toolCallId: 'artifact-call',
     toolCatalog: TOOL_SCHEMAS, activeToolCatalog: [aspectSchema],
     onEvent: () => undefined,
@@ -111,7 +111,7 @@ async function verifyLoadSkillBypass(recorder: AgentRunRecorder): Promise<void> 
     },
     omittedFiles: ['references/details.md'],
   };
-  const execution = await executeOpenChatCutTool(schema, { name: 'fixture' }, {
+  const execution = await executeAlwaysCutTool(schema, { name: 'fixture' }, {
     ctx, settings, runRecorder: recorder, toolCallId: 'skill-call',
     toolCatalog: TOOL_SCHEMAS, activeToolCatalog: [schema],
     onEvent: () => undefined,

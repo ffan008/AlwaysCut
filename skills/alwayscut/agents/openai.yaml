@@ -1,0 +1,18 @@
+interface:
+  display_name: "AlwaysCut"
+  short_description: "Connect and edit local AlwaysCut video projects"
+  brand_color: "#7C3AED"
+  icon_small: "./assets/alwayscut-icon.png"
+  icon_large: "./assets/alwayscut-icon.png"
+  default_prompt: "Use $alwayscut to connect to AlwaysCut and inspect the selected video project."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "alwayscut"
+      description: "AlwaysCut local editor MCP server"
+      transport: "streamable_http"
+      url: "http://localhost:5199/api/external-mcp/mcp"
+
+policy:
+  allow_implicit_invocation: true

@@ -11,7 +11,7 @@ const json = qwenWorkConnectJson(ENDPOINT, TOKEN);
 const parsed = JSON.parse(json) as ReturnType<typeof qwenWorkMcpConfig>;
 assert.deepEqual(parsed, qwenWorkMcpConfig(ENDPOINT, TOKEN), 'pretty-printed JSON round-trips');
 
-const entry = parsed.mcpServers.openchatcut as { type: string; url: string; headers: { Authorization: string } };
+const entry = parsed.mcpServers.alwayscut as { type: string; url: string; headers: { Authorization: string } };
 assert.equal(entry.type, 'streamable-http');
 assert.equal(entry.url, ENDPOINT);
 assert.equal(entry.headers.Authorization, `Bearer ${TOKEN}`);
@@ -20,6 +20,6 @@ assert.ok(!/access_token|token=/.test(json), 'no query-param auth fallback in th
 
 // Two different endpoints/tokens produce independent snippets.
 const other = JSON.parse(qwenWorkConnectJson('http://localhost:5200/api/external-mcp/mcp', 'tok_OTHER')) as ReturnType<typeof qwenWorkMcpConfig>;
-assert.notEqual(entry.url, (other.mcpServers.openchatcut as { url: string }).url);
+assert.notEqual(entry.url, (other.mcpServers.alwayscut as { url: string }).url);
 
 console.log('✓ mcpClientConfig: 千问办公 snippet is valid JSON with bearer header auth');
