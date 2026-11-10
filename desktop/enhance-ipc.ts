@@ -6,6 +6,7 @@ import {
   type EnhanceCapabilities,
   type EnhanceResult,
 } from '../shared/desktop-enhance.ts';
+import { runDenoise } from '../server/enhance-runner.ts';
 
 export interface InstalledDesktopEnhance {
   dispose(): void;
@@ -28,10 +29,10 @@ export function installDesktopEnhanceIpc(trustedOrigin: string): InstalledDeskto
     async (event, value: unknown): Promise<EnhanceResult> => {
       assertTrustedDesktopSenderUrl(event.senderFrame?.url ?? '', trustedOrigin);
       const request = parseEnhanceRequest(value);
-      // TODO(feat/enhance): run FFmpeg denoise (video hqdn3d/nlmeans) for the
-      // denoise op, or ONNX super-resolution for the upscale op. Write the
-      // result into the media uploads directory and return its uploads-relative
-      // outputPath. Reuse the ffmpeg binary from server/media-binaries.ts.
+      if (request.operation === 'denoise') return runDenoise(request);
+      // TODO(feat/enhance): run ONNX super-resolution for the upscale op on the
+      // native-inference worker path. capabilities already reports it as
+      // unavailable; reaching here means the renderer bypassed that gate.
       throw new Error(`enhance operation not implemented: ${request.operation}`);
     },
   );

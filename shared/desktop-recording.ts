@@ -50,7 +50,7 @@ function isDesktopRecordingSourceInfo(value: unknown): value is DesktopRecording
     && source.thumbnailDataUrl.startsWith('data:image/');
 }
 
-export function isDesktopRecordingSourceList(value: unknown): value is readonly DesktopRecordingSourceInfo[] {
+export function isDesktopRecordingSourceList(value: unknown): value is DesktopRecordingSourceInfo[] {
   return Array.isArray(value) && value.every(isDesktopRecordingSourceInfo);
 }
 
