@@ -89,6 +89,8 @@ interface LibraryPanelProps {
   onIngestDirectoryAsset: (asset: MediaAsset, durationFps?: number) => void;
   onTranscribeAsset: (asset: MediaAsset) => void;
   onAddMediaItem: (asset: MediaAsset) => void;
+  /** Shot library: add a shot at an exact source frame (AI perception hit). */
+  onAddShot: (asset: MediaAsset, srcInFrame?: number) => void;
   onAddMediaAssetsToTimeline: (assets: MediaAsset[]) => void;
   onUseMediaAI: (assets: MediaAsset[]) => void;
   onCreateMediaFolder: (name: string, parentId?: string) => string;
@@ -129,7 +131,7 @@ function localizeDefaultSequenceName(name: string, t: ReturnType<typeof useT>): 
   const match = /^序列 (\d+)$/.exec(name);
   return match ? t('序列 {n}', { n: match[1]! }) : name;
 }
-export function LibraryPanel({ semanticScopeId, templates, onAddTemplate, onAddAudio, onAddSticker, onAddTextStyle, playerRef, fps, items, getSequenceOptions, onAddSequence, mainTab, onMainTabChange, captionTracks, onSetCaptions, onUpdateCaptions, assets, mediaFolders, usedAssetIds, offlineAssetIds, onAssetLoadError, onImportMedia, onImportMobileMedia, onIngestDirectoryAsset, onTranscribeAsset, onAddMediaItem, onAddMediaAssetsToTimeline, onUseMediaAI, onCreateMediaFolder, onRenameMediaFolder, onDeleteMediaFolder, onMoveMediaAssets, onRenameMediaAsset, onRenameMediaAssets, onSetMediaAssetFavorite, onSetMediaAssetsFavorite, onRemoveMediaAsset, onRemoveMediaAssets, onPasteMediaAssets, onRelinkMediaAsset, creativeMode, onCreativeModeChange, onAddSolid, onUseTemplateAI, selectedItem, onApplyTransition, onApplyFx, onApplyZoom }: LibraryPanelProps) {
+export function LibraryPanel({ semanticScopeId, templates, onAddTemplate, onAddAudio, onAddSticker, onAddTextStyle, playerRef, fps, items, getSequenceOptions, onAddSequence, mainTab, onMainTabChange, captionTracks, onSetCaptions, onUpdateCaptions, assets, mediaFolders, usedAssetIds, offlineAssetIds, onAssetLoadError, onImportMedia, onImportMobileMedia, onIngestDirectoryAsset, onTranscribeAsset, onAddMediaItem, onAddShot, onAddMediaAssetsToTimeline, onUseMediaAI, onCreateMediaFolder, onRenameMediaFolder, onDeleteMediaFolder, onMoveMediaAssets, onRenameMediaAsset, onRenameMediaAssets, onSetMediaAssetFavorite, onSetMediaAssetsFavorite, onRemoveMediaAsset, onRemoveMediaAssets, onPasteMediaAssets, onRelinkMediaAsset, creativeMode, onCreativeModeChange, onAddSolid, onUseTemplateAI, selectedItem, onApplyTransition, onApplyFx, onApplyZoom }: LibraryPanelProps) {
   const t = useT();
   const selKind = selectedItem?.kind ?? null;
   const isVisual = selKind != null && selKind !== 'audio';
@@ -265,7 +267,7 @@ export function LibraryPanel({ semanticScopeId, templates, onAddTemplate, onAddA
         ) : subTab === '艺术动画' ? (
           <TemplateBrowser templates={templates} onAdd={onAddTemplate} onUseAI={onUseTemplateAI} />
         ) : subTab === '镜头库' ? (
-          <ShotBrowser assets={assets} fps={fps} onAdd={onAddMediaItem} />
+          <ShotBrowser scopeId={semanticScopeId} assets={assets} fps={fps} onAdd={onAddShot} />
         ) : subTab === '转场' ? (
           <div className="cc-transition-browser">
             {/* Audio crossfade — trAudioCrossFade; highlighting available when audio clip is selected*/}

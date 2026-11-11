@@ -201,4 +201,18 @@ export default {
   '先在「我的素材」导入素材，镜头会出现在这里供快速添加。': 'Import media under "My Media" first; shots will appear here for quick adding.',
   '镜头列表': 'Shot list',
   '点击镜头添加到时间线 · 共 {n} 个': 'Click a shot to add it to the timeline · {n} total',
+  // Shot library — AI perception search
+  '描述镜头，例如：海边日落 / 有人说话': 'Describe a shot, e.g. sunset by the sea / someone talking',
+  '按画面内容搜镜头': 'Search shots by visual content',
+  '本地语义检索，索引与搜索都在本机完成，素材不会上传。': 'Local semantic search: indexing and search stay on this device; media never leaves your machine.',
+  '下载中… {n}%': 'Downloading… {n}%',
+  '启用视觉检索': 'Enable visual search',
+  '语义结果': 'Visual matches',
+  '口语匹配 {n} 处': '{n} spoken matches',
+  '口语匹配': 'Spoken matches',
+  '没有匹配的镜头，换个描述试试。': 'No matching shots. Try a different description.',
+  '正在建立索引… {done} / {total}': 'Indexing… {done} / {total}',
+  '已索引 {done} / {total} 个素材': 'Indexed {done} / {total} assets',
+  '建立索引': 'Build index',
+  '命中': 'Hit',
 } as Record<string, string>;
