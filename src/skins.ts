@@ -72,6 +72,19 @@ const GRAPHITE: SkinTokens = {
 // Fine-tune L to meet the standard). Pastel accent skin (Mocha/Arctic/Tokyo Night/Latte) onAccent uses dark fonts.
 export const SKINS: readonly SkinDef[] = [
   { id: 'graphite', nameZh: '石墨', tokens: GRAPHITE },
+  // Pro = OpenChatCut Pro 3.1.0 深色主题配色（1:1 复刻），主色天蓝 #16a9f3 替代珊瑚橙。
+  {
+    id: 'pro', nameZh: 'Pro',
+    tokens: {
+      ...GRAPHITE,
+      bg: '#0d0d0d', inset: '#101010', panel: '#141414', panelAlt: '#181818', hover: '#242424',
+      border: '#292929', borderLight: '#3a3a3a',
+      text: '#dedede', textMuted: '#a8a8a8', textDim: '#8c8c8c', textStrong: '#f2f2f2',
+      accent: '#16a9f3', accentDeep: '#0f82be', accentRgb: '22,169,243', onAccent: '#0b131f',
+      gold: '#f7b23b', select: '#3abcfd', success: '#23d160', danger: '#ef4343',
+      tlTrack: '#141414', tlSidePanel: '#0f0f0f',
+    },
+  },
   {
     id: 'midnight', nameZh: '墨黑',
     tokens: {
@@ -139,7 +152,7 @@ export const SKINS: readonly SkinDef[] = [
 ];
 
 const STORAGE_KEY = 'cc.skin';
-export const DEFAULT_SKIN = 'graphite';
+export const DEFAULT_SKIN = 'pro';
 
 const kebab = (name: string): string => name.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
 
