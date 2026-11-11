@@ -34,6 +34,11 @@ const EXPECTED = [
   'kinetic-type-intro', 'logo-outro', 'velvet-standard-deck', 'data-bar-race', 'data-drift',
   'swiss-grid-title', 'swiss-pulse-metrics', 'shadow-cut', 'soft-signal-moment',
   'maximalist-type', 'folk-frequency', 'deconstructed-glitch', 'title-motion-entrance',
+  // Pro 补齐（talking 2 / motion 6 / workflow 4）
+  'talking-head-polish', 'silence-tighten',
+  'art-motion', 'transition-selection-guide', 'punch-zoom-emphasis', 'ken-burns-motion',
+  'photo-motion-pack', 'video-shotcraft',
+  'rough-to-final-workflow', 'short-video-factory', 'video-editing', 'workspace-video',
 ];
 
 // Every expected skill dir is present, and no extras.
