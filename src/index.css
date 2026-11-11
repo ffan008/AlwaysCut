@@ -542,6 +542,59 @@ button, input, select { font: inherit; }
 }
 .cc-sound-hint { font-size:10.5px; color:var(--cc-text-dim); line-height:1.35; margin-top:2px; }
 
+/* ── Sticker browser ── */
+.cc-sticker-browser { display:flex; flex-direction:column; gap:8px; min-height:0; }
+.cc-sticker-grid {
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(80px, 1fr)); gap:8px;
+  overflow-y:auto; min-height:0; align-content:start;
+}
+.cc-sticker-card {
+  display:flex; flex-direction:column; align-items:center; gap:6px; padding:12px 6px 8px;
+  border:0.5px solid var(--cc-border); border-radius:8px; background:var(--cc-panel-alt); cursor:pointer;
+  box-shadow:inset 0 0 0 0.5px transparent; transition:box-shadow 80ms ease;
+}
+.cc-sticker-card:hover { box-shadow:inset 0 0 0 0.5px var(--cc-border-light); }
+.cc-sticker-thumb { width:48px; height:48px; display:grid; place-items:center; pointer-events:none; }
+.cc-sticker-thumb svg { width:48px; height:48px; display:block; }
+.cc-sticker-name {
+  font-size:10.5px; color:var(--cc-text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%;
+}
+
+/* ── Text-style browser ── */
+.cc-text-style-browser { display:flex; flex-direction:column; gap:8px; min-height:0; }
+.cc-text-style-card {
+  display:flex; flex-direction:column; gap:7px; padding:12px 10px;
+  border:0.5px solid var(--cc-border); border-radius:8px; background:var(--cc-panel-alt); cursor:pointer;
+  box-shadow:inset 0 0 0 0.5px transparent; transition:box-shadow 80ms ease;
+}
+.cc-text-style-card:hover { box-shadow:inset 0 0 0 0.5px var(--cc-border-light); }
+.cc-text-style-preview {
+  height:46px; line-height:46px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;
+}
+
+/* ── Shot browser ── */
+.cc-shot-browser { display:flex; flex-direction:column; gap:8px; min-height:0; }
+.cc-shot-grid {
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(128px, 1fr)); gap:8px;
+  overflow-y:auto; min-height:0; align-content:start;
+}
+.cc-shot-card {
+  display:flex; flex-direction:column; gap:0; padding:0; overflow:hidden;
+  border:0.5px solid var(--cc-border); border-radius:8px; background:var(--cc-panel-alt); cursor:pointer;
+  box-shadow:inset 0 0 0 0.5px transparent; transition:box-shadow 80ms ease;
+}
+.cc-shot-card:hover { box-shadow:inset 0 0 0 0.5px var(--cc-border-light); }
+.cc-shot-thumb { position:relative; width:100%; aspect-ratio:16/9; background:var(--cc-inset); overflow:hidden; }
+.cc-shot-thumb img, .cc-shot-thumb video { width:100%; height:100%; object-fit:cover; display:block; }
+.cc-shot-play {
+  position:absolute; inset:0; display:grid; place-items:center; color:#fff;
+  background:rgba(0,0,0,0.25);
+}
+.cc-shot-play svg { filter:drop-shadow(0 1px 2px rgba(0,0,0,0.6)); }
+.cc-shot-meta { display:flex; flex-direction:column; gap:2px; padding:6px 8px 8px; }
+.cc-shot-name { font-size:11px; color:var(--cc-text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.cc-shot-dur { font-size:10px; color:var(--cc-text-dim); font-variant-numeric:tabular-nums; }
+
 /* ── Audio FX browser (not BGM) ── */
 .cc-audiofx-browser { display:flex; flex-direction:column; gap:10px; min-height:0; }
 .cc-audiofx-hint { font-size:11px; color:var(--cc-text-dim); line-height:1.4; }

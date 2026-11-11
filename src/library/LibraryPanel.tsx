@@ -21,6 +21,11 @@ import { TransitionThumb } from './TransitionThumb';
 import { FxThumb } from './FxThumb';
 import { ZoomThumb } from './ZoomThumb';
 import { SoundBrowser } from './SoundBrowser';
+import { StickerBrowser } from './StickerBrowser';
+import { TextStyleBrowser } from './TextStyleBrowser';
+import { ShotBrowser } from './ShotBrowser';
+import type { StickerDef } from './stickerCatalog';
+import type { TextStylePreset } from './textStyleCatalog';
 import { EnvelopeThumb } from './PluginBrowser';
 import { asPluginZoom } from './pluginTemplateCatalog';
 import { pluginResourceItems, usePluginPacks } from './pluginResources';
@@ -51,6 +56,10 @@ interface LibraryPanelProps {
   templates: Tpl[];
   onAddTemplate: (tpl: Tpl) => void;
   onAddAudio: (asset: AudioAsset) => void;
+  /** Sticker tab: add an authored SVG sticker overlay (image clip). */
+  onAddSticker: (sticker: StickerDef) => void;
+  /** Text tab: add an authored text clip from a preset. */
+  onAddTextStyle: (preset: TextStylePreset) => void;
   playerRef: RefObject<PlayerRef | null>;
   fps: number;
   items: TimelineItem[];
@@ -111,16 +120,21 @@ interface LibraryPanelProps {
 
 export const MAIN_TABS = ['我的素材', '序列', '资源库', '字幕', '技能'] as const;
 export type LibraryMainTab = (typeof MAIN_TABS)[number];
-const SUB_TABS = ['MG 动画', '音效', '转场', '特效', '缩放', 'LUT'] as const;
+// Pro "素材库 8 分类" mapped onto the resource-library sub-tabs (媒体 = 我的素材主 tab):
+// 音频 / 文本 / 贴纸 / 艺术动画 / 镜头库 / 特效 / 转场
+const SUB_TABS = ['音频', '文本', '贴纸', '艺术动画', '镜头库', '特效', '转场'] as const;
+/** 特效 tab 内部三级分组（特效 / 缩放 / LUT）。 */
+const FX_SUB_TABS = ['特效', '缩放', 'LUT'] as const;
 function localizeDefaultSequenceName(name: string, t: ReturnType<typeof useT>): string {
   const match = /^序列 (\d+)$/.exec(name);
   return match ? t('序列 {n}', { n: match[1]! }) : name;
 }
-export function LibraryPanel({ semanticScopeId, templates, onAddTemplate, onAddAudio, playerRef, fps, items, getSequenceOptions, onAddSequence, mainTab, onMainTabChange, captionTracks, onSetCaptions, onUpdateCaptions, assets, mediaFolders, usedAssetIds, offlineAssetIds, onAssetLoadError, onImportMedia, onImportMobileMedia, onIngestDirectoryAsset, onTranscribeAsset, onAddMediaItem, onAddMediaAssetsToTimeline, onUseMediaAI, onCreateMediaFolder, onRenameMediaFolder, onDeleteMediaFolder, onMoveMediaAssets, onRenameMediaAsset, onRenameMediaAssets, onSetMediaAssetFavorite, onSetMediaAssetsFavorite, onRemoveMediaAsset, onRemoveMediaAssets, onPasteMediaAssets, onRelinkMediaAsset, creativeMode, onCreativeModeChange, onAddSolid, onUseTemplateAI, selectedItem, onApplyTransition, onApplyFx, onApplyZoom }: LibraryPanelProps) {
+export function LibraryPanel({ semanticScopeId, templates, onAddTemplate, onAddAudio, onAddSticker, onAddTextStyle, playerRef, fps, items, getSequenceOptions, onAddSequence, mainTab, onMainTabChange, captionTracks, onSetCaptions, onUpdateCaptions, assets, mediaFolders, usedAssetIds, offlineAssetIds, onAssetLoadError, onImportMedia, onImportMobileMedia, onIngestDirectoryAsset, onTranscribeAsset, onAddMediaItem, onAddMediaAssetsToTimeline, onUseMediaAI, onCreateMediaFolder, onRenameMediaFolder, onDeleteMediaFolder, onMoveMediaAssets, onRenameMediaAsset, onRenameMediaAssets, onSetMediaAssetFavorite, onSetMediaAssetsFavorite, onRemoveMediaAsset, onRemoveMediaAssets, onPasteMediaAssets, onRelinkMediaAsset, creativeMode, onCreativeModeChange, onAddSolid, onUseTemplateAI, selectedItem, onApplyTransition, onApplyFx, onApplyZoom }: LibraryPanelProps) {
   const t = useT();
   const selKind = selectedItem?.kind ?? null;
   const isVisual = selKind != null && selKind !== 'audio';
-  const [subTab, setSubTab] = useState<(typeof SUB_TABS)[number]>('MG 动画');
+  const [subTab, setSubTab] = useState<(typeof SUB_TABS)[number]>('音频');
+  const [fxSubTab, setFxSubTab] = useState<(typeof FX_SUB_TABS)[number]>('特效');
   const [extensionOpen, setExtensionOpen] = useState(false);
   const [directoryImportError, setDirectoryImportError] = useState<string | null>(null);
   const directoryImport = useDirectoryImport({
@@ -148,7 +162,6 @@ export function LibraryPanel({ semanticScopeId, templates, onAddTemplate, onAddA
     onApplyZoom(pluginZoom ?? { shape: id as ZoomShape, magnification: 1.5, envelope: undefined, label: undefined });
   };
   // Audio transition: The source catalog has no independent entries and the false entry has been hidden (§4.2)
-  const showSfx = mainTab === '资源库' && subTab === '音效';     // sound effects
   const isCaptions = mainTab === '字幕';
   const isMyAssets = mainTab === '我的素材';
   const isSequences = mainTab === '序列';
@@ -233,11 +246,26 @@ export function LibraryPanel({ semanticScopeId, templates, onAddTemplate, onAddA
         </button>
       </div>
 
+      {subTab === '特效' ? (
+        <div style={{ display: 'flex', gap: 14, padding: '8px 12px 0 16px', fontSize: 11.5, borderBottom: `0.5px solid ${theme.border}` }}>
+          {FX_SUB_TABS.map((tab) => (
+            <button key={tab} onClick={() => setFxSubTab(tab)}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: fxSubTab === tab ? theme.text : theme.textDim, borderBottom: `2px solid ${fxSubTab === tab ? theme.accent : 'transparent'}`, padding: '0 0 4px' }}>{t(tab)}</button>
+          ))}
+        </div>
+      ) : null}
+
       <div style={{ flex: 1, overflowY: 'auto', padding: '10px 10px 14px', minHeight: 0 }}>
-        {mainTab === '资源库' && subTab === 'MG 动画' ? (
-          <TemplateBrowser templates={templates} onAdd={onAddTemplate} onUseAI={onUseTemplateAI} />
-        ) : showSfx ? (
+        {subTab === '音频' ? (
           <SoundBrowser fps={fps} onAdd={onAddAudio} />
+        ) : subTab === '文本' ? (
+          <TextStyleBrowser onAdd={onAddTextStyle} />
+        ) : subTab === '贴纸' ? (
+          <StickerBrowser onAdd={onAddSticker} />
+        ) : subTab === '艺术动画' ? (
+          <TemplateBrowser templates={templates} onAdd={onAddTemplate} onUseAI={onUseTemplateAI} />
+        ) : subTab === '镜头库' ? (
+          <ShotBrowser assets={assets} fps={fps} onAdd={onAddMediaItem} />
         ) : subTab === '转场' ? (
           <div className="cc-transition-browser">
             {/* Audio crossfade — trAudioCrossFade; highlighting available when audio clip is selected*/}
@@ -270,43 +298,45 @@ export function LibraryPanel({ semanticScopeId, templates, onAddTemplate, onAddA
             />
           </div>
         ) : subTab === '特效' ? (
-          <ResourceBrowser
-            layout="grid"
-            dragKind="fx"
-            hint="悬停预览 · 点击应用到选中视频/图片"
-            items={fxItems}
-            applicable={selKind === 'video' || selKind === 'image'}
-            onApply={(id) => onApplyFx(id)}
-            renderThumb={(id, hovered) => <FxThumb assetId={id} playing={hovered} />}
-          />
-        ) : subTab === '缩放' ? (
-          <ResourceBrowser
-            layout="grid"
-            dragKind="zoom"
-            hint="悬停预览 · 点击应用到选中片段（默认 1.5×，属性可细调）"
-            items={zoomItems}
-            applicable={isVisual}
-            onApply={applyZoomById}
-            renderThumb={(id, hovered) => {
-              const data = zoomItems.find((x) => x.id === id)?.data;
-              const pluginZoom = data ? asPluginZoom(data) : null;
-              // plugin envelope: real sample + envelope zoom animation (same look and feel as built-in ZoomThumb)
-              if (pluginZoom?.envelope) {
-                return <EnvelopeThumb envelope={pluginZoom.envelope} magnification={pluginZoom.magnification} playing={hovered} />;
-              }
-              return <ZoomThumb shape={pluginZoom?.shape ?? id as ZoomShape} playing={hovered} />;
-            }}
-          />
-        ) : subTab === 'LUT' ? (
-          <ResourceBrowser
-            layout="grid"
-            dragKind="lut"
-            hint="悬停预览 · 点击应用到选中视频/图片（强度可在属性细调）"
-            items={lutItems}
-            applicable={selKind === 'video' || selKind === 'image'}
-            onApply={(id) => onApplyFx(id)}
-            renderThumb={(id, hovered) => <FxThumb assetId={id} playing={hovered} />}
-          />
+          fxSubTab === '缩放' ? (
+            <ResourceBrowser
+              layout="grid"
+              dragKind="zoom"
+              hint="悬停预览 · 点击应用到选中片段（默认 1.5×，属性可细调）"
+              items={zoomItems}
+              applicable={isVisual}
+              onApply={applyZoomById}
+              renderThumb={(id, hovered) => {
+                const data = zoomItems.find((x) => x.id === id)?.data;
+                const pluginZoom = data ? asPluginZoom(data) : null;
+                // plugin envelope: real sample + envelope zoom animation (same look and feel as built-in ZoomThumb)
+                if (pluginZoom?.envelope) {
+                  return <EnvelopeThumb envelope={pluginZoom.envelope} magnification={pluginZoom.magnification} playing={hovered} />;
+                }
+                return <ZoomThumb shape={pluginZoom?.shape ?? id as ZoomShape} playing={hovered} />;
+              }}
+            />
+          ) : fxSubTab === 'LUT' ? (
+            <ResourceBrowser
+              layout="grid"
+              dragKind="lut"
+              hint="悬停预览 · 点击应用到选中视频/图片（强度可在属性细调）"
+              items={lutItems}
+              applicable={selKind === 'video' || selKind === 'image'}
+              onApply={(id) => onApplyFx(id)}
+              renderThumb={(id, hovered) => <FxThumb assetId={id} playing={hovered} />}
+            />
+          ) : (
+            <ResourceBrowser
+              layout="grid"
+              dragKind="fx"
+              hint="悬停预览 · 点击应用到选中视频/图片"
+              items={fxItems}
+              applicable={selKind === 'video' || selKind === 'image'}
+              onApply={(id) => onApplyFx(id)}
+              renderThumb={(id, hovered) => <FxThumb assetId={id} playing={hovered} />}
+            />
+          )
         ) : (
           <div style={{ color: theme.textDim, fontSize: 12, padding: 8 }}>{t('「{main} · {sub}」内容待接入。', { main: t(mainTab), sub: t(subTab) })}</div>
         )}
