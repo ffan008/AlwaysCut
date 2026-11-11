@@ -1,7 +1,7 @@
 // Built-in sticker library (Pro "贴纸" category counterpart).
 // Stickers are authored as inline SVG so they ship with the app and add as
-// `image` clips (data-URI src) without touching the media pool. Categories
-// mirror Pro's sticker panel: 推荐(all) / 箭头 / 表情 / 气泡 / 形状 / 装饰.
+// `svg` clips (data-URI src, kind='svg') without touching the media pool.
+// Categories mirror Pro's sticker panel: 推荐(all) / 箭头 / 表情 / 气泡 / 形状 / 装饰.
 
 export interface StickerDef {
   id: string;

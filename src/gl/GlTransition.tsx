@@ -113,7 +113,7 @@ function MediaSource({ item, trim, fit, elRef, decoder, onVideoFrame }: {
 }) {
   const { fps } = useVideoConfig();
   const style: React.CSSProperties = { width: '100%', height: '100%', objectFit: fit };
-  if (item.kind === 'image') {
+  if (item.kind === 'image' || item.kind === 'gif' || item.kind === 'svg') {
     // impeccable-disable-next-line broken-image -- Remotion Img component, src comes from item runtime injection
     return <Img ref={elRef as React.MutableRefObject<HTMLImageElement | null>} src={item.src!} style={style} />;
   }

@@ -287,7 +287,7 @@ export function BackgroundFillLayer({ item, frameOffset, canvasW, canvasH, brows
         ? <AbsoluteFill style={style}>
             <ClipFx item={item} fit="cover" width={canvasW} height={canvasH} frameOffset={frameOffset} />
           </AbsoluteFill>
-        : item.kind === 'image'
+        : item.kind === 'image' || item.kind === 'gif' || item.kind === 'svg'
           ? <Img src={item.src!} style={style} />
           : <RuntimeVideo browserRenderer={browserRenderer} src={item.src!} trimBefore={trimBefore}
               playbackRate={item.playbackRate ?? 1} volume={0} muted style={style} />}
