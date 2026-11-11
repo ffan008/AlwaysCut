@@ -53,6 +53,8 @@ public/media/asr-models/
 # DeepFilterNet3 local venv
 .venv-df/
 .venv/
+# Qwen3-TTS local venv (mlx-audio)
+.venv-tts/
 
 # Local Wrangler CLI cache used for R2 bucket setup
 .wrangler/

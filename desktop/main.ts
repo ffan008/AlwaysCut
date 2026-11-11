@@ -27,6 +27,7 @@ import { supportsDirectDesktopUpdates } from './update-service.ts';
 import { installDesktopInferenceIpc } from './native-inference-ipc.ts';
 import { installDesktopRecordingIpc } from './recording-ipc.ts';
 import { installDesktopEnhanceIpc } from './enhance-ipc.ts';
+import { installDesktopTtsIpc } from './tts-ipc.ts';
 import { detectDesktopHardwareProfile } from './native-hardware-profile.ts';
 import { installDirectoryWatchIpc } from './directory-watch-ipc.ts';
 import {
@@ -401,10 +402,12 @@ async function boot(): Promise<void> {
   );
   const desktopRecording = installDesktopRecordingIpc(origin);
   const desktopEnhance = installDesktopEnhanceIpc(origin);
+  const desktopTts = installDesktopTtsIpc(origin);
   app.once('before-quit', () => {
     desktopInference.dispose();
     desktopRecording.dispose();
     desktopEnhance.dispose();
+    desktopTts.dispose();
   });
   console.log(`[desktop] ${devOrigin ? 'live source' : 'embedded server'} at ${origin}`);
 

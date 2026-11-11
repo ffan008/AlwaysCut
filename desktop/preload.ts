@@ -64,6 +64,14 @@ import {
   type EnhanceRequest,
   type EnhanceResult,
 } from '../shared/desktop-enhance.ts';
+import {
+  DESKTOP_TTS_CHANNELS,
+  isDesktopTtsCapabilities,
+  isDesktopTtsResult,
+  type TtsCapabilities,
+  type TtsRequest,
+  type TtsResult,
+} from '../shared/desktop-tts.ts';
 
 export interface DesktopExportDirectoryGrant {
   readonly grantId: string;
@@ -98,6 +106,11 @@ export interface DesktopRecordingApi {
 export interface DesktopEnhanceApi {
   getCapabilities(): Promise<EnhanceCapabilities>;
   run(request: EnhanceRequest): Promise<EnhanceResult>;
+  cancel(requestId: string): Promise<void>;
+}
+export interface DesktopTtsApi {
+  getCapabilities(): Promise<TtsCapabilities>;
+  run(request: TtsRequest): Promise<TtsResult>;
   cancel(requestId: string): Promise<void>;
 }
 
@@ -138,6 +151,7 @@ export interface AlwaysCutDesktopApi {
   inference: DesktopInferenceApi;
   recording: DesktopRecordingApi;
   enhance: DesktopEnhanceApi;
+  tts: DesktopTtsApi;
 }
 
 const localMediaPreloadDependencies: LocalMediaPreloadDependencies<File> = {
@@ -295,6 +309,20 @@ const api: AlwaysCutDesktopApi = {
       ipcRenderer.invoke(DESKTOP_ENHANCE_CHANNELS.run, request) as Promise<EnhanceResult>,
     cancel: (requestId) =>
       ipcRenderer.invoke(DESKTOP_ENHANCE_CHANNELS.cancel, requestId) as Promise<void>,
+  },
+  tts: {
+    getCapabilities: async () => {
+      const value: unknown = await ipcRenderer.invoke(DESKTOP_TTS_CHANNELS.capabilities);
+      if (!isDesktopTtsCapabilities(value)) throw new Error('invalid desktop TTS capabilities');
+      return value;
+    },
+    run: async (request) => {
+      const value: unknown = await ipcRenderer.invoke(DESKTOP_TTS_CHANNELS.run, request);
+      if (!isDesktopTtsResult(value)) throw new Error('invalid desktop TTS result');
+      return value;
+    },
+    cancel: (requestId) =>
+      ipcRenderer.invoke(DESKTOP_TTS_CHANNELS.cancel, requestId) as Promise<void>,
   },
 };
 

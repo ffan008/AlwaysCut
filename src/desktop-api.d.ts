@@ -31,6 +31,7 @@ import type {
 import type { TranscriptWindowPayload } from '../shared/transcript-window';
 import type { DesktopRecordingSourceInfo } from '../shared/desktop-recording';
 import type { EnhanceCapabilities, EnhanceRequest, EnhanceResult } from '../shared/desktop-enhance';
+import type { TtsCapabilities, TtsRequest, TtsResult } from '../shared/desktop-tts';
 interface DesktopExportDirectoryGrant {
   readonly grantId: string;
   readonly label: string;
@@ -63,6 +64,11 @@ interface DesktopRecordingApi {
 interface DesktopEnhanceApi {
   getCapabilities(): Promise<EnhanceCapabilities>;
   run(request: EnhanceRequest): Promise<EnhanceResult>;
+  cancel(requestId: string): Promise<void>;
+}
+interface DesktopTtsApi {
+  getCapabilities(): Promise<TtsCapabilities>;
+  run(request: TtsRequest): Promise<TtsResult>;
   cancel(requestId: string): Promise<void>;
 }
 
@@ -103,6 +109,7 @@ declare global {
       inference: DesktopInferenceApi;
       recording: DesktopRecordingApi;
       enhance: DesktopEnhanceApi;
+      tts: DesktopTtsApi;
     };
   }
 }
