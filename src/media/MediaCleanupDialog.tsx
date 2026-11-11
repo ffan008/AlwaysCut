@@ -83,7 +83,7 @@ export function MediaCleanupDialog({ onClose }: MediaCleanupDialogProps) {
 
         <div style={{ flex: 1, minHeight: 0, overflowY: 'auto', padding: '6px 8px' }}>
           {files === null && <div style={hint}>{t('扫描中…(逐工程收集引用)')}</div>}
-          {files !== null && files.length === 0 && <div style={hint}>{t('没有无主素材,盘上很干净 ✨')}</div>}
+          {files !== null && files.length === 0 && <div style={hint}>{t('没有无主素材，盘上很干净')}</div>}
           {files?.map((f) => (
             <label key={f.name} style={row}>
               <input type="checkbox" checked={picked.has(f.name)} onChange={() => toggle(f.name)} style={{ accentColor: theme.accent }} />

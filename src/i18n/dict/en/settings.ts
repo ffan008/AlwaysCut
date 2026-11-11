@@ -448,7 +448,7 @@ export default {
   '清理素材': 'Clean Up Media',
   '列出所有工程都不引用的上传文件': 'Uploads not referenced by any project',
   '扫描中…(逐工程收集引用)': 'Scanning… (collecting references per project)',
-  '没有无主素材,盘上很干净 ✨': 'No orphaned media — the disk is clean ✨',
+  '没有无主素材，盘上很干净': 'No orphaned media — the disk is clean',
   '已顺手清掉 {n} 份孤儿工程文档(测试残留)': 'Also purged {n} orphaned project docs (test leftovers)',
   '扫描失败:{msg}': 'Scan failed: {msg}',
   '已删 {ok} 个,{fail} 个失败': 'Deleted {ok}, {fail} failed',

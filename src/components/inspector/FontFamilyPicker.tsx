@@ -3,6 +3,7 @@ import { useSystemFonts } from '../../fonts/systemFonts';
 import { GOOGLE_FONT_CATALOG } from '../../fonts/googleFontCatalog';
 import { LOCAL_CJK_FONTS } from '../../fonts/localFonts';
 import { useT } from '../../i18n/locale';
+import { Icon } from '../icons';
 
 export interface FontFamilyPickerProps {
   value: string;
@@ -170,7 +171,9 @@ export function FontFamilyPicker({
               flexShrink: 0,
             }}
           >
-            {isRefreshing ? '⏳' : '🔄'}
+            <span style={{ display: 'inline-flex', animation: isRefreshing ? 'cc-transcribe-spin 0.8s linear infinite' : 'none' }}>
+              <Icon name="refresh" size={12} />
+            </span>
           </button>
         )}
       </div>
