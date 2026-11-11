@@ -24,6 +24,24 @@ provider and voice before calling `submit_voice`.
 
 ## TTS (Text-to-Speech)
 
+Prefer local on-device TTS when the user wants free/offline dubbing, explicitly
+asks for on-device speech, or has no cloud TTS provider configured. Use
+`submit_local_tts` (Qwen3-TTS via MLX, Apple Silicon only):
+
+- `text` is required. `langCode` (default `zh`), `speed` (0.5–2), `instruct`
+  (style/emotion), and `name` are optional.
+- Voice cloning: pass `refSourcePath` (`/media/uploads/<name>` for an audio
+  clip already in the media pool) together with `refText` (its transcript).
+  Omit both to use the default voice.
+- Creates a media-pool audio asset only; timeline placement uses timeline tools.
+
+```ts
+submit_local_tts({ text: "你好，欢迎使用本地配音。", langCode: "zh" });
+```
+
+Use `submit_voice` for cloud TTS (Doubao/ElevenLabs/MiniMax/...) when a
+specific cloud voice is required or the user asks for a particular provider.
+
 If the current request has an existing visual target and the user wants
 narration, voiceover, dubbing, or replacement speech for that target, read
 [references/video-sync.md](references/video-sync.md) before drafting new

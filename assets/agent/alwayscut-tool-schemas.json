@@ -1687,6 +1687,55 @@
       }
     },
     {
+      "name": "submit_local_tts",
+      "description": "Synthesize speech from text using the local on-device Qwen3-TTS model (MLX, Apple Silicon only — free, offline, no API key). Creates a media-pool audio asset only; it does not place or replace timeline items. Supports voice cloning from a reference audio already in the media pool (refSourcePath + refText, always paired). Prefer this over submit_voice when the user wants local/free/offline dubbing, or explicitly asks for on-device speech.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Text to synthesize."
+          },
+          "langCode": {
+            "type": "string",
+            "description": "Language code (zh/en/ja/ko/...); defaults to zh."
+          },
+          "speed": {
+            "type": "number",
+            "minimum": 0.5,
+            "maximum": 2,
+            "description": "Playback speed multiplier; defaults to 1."
+          },
+          "instruct": {
+            "type": "string",
+            "description": "Optional style/emotion instruction for the voice."
+          },
+          "maxTokens": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 32768,
+            "description": "Maximum speech tokens to generate."
+          },
+          "refSourcePath": {
+            "type": "string",
+            "description": "Voice-cloning reference audio path in the form /media/uploads/<name>. Must be paired with refText. Omit (or leave empty) to use the default voice instead of cloning."
+          },
+          "refText": {
+            "type": "string",
+            "description": "Transcript of the reference audio. Required iff refSourcePath is set."
+          },
+          "name": {
+            "type": "string",
+            "description": "Optional media-pool asset name."
+          }
+        },
+        "required": [
+          "text"
+        ]
+      }
+    },
+    {
       "name": "submit_sound",
       "description": "Generate one sound-effect audio asset in the media pool: ElevenLabs synthesizes synchronously from a text prompt; Sonilo submits an asynchronous SFX job from a project video asset (the rendered cut, up to 3 minutes) with no prompt. Sonilo returns a jobId for track_progress. Does not place timeline items. For ordinary whooshes, clicks, impacts, dings, and similar editing sounds, use the existing library first.",
       "input_schema": {
@@ -4593,7 +4642,7 @@
     },
     {
       "name": "load_skill",
-      "description": "Load one bundled or selected custom skill under the active model round input budget. Omit selectors for SKILL.md; if it is paged, follow nextOffset until null before support files. Exactly one selector per call: either files=[...] to load whole omitted files, or file with offset and limit to page a single file. Never send file and files in the same call. Bundled skills: aesthetic-standards, ai-cinematic-short-film, ai-enhance-guide, alwayscut-plugin-basics, asset-import, audio-fade-polish, audio-mix-voice-bgm, audio-noise-cleanup, b-roll-layering, batch-montage-variants, beat-sync-montage, cinematic-teal-orange, clean-bright-tutorial, course-chapter-cut, create-motion-graphics, critique-review, data-bar-race, data-drift, deconstructed-glitch, director, ecommerce-product-montage, end-card-cta, explainer-video, export, film-grain-look, folk-frequency, image-gen, interview-two-cam, kinetic-type-intro, knowledge-card-video, known-errors, livestream-to-clips, logo-outro, long-video-to-shorts, maximalist-type, moody-duotone, motion-graphic-placement, multi-clips-to-reels, multi-scene-organization, music, music-intelligence, narration-led-demo, native-subtitle-quote-image, neon-night-city, news-rough-cut, product-ad-video-script, product-help, ranking-listicle, reference-breakdown, reference-project-apply, scene-script, shader-gen, shadow-cut, short-drama, short-video-hook, skill-creator, skin-tone-fix, soft-signal-moment, sound-design-pack, storyboard-shot-breakdown, street-interview, swiss-grid-title, swiss-pulse-metrics, talking-head-guide, talking-head-packaging, title-motion-entrance, transcription, two-person-podcast, velvet-standard-deck, verification, video-gen, video-thumbnail-generator, visual-continuity, voice, widget-forms.",
+      "description": "Load one bundled or selected custom skill under the active model round input budget. Omit selectors for SKILL.md; if it is paged, follow nextOffset until null before support files. Exactly one selector per call: either files=[...] to load whole omitted files, or file with offset and limit to page a single file. Never send file and files in the same call. Bundled skills: aesthetic-standards, ai-cinematic-short-film, ai-enhance-guide, alwayscut-plugin-basics, art-motion, asset-import, audio-fade-polish, audio-mix-voice-bgm, audio-noise-cleanup, b-roll-layering, batch-montage-variants, beat-sync-montage, cinematic-teal-orange, clean-bright-tutorial, course-chapter-cut, create-motion-graphics, critique-review, data-bar-race, data-drift, deconstructed-glitch, director, ecommerce-product-montage, end-card-cta, explainer-video, export, film-grain-look, folk-frequency, image-gen, interview-two-cam, ken-burns-motion, kinetic-type-intro, knowledge-card-video, known-errors, livestream-to-clips, logo-outro, long-video-to-shorts, maximalist-type, moody-duotone, motion-graphic-placement, multi-clips-to-reels, multi-scene-organization, music, music-intelligence, narration-led-demo, native-subtitle-quote-image, neon-night-city, news-rough-cut, photo-motion-pack, product-ad-video-script, product-help, punch-zoom-emphasis, ranking-listicle, reference-breakdown, reference-project-apply, rough-to-final-workflow, scene-script, shader-gen, shadow-cut, short-drama, short-video-factory, short-video-hook, silence-tighten, skill-creator, skin-tone-fix, soft-signal-moment, sound-design-pack, storyboard-shot-breakdown, street-interview, swiss-grid-title, swiss-pulse-metrics, talking-head-guide, talking-head-packaging, talking-head-polish, title-motion-entrance, transcription, transition-selection-guide, two-person-podcast, velvet-standard-deck, verification, video-editing, video-gen, video-shotcraft, video-thumbnail-generator, visual-continuity, voice, widget-forms, workspace-video.",
       "input_schema": {
         "type": "object",
         "properties": {
@@ -6098,7 +6147,7 @@
     },
     {
       "name": "load_skill",
-      "description": "Load one bundled or selected custom skill under the active model round input budget. Omit selectors for SKILL.md; if it is paged, follow nextOffset until null before support files. Exactly one selector per call: either files=[...] to load whole omitted files, or file with offset and limit to page a single file. Never send file and files in the same call. Bundled skills: aesthetic-standards, ai-cinematic-short-film, ai-enhance-guide, alwayscut-plugin-basics, asset-import, audio-fade-polish, audio-mix-voice-bgm, audio-noise-cleanup, b-roll-layering, batch-montage-variants, beat-sync-montage, cinematic-teal-orange, clean-bright-tutorial, course-chapter-cut, create-motion-graphics, critique-review, data-bar-race, data-drift, deconstructed-glitch, director, ecommerce-product-montage, end-card-cta, explainer-video, export, film-grain-look, folk-frequency, image-gen, interview-two-cam, kinetic-type-intro, knowledge-card-video, known-errors, livestream-to-clips, logo-outro, long-video-to-shorts, maximalist-type, moody-duotone, motion-graphic-placement, multi-clips-to-reels, multi-scene-organization, music, music-intelligence, narration-led-demo, native-subtitle-quote-image, neon-night-city, news-rough-cut, product-ad-video-script, product-help, ranking-listicle, reference-breakdown, reference-project-apply, scene-script, shader-gen, shadow-cut, short-drama, short-video-hook, skill-creator, skin-tone-fix, soft-signal-moment, sound-design-pack, storyboard-shot-breakdown, street-interview, swiss-grid-title, swiss-pulse-metrics, talking-head-guide, talking-head-packaging, title-motion-entrance, transcription, two-person-podcast, velvet-standard-deck, verification, video-gen, video-thumbnail-generator, visual-continuity, voice, widget-forms.",
+      "description": "Load one bundled or selected custom skill under the active model round input budget. Omit selectors for SKILL.md; if it is paged, follow nextOffset until null before support files. Exactly one selector per call: either files=[...] to load whole omitted files, or file with offset and limit to page a single file. Never send file and files in the same call. Bundled skills: aesthetic-standards, ai-cinematic-short-film, ai-enhance-guide, alwayscut-plugin-basics, art-motion, asset-import, audio-fade-polish, audio-mix-voice-bgm, audio-noise-cleanup, b-roll-layering, batch-montage-variants, beat-sync-montage, cinematic-teal-orange, clean-bright-tutorial, course-chapter-cut, create-motion-graphics, critique-review, data-bar-race, data-drift, deconstructed-glitch, director, ecommerce-product-montage, end-card-cta, explainer-video, export, film-grain-look, folk-frequency, image-gen, interview-two-cam, ken-burns-motion, kinetic-type-intro, knowledge-card-video, known-errors, livestream-to-clips, logo-outro, long-video-to-shorts, maximalist-type, moody-duotone, motion-graphic-placement, multi-clips-to-reels, multi-scene-organization, music, music-intelligence, narration-led-demo, native-subtitle-quote-image, neon-night-city, news-rough-cut, photo-motion-pack, product-ad-video-script, product-help, punch-zoom-emphasis, ranking-listicle, reference-breakdown, reference-project-apply, rough-to-final-workflow, scene-script, shader-gen, shadow-cut, short-drama, short-video-factory, short-video-hook, silence-tighten, skill-creator, skin-tone-fix, soft-signal-moment, sound-design-pack, storyboard-shot-breakdown, street-interview, swiss-grid-title, swiss-pulse-metrics, talking-head-guide, talking-head-packaging, talking-head-polish, title-motion-entrance, transcription, transition-selection-guide, two-person-podcast, velvet-standard-deck, verification, video-editing, video-gen, video-shotcraft, video-thumbnail-generator, visual-continuity, voice, widget-forms, workspace-video.",
       "input_schema": {
         "type": "object",
         "properties": {

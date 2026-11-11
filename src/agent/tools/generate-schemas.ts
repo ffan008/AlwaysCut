@@ -90,6 +90,24 @@ export const GENERATE_TOOL_SCHEMAS: AgentToolSchema[] = [
     },
   },
   {
+    name: 'submit_local_tts',
+    description: 'Synthesize speech from text using the local on-device Qwen3-TTS model (MLX, Apple Silicon only — free, offline, no API key). Creates a media-pool audio asset only; it does not place or replace timeline items. Supports voice cloning from a reference audio already in the media pool (refSourcePath + refText, always paired). Prefer this over submit_voice when the user wants local/free/offline dubbing, or explicitly asks for on-device speech.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        text: { type: 'string', minLength: 1, description: 'Text to synthesize.' },
+        langCode: { type: 'string', description: 'Language code (zh/en/ja/ko/...); defaults to zh.' },
+        speed: { type: 'number', minimum: 0.5, maximum: 2, description: 'Playback speed multiplier; defaults to 1.' },
+        instruct: { type: 'string', description: 'Optional style/emotion instruction for the voice.' },
+        maxTokens: { type: 'integer', minimum: 1, maximum: 32768, description: 'Maximum speech tokens to generate.' },
+        refSourcePath: { type: 'string', description: 'Voice-cloning reference audio path in the form /media/uploads/<name>. Must be paired with refText. Omit (or leave empty) to use the default voice instead of cloning.' },
+        refText: { type: 'string', description: 'Transcript of the reference audio. Required iff refSourcePath is set.' },
+        name: { type: 'string', description: 'Optional media-pool asset name.' },
+      },
+      required: ['text'],
+    },
+  },
+  {
     name: 'submit_sound',
     description: 'Generate one sound-effect audio asset in the media pool: ElevenLabs synthesizes synchronously from a text prompt; Sonilo submits an asynchronous SFX job from a project video asset (the rendered cut, up to 3 minutes) with no prompt. Sonilo returns a jobId for track_progress. Does not place timeline items. For ordinary whooshes, clicks, impacts, dings, and similar editing sounds, use the existing library first.',
     input_schema: {

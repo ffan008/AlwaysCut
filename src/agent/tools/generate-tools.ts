@@ -10,6 +10,7 @@ import { GENERATE_TOOL_SCHEMAS } from './generate-schemas';
 const IDEMPOTENT_GENERATION_TOOLS: Record<string, true> = {
   submit_image: true,
   submit_voice: true,
+  submit_local_tts: true,
   submit_sound: true,
   submit_music: true,
   submit_video: true,

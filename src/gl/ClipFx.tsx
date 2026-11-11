@@ -13,7 +13,15 @@ import { offthreadTrimBefore, offthreadVideoTransparent, useRuntimeVideoDecoder 
 import { glEffects } from './clipEffects';
 import { getMattingSegmenter } from '../matting/segmenterCache';
 import type { MattingSegmenter } from '../matting/segment';
+import type { MattingMask } from '../../shared/matting.ts';
 import aiMattingFrag from './fx/ai-matting.frag.ts';
+
+// Matting is expensive (MediaPipe 256×256 GPU inference on every frame). Still
+// images never change, and video frames change slowly for the intended use
+// (talking-head / product / b-roll), so we compute one mask per
+// MATTING_SAMPLE_EVERY frames and reuse it in between. At 30fps this is a
+// ~0.2s refresh — imperceptible — while cutting inference cost ~6×.
+const MATTING_SAMPLE_EVERY = 6;
 
 // One video/image clip rendered through a builtin:fx-* single-input WebGL pass.
 // Mounts a hidden, frame-synced media
@@ -97,6 +105,7 @@ export function ClipFx({ item, fit, width, height, frameOffset = 0, onPreviewSta
   const mattingEntry = useMemo(() => active.find(({ def }) => def.matting) ?? null, [active]);
   const segmenterRef = useRef<MattingSegmenter | null>(null);
   const [mattingReady, setMattingReady] = useState(false);
+  const mattingCacheRef = useRef<{ key: string; mask: MattingMask } | null>(null);
 
   useEffect(() => {
     if (!mattingEntry) return;
@@ -218,8 +227,18 @@ export function ClipFx({ item, fit, width, height, frameOffset = 0, onPreviewSta
           const softness = typeof rawSoftness === 'number'
             ? Math.min(0.4, Math.max(0, rawSoftness))
             : 0.05;
-          const result = segmenterRef.current.segment(staging);
-          runtime.renderMatting(aiMattingFrag, staging, result.mask, { u_softness: softness });
+          // Still images segment once; video refreshes every
+          // MATTING_SAMPLE_EVERY frames. The cache key pins the source identity
+          // and staging size, so a clip swap or an export-resolution change
+          // invalidates cleanly and re-segments.
+          const bucket = item.kind === 'image' ? 0 : Math.floor(frame / MATTING_SAMPLE_EVERY);
+          const cacheKey = `${item.kind}:${item.id}:${width}x${height}:${bucket}`;
+          let mask = mattingCacheRef.current?.key === cacheKey ? mattingCacheRef.current.mask : null;
+          if (!mask) {
+            mask = segmenterRef.current.segment(staging).mask;
+            mattingCacheRef.current = { key: cacheKey, mask };
+          }
+          runtime.renderMatting(aiMattingFrag, staging, mask, { u_softness: softness });
         } else {
           const shaderFrame = buildEffectShaderFrame(
             active.map(({ fx, def }) => ({ def, overrides: fx.overrides })),

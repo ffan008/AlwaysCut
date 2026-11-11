@@ -8,6 +8,7 @@ import { submitMediaExport, type SubmitMediaExportArgs } from '../../generate/me
 import { trackGenerationProgress } from '../../generate/progress';
 import { submitVideo, type VideoGenerationSubmission } from '../../generate/video';
 import { submitVoice } from '../../generate/voice';
+import { submitLocalTts } from '../../generate/local-tts';
 import { timelineToFcpxml, type NleFormat } from '../../export/fcpxml';
 import { fcpxmlMediaLocations } from '../../export/exportMediaSources';
 import { recordExport } from '../../persist/exportHistoryStore';
@@ -23,6 +24,7 @@ import { fontFallbackGate } from './font-tools';
 import { refreshSystemFonts } from '../../fonts/systemFonts';
 import {
   buildSubmitImageArgs,
+  buildSubmitLocalTtsArgs,
   buildSubmitMusicArgs,
   buildSubmitSoundArgs,
   buildSubmitVideoArgs,
@@ -70,6 +72,16 @@ const submitVoiceHandler: Handler = async (args, ctx) => {
   return {
     ok: true, provider: input.provider, voiceId: input.voiceId, assetId: asset.id,
     name: asset.name, src: asset.src, subtitlePath: asset.props?.minimaxSubtitlePath, addedTo: 'media-pool',
+  };
+};
+
+const submitLocalTtsHandler: Handler = async (args, ctx) => {
+  const input = buildSubmitLocalTtsArgs(args);
+  const asset = await submitLocalTts(input, ctx.getState());
+  addAsset(ctx, asset);
+  return {
+    ok: true, provider: 'local-qwen3-tts', assetId: asset.id,
+    name: asset.name, src: asset.src, addedTo: 'media-pool',
   };
 };
 
@@ -396,6 +408,7 @@ async function rerunGenerationHandler(args: GenerateArgs, ctx: AgentContext): Pr
 const COMMANDS: Record<string, Handler> = {
   submit_image: safe(submitImageHandler),
   submit_voice: safe(submitVoiceHandler),
+  submit_local_tts: safe(submitLocalTtsHandler),
   submit_sound: safe(submitSoundHandler),
   submit_music: safe(submitMusicHandler),
   submit_video: safe(submitVideoHandler),

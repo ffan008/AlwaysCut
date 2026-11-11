@@ -1,18 +1,21 @@
 // Local Qwen3-TTS (MLX) runner behind the desktop TTS surface.
 //
-// Spawns the Python sidecar (scripts/qwen-tts/qwen_tts_sidecar.py) once per
-// request. The sidecar loads the model from the local HuggingFace cache and
-// writes a WAV into the uploads directory; this module resolves paths, runs
-// the process, and maps the sidecar's JSON result back to a /media/uploads
-// path. Voice cloning uses a reference audio already in the media pool
-// (refSourcePath + refText).
+// Two execution paths:
+//   1. Warm persistent sidecar (default): the Python sidecar loads the ~3.8 GB
+//      model ONCE in --serve mode and holds it in memory. Each request is a
+//      JSON line on stdin, answered by one JSON line on stdout. Requests are
+//      serialized (the model is a single instance) with a small in-flight
+//      queue. Voice cloning uses a reference audio already in the media pool
+//      (refSourcePath + refText).
+//   2. One-shot (fallback): if the sidecar fails to serve, spawn one process
+//      per request (loads the model every time — slow, but correct).
 //
-// Note: each request re-loads the ~3.8 GB model, so first-run latency is
-// tens of seconds. A persistent warm sidecar is a follow-up (same protocol,
-// add a --serve mode) once the end-to-end path is proven.
+// Output files are named by a deterministic SHA1 stem, so a repeated request
+// short-circuits to the cached WAV before any synthesis runs.
 import { createHash, randomUUID } from 'node:crypto';
 import { existsSync } from 'node:fs';
 import { spawn, type ChildProcess } from 'node:child_process';
+import { createInterface } from 'node:readline';
 import { join } from 'node:path';
 import type { TtsCapabilities, TtsRequest, TtsResult } from '../shared/desktop-tts.ts';
 import { uploadDir, uploadNameOfSource, resolveUploadFile } from './media-dir.ts';
@@ -29,10 +32,21 @@ const activeJobs = new Map<string, ActiveTtsJob>();
 
 export function cancelTts(requestId: string): boolean {
   const job = activeJobs.get(requestId);
-  if (!job) return false;
-  job.cancelled = true;
-  job.child.kill('SIGKILL');
-  return true;
+  if (job) {
+    job.cancelled = true;
+    job.child.kill('SIGKILL');
+    return true;
+  }
+  // Warm mode: the model cannot be interrupted mid-inference without killing
+  // the shared process, so cancel aborts the whole warm server. A later
+  // request respawns it (paying one model reload).
+  if (warmServer && !warmServer.closed) {
+    warmServer.closed = true;
+    warmServer.child.kill('SIGKILL');
+    warmServer = null;
+    return true;
+  }
+  return false;
 }
 
 /** Python interpreter that runs the sidecar. Env override wins for dev. */
@@ -94,6 +108,8 @@ function ttsStem(request: TtsRequest): string {
 
 interface SidecarJson {
   readonly files?: readonly string[];
+  readonly error?: string;
+  readonly ready?: boolean;
 }
 
 function parseSidecarJson(stdout: string): SidecarJson | null {
@@ -110,6 +126,140 @@ function parseSidecarJson(stdout: string): SidecarJson | null {
   }
   return null;
 }
+
+function parseJsonLine(line: string): SidecarJson | null {
+  const trimmed = line.trim();
+  if (!trimmed.startsWith('{')) return null;
+  try {
+    return JSON.parse(trimmed) as SidecarJson;
+  } catch {
+    return null;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Warm persistent sidecar
+// ---------------------------------------------------------------------------
+
+interface WarmServer {
+  readonly child: ChildProcess;
+  closed: boolean;
+}
+
+interface WarmPending {
+  readonly resolve: (json: SidecarJson) => void;
+  readonly reject: (error: Error) => void;
+  readonly timer: NodeJS.Timeout;
+}
+
+let warmServer: WarmServer | null = null;
+let warmQueue: Promise<unknown> = Promise.resolve();
+let warmPending: WarmPending | null = null;
+let warmReadyResolve: (() => void) | null = null;
+let warmReadyReject: ((error: Error) => void) | null = null;
+let warmStderr = '';
+
+function spawnWarmServer(): WarmServer {
+  const args = [ttsSidecarPath(), '--serve', '--output_dir', uploadDir()];
+  const model = process.env.ALWAYSCUT_QWEN_TTS_MODEL;
+  if (model) args.push('--model', model);
+
+  const child = spawn(ttsPythonBin(), args, {
+    stdio: ['pipe', 'pipe', 'pipe'],
+    env: { ...process.env, HF_HUB_OFFLINE: '1', TRANSFORMERS_OFFLINE: '1' },
+    windowsHide: true,
+  });
+
+  const fail = (error: Error) => {
+    if (warmReadyReject) {
+      warmReadyReject(error);
+      warmReadyReject = null;
+      warmReadyResolve = null;
+    }
+    if (warmPending) {
+      const pending = warmPending;
+      warmPending = null;
+      clearTimeout(pending.timer);
+      pending.reject(error);
+    }
+  };
+
+  const rl = createInterface({ input: child.stdout });
+  rl.on('line', (line) => {
+    const parsed = parseJsonLine(line);
+    if (!parsed) return;
+    if (parsed.ready === true) {
+      if (warmReadyResolve) {
+        warmReadyResolve();
+        warmReadyResolve = null;
+        warmReadyReject = null;
+      }
+      return;
+    }
+    if (warmPending) {
+      const pending = warmPending;
+      warmPending = null;
+      clearTimeout(pending.timer);
+      pending.resolve(parsed);
+    }
+  });
+
+  child.stderr?.on('data', (chunk: Buffer) => {
+    warmStderr = (warmStderr + String(chunk)).slice(-STDERR_LIMIT);
+  });
+  child.once('error', (error) => fail(error));
+  child.once('close', () => {
+    warmServer = null; // respawn on the next request
+    fail(new Error(`本地配音服务已退出：${warmStderr.slice(-300)}`));
+  });
+
+  const server: WarmServer = { child, closed: false };
+  warmServer = server;
+  return server;
+}
+
+function ensureWarmServer(): Promise<WarmServer> {
+  if (warmServer && !warmServer.closed) return Promise.resolve(warmServer);
+  const server = spawnWarmServer();
+  return new Promise((resolve, reject) => {
+    warmReadyResolve = () => resolve(server);
+    warmReadyReject = reject;
+    // If the process already died before ready, the close handler above rejects.
+  });
+}
+
+function warmRun(request: TtsRequest, refPath: string | null): Promise<SidecarJson> {
+  const run = (): Promise<SidecarJson> => ensureWarmServer().then(
+    (server) => new Promise<SidecarJson>((resolve, reject) => {
+      const timer = setTimeout(() => {
+        if (warmPending) {
+          warmPending = null;
+          reject(new Error('本地配音超时'));
+        }
+      }, TTS_TIMEOUT_MS);
+      warmPending = { resolve, reject, timer };
+      const payload = {
+        text: request.text,
+        lang_code: request.langCode ?? 'zh',
+        speed: request.speed ?? 1,
+        instruct: request.instruct ?? undefined,
+        max_tokens: request.maxTokens ?? undefined,
+        ref_audio: refPath ?? undefined,
+        ref_text: refPath ? request.refText ?? '' : undefined,
+        zero_spk: refPath ? undefined : true,
+        prefix: ttsStem(request),
+      };
+      server.child.stdin!.write(`${JSON.stringify(payload)}\n`);
+    }),
+  );
+  const queued = warmQueue.then(run, run);
+  warmQueue = queued.catch(() => undefined);
+  return queued;
+}
+
+// ---------------------------------------------------------------------------
+// One-shot fallback
+// ---------------------------------------------------------------------------
 
 function runSidecar(request: TtsRequest, refPath: string | null): Promise<SidecarJson> {
   return new Promise((resolve, reject) => {
@@ -185,7 +335,16 @@ export async function runTts(request: TtsRequest): Promise<TtsResult> {
     return { requestId: request.requestId, outputPath: `/media/uploads/${stem}.wav` };
   }
 
-  const parsed = await runSidecar(request, refPath);
+  let parsed: SidecarJson;
+  try {
+    parsed = await warmRun(request, refPath);
+  } catch {
+    // Warm path failed (no --serve, spawn error, or crash) — fall back to
+    // one-shot. The one-shot load is slow but correct.
+    parsed = await runSidecar(request, refPath);
+  }
+
+  if (parsed.error) throw new Error(parsed.error);
   const file = parsed.files?.[0];
   if (!file || !existsSync(file)) throw new Error('本地配音未能生成音频文件');
   const base = file.slice(file.lastIndexOf('/') + 1);

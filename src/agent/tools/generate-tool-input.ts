@@ -3,6 +3,7 @@ import type { SubmitMusicArgs } from '../../generate/music';
 import type { SubmitSoundArgs } from '../../generate/sound';
 import type { SubmitVideoArgs } from '../../generate/video';
 import type { SubmitVoiceArgs, VoiceProvider } from '../../generate/voice';
+import type { LocalTtsArgs } from '../../generate/local-tts';
 
 export type GenerateArgs = Record<string, unknown>;
 export const shouldAddImageToTimeline = (args: GenerateArgs): boolean => args.addToTimeline !== false;
@@ -140,6 +141,24 @@ export function buildSubmitVoiceArgs(args: GenerateArgs): SubmitVoiceArgs {
     ? requested
     : 'elevenlabs';
   return VOICE_STRATEGIES[provider](args);
+}
+
+export function buildSubmitLocalTtsArgs(args: GenerateArgs): LocalTtsArgs {
+  const refSourcePath = str(args.refSourcePath);
+  const refText = str(args.refText);
+  if ((refSourcePath === undefined) !== (refText === undefined)) {
+    throw new Error('refSourcePath and refText must be provided together for voice cloning');
+  }
+  return {
+    text: String(args.text ?? ''),
+    refSourcePath,
+    refText,
+    langCode: str(args.langCode),
+    speed: num(args.speed),
+    instruct: str(args.instruct),
+    maxTokens: num(args.maxTokens),
+    name: str(args.name),
+  };
 }
 
 type MusicMode = NonNullable<SubmitMusicArgs['mode']>;
