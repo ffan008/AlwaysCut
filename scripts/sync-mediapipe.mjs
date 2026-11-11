@@ -2,7 +2,7 @@
 // WASM comes from the lockfile-pinned npm package; model bytes are verified
 // before installation so fresh checkouts and offline reruns are deterministic.
 import { createHash } from 'node:crypto';
-import { copyFile, mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readFile, rename, rm, stat, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -67,7 +67,23 @@ if (!existsSync(WASM_SRC)) {
 }
 await mkdir(WASM_DIR, { recursive: true });
 for (const file of WASM_FILES) {
-  await copyFile(join(WASM_SRC, file), join(WASM_DIR, file));
+  const src = join(WASM_SRC, file);
+  const dest = join(WASM_DIR, file);
+  // Idempotent: skip the copy when the pinned source already matches the target,
+  // so a verified checkout (or a fresh sandbox) never re-copies and re-triggers
+  // the host's file-write guard on every build.
+  let skip = false;
+  try {
+    const [s, d] = await Promise.all([stat(src), stat(dest)]);
+    skip = s.size === d.size;
+  } catch {
+    skip = false;
+  }
+  if (skip) {
+    process.stdout.write(`wasm: ${file} (unchanged)\n`);
+    continue;
+  }
+  await copyFile(src, dest);
   process.stdout.write(`wasm: ${file}\n`);
 }
 for (const model of MODELS) await syncModel(model);

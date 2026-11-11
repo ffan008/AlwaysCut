@@ -1,6 +1,7 @@
 import templatesJson from '../../assets/templates/alwayscut-templates.json';
 import socialShortsJson from '../../assets/templates/social-shorts-templates.json';
 import kouboScenesJson from '../../assets/templates/koubo-scenes-templates.json';
+import proMasterJson from '../../assets/templates/pro-master-templates.json';
 import type { Tpl } from '../types';
 import type { TimelineState } from './types';
 
@@ -13,6 +14,7 @@ export const TEMPLATES = [
   ...(templatesJson as Tpl[]),
   ...(socialShortsJson as Tpl[]),
   ...(kouboScenesJson as Tpl[]),
+  ...(proMasterJson as Tpl[]),
 ];
 
 const pick = (name: string): Tpl => TEMPLATES.find((t) => t.name.includes(name)) ?? TEMPLATES[0];

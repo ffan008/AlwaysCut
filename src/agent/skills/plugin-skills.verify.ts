@@ -30,6 +30,10 @@ const EXPECTED = [
   'reference-breakdown', 'reference-project-apply', 'narration-led-demo', 'multi-scene-organization',
   'critique-review', 'visual-continuity', 'aesthetic-standards', 'ai-enhance-guide',
   'scene-script', 'b-roll-layering',
+  // Pro MG 母版（13 个，模板已内置 assets/templates/pro-master-templates.json）
+  'kinetic-type-intro', 'logo-outro', 'velvet-standard-deck', 'data-bar-race', 'data-drift',
+  'swiss-grid-title', 'swiss-pulse-metrics', 'shadow-cut', 'soft-signal-moment',
+  'maximalist-type', 'folk-frequency', 'deconstructed-glitch', 'title-motion-entrance',
 ];
 
 // Every expected skill dir is present, and no extras.

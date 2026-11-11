@@ -1,0 +1,1071 @@
+[
+  {
+    "id": "353bed57-f1c9-41e1-87d3-8f9b46fcccf9",
+    "name": "标题动态入场",
+    "category": "pro-master",
+    "description": "色块衬底下沉入场，主标题逐字淡入，副标题整体上浮，停留后整体淡出。片头/章节标题/标题动画。",
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "durationInFrames": 120,
+    "props": {
+      "title": "全新登场",
+      "subtitle": "A NEW CHAPTER BEGINS",
+      "bg": "#0E1116",
+      "blockColor": "#E63946",
+      "titleColor": "#FFFFFF",
+      "subtitleColor": "#C9D2DC"
+    },
+    "propSchema": [
+      {
+        "key": "title",
+        "type": "text",
+        "defaultValue": "全新登场",
+        "label": "主标题"
+      },
+      {
+        "key": "subtitle",
+        "type": "text",
+        "defaultValue": "A NEW CHAPTER BEGINS",
+        "label": "副标题"
+      },
+      {
+        "key": "bg",
+        "type": "color",
+        "defaultValue": "#0E1116",
+        "label": "背景色"
+      },
+      {
+        "key": "blockColor",
+        "type": "color",
+        "defaultValue": "#E63946",
+        "label": "色块衬底色"
+      },
+      {
+        "key": "titleColor",
+        "type": "color",
+        "defaultValue": "#FFFFFF",
+        "label": "主标题色"
+      },
+      {
+        "key": "subtitleColor",
+        "type": "color",
+        "defaultValue": "#C9D2DC",
+        "label": "副标题色"
+      }
+    ],
+    "thumb": null,
+    "code": "const TitleMotionEntrance = ({item}) => {\n  const frame = useCurrentFrame();\n  const {fps} = useVideoConfig();\n  const p = item.props || {};\n  const W = item.width || 1280;\n  const H = item.height || 720;\n\n  const title = p.title || '全新登场';\n  const subtitle = p.subtitle || 'A NEW CHAPTER BEGINS';\n  const bg = p.bg || '#0E1116';\n  const blockColor = p.blockColor || '#E63946';\n  const titleColor = p.titleColor || '#FFFFFF';\n  const subtitleColor = p.subtitleColor || '#C9D2DC';\n\n  const T = (s) => s * fps;\n  const t0 = 0.5; // 片头标题入场不早于 0.3s，取 0.5s 留呼吸\n\n  // 入场 helper（opacity 0→1 + translateY）\n  const enter = (start, dur, dist, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.exp) });\n    return { opacity: k, transform: `translateY(${(1 - k) * dist}px)` };\n  };\n\n  // 色块衬底：入场下沉 40→0 + 淡入，出场纯淡出\n  const blockIn = interpolate(frame, [T(t0), T(t0 + 0.35)], [0, 1],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.exp) });\n  const blockY = interpolate(frame, [T(t0), T(t0 + 0.35)], [40, 0],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.exp) });\n  const exitFade = interpolate(frame, [T(3.0), T(3.3)], [1, 0],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });\n  const blockOpacity = blockIn * exitFade;\n\n  // 逐字入场（0.05s stagger）\n  const chars = String(title).split('');\n  const charItems = chars.map((ch, i) => ({ ...enter(t0 + i * 0.05, 0.3, 0), ch }));\n\n  // 副标题整体上浮淡入\n  const subStyle = enter(t0, 0.35, 20);\n\n  const mainSize = H * 0.15;\n  const blockH = mainSize * 1.84;\n  const blockW = W * 0.62;\n  const sans = \"'Noto Sans SC', 'PingFang SC', sans-serif\";\n\n  return (\n    <div style={{ width: W, height: H, position: 'relative', overflow: 'hidden', background: bg, fontFamily: sans }}>\n      <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', paddingLeft: W * 0.09 }}>\n        <div style={{ position: 'relative' }}>\n          {/* 色块衬底（垫底层） */}\n          <div style={{\n            position: 'absolute', left: -W * 0.02, top: -(blockH - mainSize * 1.15) / 2,\n            width: blockW, height: blockH, background: blockColor,\n            opacity: blockOpacity, transform: `translateY(${blockY}px)`\n          }} />\n          {/* 主标题（逐字） */}\n          <div style={{ position: 'relative', fontSize: mainSize, fontWeight: 900, lineHeight: 1.15, color: titleColor, whiteSpace: 'pre' }}>\n            {charItems.map((c, i) => (\n              <span key={i} style={{ display: 'inline-block', opacity: c.opacity * exitFade, transform: c.transform }}>{c.ch === ' ' ? '\\u00A0' : c.ch}</span>\n            ))}\n          </div>\n          {/* 副标题 */}\n          <div style={{\n            position: 'relative', marginTop: mainSize * 0.12, fontSize: H * 0.055,\n            color: subtitleColor, letterSpacing: '0.18em',\n            opacity: subStyle.opacity * exitFade, transform: subStyle.transform\n          }}>{subtitle}</div>\n        </div>\n      </div>\n    </div>\n  );\n};\n"
+  },
+  {
+    "id": "6f0b3c9e-1a2b-4c3d-8e5f-9a0b1c2d3e4f",
+    "name": "大字动效片头",
+    "category": "pro-master",
+    "description": "四幕片头：钩子大字→要点阵列→数字强调→落版，幕间白场闪切。宣传片头/标题动画/口号开场。",
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "durationInFrames": 240,
+    "props": {
+      "hook1": "What if",
+      "hook2": "great coffee",
+      "hook3": "brewed itself?",
+      "kicker": "A FILM ABOUT SLOWNESS",
+      "pillar1": "SINGLE ORIGIN",
+      "pillar2": "HAND POURED",
+      "pillar3": "SMALL BATCH",
+      "statValue": "92",
+      "statLabel": "cupping score",
+      "outroName": "MOUNTAIN COFFEE",
+      "outroTagline": "slow down, drink well",
+      "bg": "#101418",
+      "ink": "#F5F7FA",
+      "accent": "#6CF3C0",
+      "muted": "#9AA4B2"
+    },
+    "propSchema": [
+      {
+        "key": "hook1",
+        "type": "text",
+        "defaultValue": "What if",
+        "label": "钩子第一行"
+      },
+      {
+        "key": "hook2",
+        "type": "text",
+        "defaultValue": "great coffee",
+        "label": "钩子主词（强调色）"
+      },
+      {
+        "key": "hook3",
+        "type": "text",
+        "defaultValue": "brewed itself?",
+        "label": "钩子第三行"
+      },
+      {
+        "key": "kicker",
+        "type": "text",
+        "defaultValue": "A FILM ABOUT SLOWNESS",
+        "label": "钩子副标"
+      },
+      {
+        "key": "pillar1",
+        "type": "text",
+        "defaultValue": "SINGLE ORIGIN",
+        "label": "要点一"
+      },
+      {
+        "key": "pillar2",
+        "type": "text",
+        "defaultValue": "HAND POURED",
+        "label": "要点二"
+      },
+      {
+        "key": "pillar3",
+        "type": "text",
+        "defaultValue": "SMALL BATCH",
+        "label": "要点三"
+      },
+      {
+        "key": "statValue",
+        "type": "text",
+        "defaultValue": "92",
+        "label": "强调数字"
+      },
+      {
+        "key": "statLabel",
+        "type": "text",
+        "defaultValue": "cupping score",
+        "label": "数字标签"
+      },
+      {
+        "key": "outroName",
+        "type": "text",
+        "defaultValue": "MOUNTAIN COFFEE",
+        "label": "落版名"
+      },
+      {
+        "key": "outroTagline",
+        "type": "text",
+        "defaultValue": "slow down, drink well",
+        "label": "落版副题"
+      },
+      {
+        "key": "bg",
+        "type": "color",
+        "defaultValue": "#101418",
+        "label": "背景色"
+      },
+      {
+        "key": "ink",
+        "type": "color",
+        "defaultValue": "#F5F7FA",
+        "label": "主文字色"
+      },
+      {
+        "key": "accent",
+        "type": "color",
+        "defaultValue": "#6CF3C0",
+        "label": "强调色"
+      },
+      {
+        "key": "muted",
+        "type": "color",
+        "defaultValue": "#9AA4B2",
+        "label": "次要文字色"
+      }
+    ],
+    "thumb": null,
+    "code": "const KineticTypeIntro = ({item}) => {\n  const frame = useCurrentFrame();\n  const {fps} = useVideoConfig();\n  const p = item.props || {};\n  const W = item.width || 1280;\n  const H = item.height || 720;\n\n  const hook = [p.hook1 || 'What if', p.hook2 || 'great coffee', p.hook3 || 'brewed itself?'];\n  const kicker = p.kicker || 'A FILM ABOUT SLOWNESS';\n  const pillars = [p.pillar1 || 'SINGLE ORIGIN', p.pillar2 || 'HAND POURED', p.pillar3 || 'SMALL BATCH'];\n  const statValue = p.statValue || '92';\n  const statLabel = String(p.statLabel || 'cupping score').toUpperCase();\n  const outroWords = String(p.outroName || 'MOUNTAIN COFFEE').split(' ');\n  const outroTagline = String(p.outroTagline || 'slow down, drink well').toUpperCase();\n  const bg = p.bg || '#101418';\n  const ink = p.ink || '#F5F7FA';\n  const accent = p.accent || '#6CF3C0';\n  const muted = p.muted || '#9AA4B2';\n\n  const T = (s) => s * fps;\n  const enter = (start, dur, dist, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.exp) });\n    return { opacity: k, transform: `translateY(${(1 - k) * dist}px)` };\n  };\n  const enterX = (start, dur, dist, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.poly(3)) });\n    return { opacity: k, transform: `translateX(${(1 - k) * dist}px)` };\n  };\n  const growX = (start, dur, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.poly(2)) });\n    return { transform: `scaleX(${k})` };\n  };\n  const fade = (start, dur) => interpolate(frame, [T(start), T(start + dur)], [0, 1],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });\n\n  // 四幕显隐窗口\n  const act1 = interpolate(frame, [T(0), T(0.1), T(2.0), T(2.05)], [0, 1, 1, 0],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });\n  const act2 = interpolate(frame, [T(2.2), T(2.3), T(4.5), T(4.55)], [0, 1, 1, 0],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });\n  const act3 = interpolate(frame, [T(4.7), T(4.8), T(6.5), T(6.55)], [0, 1, 1, 0],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });\n  const act4 = interpolate(frame, [T(6.7), T(6.8)], [0, 1],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });\n\n  // 幕间白场闪切\n  const wipe = [1.95, 4.45, 6.45].reduce((acc, s) => Math.max(acc, interpolate(frame,\n    [T(s), T(s + 0.12), T(s + 0.3)], [0, 1, 0],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })), 0);\n\n  const hookLines = hook.map((line, i) => ({ ...enter(0.15 + i * 0.22, 0.55, 90), line, main: i === 1 }));\n  const kickerStyle = { opacity: fade(1.25, 0.4) };\n  const pillarRule = growX(2.45, 0.5);\n  const pillarItems = pillars.map((w, i) => ({ ...enterX(2.55 + i * 0.3, 0.5, -80), word: w, first: i === 0 }));\n  const statPop = interpolate(frame, [T(4.95), T(5.55)], [0.6, 1],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.exp) });\n  const statLabelStyle = enter(5.35, 0.45, 26, Easing.out(Easing.poly(3)));\n  const outroWordItems = outroWords.map((w, i) => ({ ...enter(6.95 + i * 0.12, 0.5, 40), word: w }));\n  const outroRule = growX(7.35, 0.45);\n  const outroTaglineStyle = { opacity: fade(7.55, 0.4) };\n\n  const serif = \"Georgia, 'Noto Serif SC', serif\";\n\n  return (\n    <div style={{ width: W, height: H, position: 'relative', background: bg, color: ink, fontFamily: serif, overflow: 'hidden' }}>\n      {/* 幕1 钩子 */}\n      <div style={{ position: 'absolute', inset: 0, opacity: act1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: W * 0.1 }}>\n        {hookLines.map((h, i) => (\n          <div key={i} style={{ fontSize: h.main ? 108 : 76, lineHeight: 1.08, fontWeight: 700, color: h.main ? accent : ink, letterSpacing: '-0.01em', opacity: h.opacity, transform: h.transform }}>\n            {h.line}\n          </div>\n        ))}\n        <div style={{ marginTop: 28, fontSize: 20, color: muted, letterSpacing: '0.35em', opacity: kickerStyle.opacity }}>{kicker}</div>\n      </div>\n\n      {/* 幕2 要点 */}\n      <div style={{ position: 'absolute', inset: 0, opacity: act2, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: W * 0.12 }}>\n        <div style={{ width: 72, height: 4, background: accent, marginBottom: 34, transformOrigin: 'left center', ...pillarRule }} />\n        {pillarItems.map((pl, i) => (\n          <div key={i} style={{ fontSize: 62, fontWeight: 700, letterSpacing: '0.02em', marginBottom: 18, color: pl.first ? accent : ink, opacity: pl.opacity, transform: pl.transform }}>\n            {pl.word}\n          </div>\n        ))}\n      </div>\n\n      {/* 幕3 数字 */}\n      <div style={{ position: 'absolute', inset: 0, opacity: act3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>\n        <div style={{ fontSize: 230, fontWeight: 700, color: accent, lineHeight: 1, fontVariantNumeric: 'tabular-nums', opacity: statPop, transform: `scale(${statPop})` }}>{statValue}</div>\n        <div style={{ marginTop: 18, fontSize: 26, letterSpacing: '0.3em', color: muted, opacity: statLabelStyle.opacity, transform: statLabelStyle.transform }}>{statLabel}</div>\n      </div>\n\n      {/* 幕4 落版 */}\n      <div style={{ position: 'absolute', inset: 0, opacity: act4, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>\n        <div style={{ display: 'flex' }}>\n          {outroWordItems.map((w, i) => (\n            <span key={i} style={{ fontSize: 64, fontWeight: 700, letterSpacing: '0.08em', margin: '0 14px', opacity: w.opacity, transform: w.transform }}>{w.word}</span>\n          ))}\n        </div>\n        <div style={{ width: 160, height: 3, background: accent, margin: '26px 0', transformOrigin: 'center center', ...outroRule }} />\n        <div style={{ fontSize: 22, color: muted, letterSpacing: '0.28em', opacity: outroTaglineStyle.opacity }}>{outroTagline}</div>\n      </div>\n\n      {/* 白场闪切层 */}\n      <div style={{ position: 'absolute', inset: 0, background: '#FFFFFF', opacity: wipe, zIndex: 30 }} />\n    </div>\n  );\n};\n"
+  },
+  {
+    "id": "f999a185-d4fe-4399-8027-e4c45e030b5d",
+    "name": "黑色剪辑",
+    "category": "pro-master",
+    "description": "黑色电影近单色，血红点缀、暗角聚光，元素从黑暗中浮现、停顿后重击。悬疑/调查开场、安全产品威胁揭示、戏剧性结论页。",
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "durationInFrames": 150,
+    "props": {
+      "caseNo": "CASE FILE 0917 · CONFIDENTIAL",
+      "headline": "内鬼找到了",
+      "detail": "异常访问始于 87 天前 · 三级权限 · 单点突破",
+      "verdict": "已锁定",
+      "bg": "#0A0A0A",
+      "ink": "#F5F5F5",
+      "gray": "#3A3A3A",
+      "red": "#C1121F",
+      "muted": "#777777"
+    },
+    "propSchema": [
+      {
+        "key": "caseNo",
+        "type": "text",
+        "defaultValue": "CASE FILE 0917 · CONFIDENTIAL",
+        "label": "案件/期号"
+      },
+      {
+        "key": "headline",
+        "type": "text",
+        "defaultValue": "内鬼找到了",
+        "label": "结论主词"
+      },
+      {
+        "key": "detail",
+        "type": "text",
+        "defaultValue": "异常访问始于 87 天前 · 三级权限 · 单点突破",
+        "label": "一句详情"
+      },
+      {
+        "key": "verdict",
+        "type": "text",
+        "defaultValue": "已锁定",
+        "label": "红色裁定词"
+      },
+      {
+        "key": "bg",
+        "type": "color",
+        "defaultValue": "#0A0A0A",
+        "label": "背景色"
+      },
+      {
+        "key": "ink",
+        "type": "color",
+        "defaultValue": "#F5F5F5",
+        "label": "主文字色"
+      },
+      {
+        "key": "gray",
+        "type": "color",
+        "defaultValue": "#3A3A3A",
+        "label": "中间灰"
+      },
+      {
+        "key": "red",
+        "type": "color",
+        "defaultValue": "#C1121F",
+        "label": "血红"
+      },
+      {
+        "key": "muted",
+        "type": "color",
+        "defaultValue": "#777777",
+        "label": "次要文字色"
+      }
+    ],
+    "thumb": null,
+    "code": "const ShadowCut = ({item}) => {\n  const frame = useCurrentFrame();\n  const {fps} = useVideoConfig();\n  const p = item.props || {};\n  const W = item.width || 1280;\n  const H = item.height || 720;\n\n  const caseNo = p.caseNo || 'CASE FILE 0917 · CONFIDENTIAL';\n  const headline = p.headline || '内鬼找到了';\n  const detail = p.detail || '异常访问始于 87 天前 · 三级权限 · 单点突破';\n  const verdict = p.verdict || '已锁定';\n  const bg = p.bg || '#0A0A0A';\n  const ink = p.ink || '#F5F5F5';\n  const gray = p.gray || '#3A3A3A';\n  const red = p.red || '#C1121F';\n  const muted = p.muted || '#777777';\n\n  const t = frame / fps;\n  const vertical = H > W;\n\n  const T = (s) => s * fps;\n  const enter = (start, dur, dist, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.exp) });\n    return { opacity: k, transform: `translateY(${(1 - k) * dist}px)` };\n  };\n  const growX = (start, dur, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.poly(2)) });\n    return { transform: `scaleX(${k})` };\n  };\n\n  // 聚光极缓漂移（唯一环境动效）\n  const spotX = 0.5 + 0.02 * Math.sin(t * 0.5);\n  const spotY = 0.45 + 0.015 * Math.cos(t * 0.4);\n\n  const caseNoStyle = enter(0.2, 0.5, 8, Easing.out(Easing.sin));\n  const headlineK = interpolate(frame, [T(1.1), T(1.8)], [0, 1],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.inOut(Easing.exp) });\n  const detailStyle = enter(1.9, 0.45, 10, Easing.out(Easing.sin));\n  const verdictK = interpolate(frame, [T(2.6), T(2.82)], [0, 1],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.in(Easing.poly(4)) });\n  const redline = growX(2.78, 0.18, Easing.out(Easing.poly(3)));\n  const stampK = interpolate(frame, [T(3.0), T(3.3)], [0, 1],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.poly(2)) });\n  const stampRotate = -2 - 4 * (1 - stampK);\n\n  const display = \"'Bebas Neue', 'Noto Serif SC', serif\";\n  const sans = \"'Inter', 'Noto Sans SC', sans-serif\";\n\n  return (\n    <div style={{ width: W, height: H, background: bg, position: 'relative', overflow: 'hidden', boxSizing: 'border-box', fontFamily: sans }}>\n      <div style={{ position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, background: `radial-gradient(ellipse ${W * 0.55}px ${H * 0.6}px at ${spotX * 100}% ${spotY * 100}%, #1E1E1E 0%, #0A0A0A 68%)` }} />\n      <div style={{ position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, background: `radial-gradient(ellipse ${W * 0.42}px ${H * 0.5}px at ${spotX * 100}% ${spotY * 100}%, transparent 40%, #000000C0 100%)` }} />\n      <div style={{ position: 'absolute', left: W * 0.08, top: H * 0.16, fontSize: H * 0.022, letterSpacing: W * 0.009, color: muted, opacity: caseNoStyle.opacity, transform: caseNoStyle.transform }}>{caseNo}</div>\n      <div style={{ position: 'absolute', left: W * 0.08, top: H * 0.36, right: W * 0.1 }}>\n        <div style={{ fontFamily: display, fontSize: vertical ? W * 0.14 : H * 0.19, color: ink, lineHeight: 1.05, letterSpacing: W * 0.003, textShadow: `0 ${H * 0.01}px ${H * 0.03}px #000`, opacity: headlineK, transform: `scale(${1.05 - 0.05 * headlineK})` }}>{headline}</div>\n        <div style={{ marginTop: H * 0.04, fontSize: H * 0.028, color: gray, letterSpacing: W * 0.002, opacity: detailStyle.opacity, transform: detailStyle.transform }}>{detail}</div>\n      </div>\n      <div style={{ position: 'absolute', left: W * 0.08, bottom: H * 0.24, width: W * 0.34, height: Math.max(2, H * 0.004), background: red, transformOrigin: 'left center', ...redline }} />\n      <div style={{ position: 'absolute', left: W * 0.08, bottom: H * 0.13, display: 'inline-block', fontFamily: display, fontSize: H * 0.075, color: red, letterSpacing: W * 0.006, opacity: verdictK, transform: `scale(${1.5 - 0.5 * verdictK})` }}>{verdict}</div>\n      <div style={{ position: 'absolute', right: W * 0.09, bottom: H * 0.14, border: `${Math.max(1, H * 0.003)}px solid ${muted}`, color: muted, fontSize: H * 0.02, letterSpacing: W * 0.005, padding: `${H * 0.008}px ${W * 0.012}px`, opacity: stampK, transform: `rotate(${stampRotate}deg)` }}>EVIDENCE SEALED</div>\n    </div>\n  );\n};\n"
+  },
+  {
+    "id": "94e89741-3953-4f6d-a2b0-c7be43c2f17d",
+    "name": "解构故障",
+    "category": "pro-master",
+    "description": "锈橙扫描线、RGB 错位三层叠印砸入、倾斜破框标题与底部锈橙条。科技发布/安全揭幕/赛博朋克标题页。",
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "durationInFrames": 135,
+    "props": {
+      "tag": "SECURITY BRIEFING",
+      "headline": "零信任防线",
+      "sub": "攻击面收敛 · 实时阻断 · 全链路审计",
+      "issue": "VOL.07 — 2026",
+      "bg": "#17181B",
+      "ink": "#F0F0F0",
+      "accent": "#D4501E",
+      "cold": "#8FA3B0",
+      "line": "#2A2C31"
+    },
+    "propSchema": [
+      {
+        "key": "tag",
+        "type": "text",
+        "defaultValue": "SECURITY BRIEFING",
+        "label": "左上标签"
+      },
+      {
+        "key": "headline",
+        "type": "text",
+        "defaultValue": "零信任防线",
+        "label": "主标题"
+      },
+      {
+        "key": "sub",
+        "type": "text",
+        "defaultValue": "攻击面收敛 · 实时阻断 · 全链路审计",
+        "label": "副题"
+      },
+      {
+        "key": "issue",
+        "type": "text",
+        "defaultValue": "VOL.07 — 2026",
+        "label": "期号编号"
+      },
+      {
+        "key": "bg",
+        "type": "color",
+        "defaultValue": "#17181B",
+        "label": "背景色"
+      },
+      {
+        "key": "ink",
+        "type": "color",
+        "defaultValue": "#F0F0F0",
+        "label": "正文色"
+      },
+      {
+        "key": "accent",
+        "type": "color",
+        "defaultValue": "#D4501E",
+        "label": "锈橙强调色"
+      },
+      {
+        "key": "cold",
+        "type": "color",
+        "defaultValue": "#8FA3B0",
+        "label": "冷灰错位色"
+      },
+      {
+        "key": "line",
+        "type": "color",
+        "defaultValue": "#2A2C31",
+        "label": "扫描线色"
+      }
+    ],
+    "thumb": null,
+    "code": "const DeconstructedGlitch = ({item}) => {\n  const frame = useCurrentFrame();\n  const {fps} = useVideoConfig();\n  const p = item.props || {};\n  const W = item.width || 1280;\n  const H = item.height || 720;\n\n  const tag = p.tag || 'SECURITY BRIEFING';\n  const headline = p.headline || '零信任防线';\n  const sub = p.sub || '攻击面收敛 · 实时阻断 · 全链路审计';\n  const issue = p.issue || 'VOL.07 — 2026';\n  const bg = p.bg || '#17181B';\n  const ink = p.ink || '#F0F0F0';\n  const accent = p.accent || '#D4501E';\n  const cold = p.cold || '#8FA3B0';\n  const line = p.line || '#2A2C31';\n\n  const t = frame / fps;\n  const vertical = H > W;\n  const scan = 0.05 + 0.03 * (1 + Math.sin(t * 2.2)) / 2;\n  const heavy = '\"Archivo Black\", \"ZCOOL QingKe HuangYou\", sans-serif';\n  const sans = '\"Inter\", \"Noto Sans SC\", sans-serif';\n  const titleSize = vertical ? W * 0.155 : H * 0.2;\n\n  const T = (s) => s * fps;\n  const kAt = (start, dur, ease) => interpolate(frame, [T(start), T(start + dur)], [0, 1],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease });\n\n  const scanFade = kAt(0.12, 0.18, Easing.out(Easing.poly(1)));\n  const coldK = kAt(0.2, 0.3, Easing.in(Easing.poly(4)));\n  const warmK = kAt(0.24, 0.26, Easing.in(Easing.poly(4)));\n  const headK = kAt(0.5, 0.22, Easing.out(Easing.poly(3)));\n  const tagK = kAt(0.8, 0.3, Easing.out(Easing.poly(2)));\n  const issueK = kAt(0.88, 0.3, Easing.out(Easing.poly(2)));\n  const barK = kAt(1.3, 0.4, Easing.inOut(Easing.poly(3)));\n  const subK = kAt(1.45, 0.35, Easing.out(Easing.sin));\n\n  // 合体后的水平抖动（±x，0.07s×3 往返）\n  const jitterX = (() => {\n    const st = 0.55, dur = 0.07, n = 3, a = -W * 0.006, b = W * 0.004;\n    const tt = t - st;\n    if (tt < 0 || tt >= n * dur) return 0;\n    const cyc = Math.floor(tt / dur);\n    const ph = (tt - cyc * dur) / dur;\n    const k = cyc % 2 === 0 ? ph : 1 - ph;\n    return a + (b - a) * k;\n  })();\n\n  const scanAlpha = Math.round(scan * 255).toString(16).padStart(2, '0');\n\n  return (\n    <div style={{ width: W, height: H, background: bg, position: 'relative', overflow: 'hidden', boxSizing: 'border-box', fontFamily: sans }}>\n      {/* 扫描线纹理 */}\n      <div style={{ position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, background: `repeating-linear-gradient(0deg, ${line}55 0px, ${line}55 1px, transparent 1px, transparent 4px)`, opacity: 0.5 }} />\n      <div style={{ position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, background: `repeating-linear-gradient(90deg, ${ink}${scanAlpha} 0px, transparent 2px, transparent 90px)`, opacity: 0.35 * scanFade }} />\n\n      {/* 倾斜破框标题（RGB 错位三层叠印） */}\n      <div style={{ position: 'absolute', left: W * (vertical ? 0.08 : 0.06), top: H * 0.3, width: W * 1.1, transform: 'rotate(-2deg)' }}>\n        <div style={{ position: 'absolute', left: W * 0.007, top: 0, fontFamily: heavy, fontSize: titleSize, color: cold, opacity: 0.85 * coldK, whiteSpace: 'nowrap', transform: `translateX(${(1 - coldK) * W * 0.06}px)` }}>{headline}</div>\n        <div style={{ position: 'absolute', left: -W * 0.006, top: H * 0.004, fontFamily: heavy, fontSize: titleSize, color: accent, opacity: 0.85 * warmK, whiteSpace: 'nowrap', transform: `translateX(${(1 - warmK) * -W * 0.05}px)` }}>{headline}</div>\n        <div style={{ position: 'relative', transform: `translateX(${(1 - headK) * -W * 0.03 + jitterX}px)` }}>\n          <div style={{ fontFamily: heavy, fontSize: titleSize, color: ink, whiteSpace: 'nowrap', textShadow: `0 ${H * 0.006}px 0 ${bg}`, opacity: headK }}>{headline}</div>\n        </div>\n      </div>\n\n      {/* 标签与期号 */}\n      <div style={{ position: 'absolute', left: W * 0.07, top: H * 0.14, fontSize: H * 0.024, letterSpacing: W * 0.008, color: accent, fontWeight: 700, opacity: tagK, transform: `translateX(${(1 - tagK) * -24}px)` }}>{tag}</div>\n      <div style={{ position: 'absolute', right: W * 0.07, top: H * 0.14, fontSize: H * 0.022, letterSpacing: W * 0.005, color: cold, opacity: issueK, transform: `translateX(${(1 - issueK) * 24}px)` }}>{issue}</div>\n\n      {/* 底部锈橙条 */}\n      <div style={{ position: 'absolute', left: W * 0.07, bottom: H * 0.2, width: W * 0.24, height: H * 0.012, background: accent, transformOrigin: 'left center', transform: `scaleX(${barK})` }} />\n      <div style={{ position: 'absolute', left: W * 0.07, bottom: H * 0.13, fontSize: H * 0.03, color: ink, opacity: 0.85 * subK, letterSpacing: W * 0.003, transform: `translateY(${(1 - subK) * 12}px)` }}>{sub}</div>\n    </div>\n  );\n};\n"
+  },
+  {
+    "id": "c951b9c3-d3c2-474d-9eee-f0c67bde16c2",
+    "name": "民俗节庆",
+    "category": "pro-master",
+    "description": "玫红钴蓝太阳黄撞色圆体弹跳，上下几何图案重复弹入，主词呼吸缩放。节庆促销/社区活动/美食开场。",
+    "width": 720,
+    "height": 1280,
+    "fps": 30,
+    "durationInFrames": 120,
+    "props": {
+      "kicker": "社区美食节 · 本周末",
+      "headline": "开吃啦",
+      "sub": "50 家小摊 · 现做现卖 · 免费入场",
+      "badge1": "烧烤",
+      "badge2": "甜品",
+      "badge3": "手作",
+      "bg": "#FFF6E5",
+      "ink": "#2A2420",
+      "rose": "#FF1493",
+      "cobalt": "#0047AB",
+      "sun": "#FFE000",
+      "jade": "#009B77"
+    },
+    "propSchema": [
+      {
+        "key": "kicker",
+        "type": "text",
+        "defaultValue": "社区美食节 · 本周末",
+        "label": "顶部标签"
+      },
+      {
+        "key": "headline",
+        "type": "text",
+        "defaultValue": "开吃啦",
+        "label": "主词"
+      },
+      {
+        "key": "sub",
+        "type": "text",
+        "defaultValue": "50 家小摊 · 现做现卖 · 免费入场",
+        "label": "副题"
+      },
+      {
+        "key": "badge1",
+        "type": "text",
+        "defaultValue": "烧烤",
+        "label": "标签一"
+      },
+      {
+        "key": "badge2",
+        "type": "text",
+        "defaultValue": "甜品",
+        "label": "标签二"
+      },
+      {
+        "key": "badge3",
+        "type": "text",
+        "defaultValue": "手作",
+        "label": "标签三"
+      },
+      {
+        "key": "bg",
+        "type": "color",
+        "defaultValue": "#FFF6E5",
+        "label": "底色"
+      },
+      {
+        "key": "ink",
+        "type": "color",
+        "defaultValue": "#2A2420",
+        "label": "墨色"
+      },
+      {
+        "key": "rose",
+        "type": "color",
+        "defaultValue": "#FF1493",
+        "label": "玫红"
+      },
+      {
+        "key": "cobalt",
+        "type": "color",
+        "defaultValue": "#0047AB",
+        "label": "钴蓝"
+      },
+      {
+        "key": "sun",
+        "type": "color",
+        "defaultValue": "#FFE000",
+        "label": "太阳黄"
+      },
+      {
+        "key": "jade",
+        "type": "color",
+        "defaultValue": "#009B77",
+        "label": "翡翠绿"
+      }
+    ],
+    "thumb": null,
+    "code": "const FolkFrequency = ({item}) => {\n  const frame = useCurrentFrame();\n  const {fps} = useVideoConfig();\n  const p = item.props || {};\n  const W = item.width || 720;\n  const H = item.height || 1280;\n\n  const kicker = p.kicker || '社区美食节 · 本周末';\n  const headline = p.headline || '开吃啦';\n  const sub = p.sub || '50 家小摊 · 现做现卖 · 免费入场';\n  const badges = [p.badge1 || '烧烤', p.badge2 || '甜品', p.badge3 || '手作'];\n  const bg = p.bg || '#FFF6E5';\n  const ink = p.ink || '#2A2420';\n  const rose = p.rose || '#FF1493';\n  const cobalt = p.cobalt || '#0047AB';\n  const sun = p.sun || '#FFE000';\n  const jade = p.jade || '#009B77';\n\n  const t = frame / fps;\n  const vertical = H >= W;\n  const round = '\"ZCOOL KuaiLe\", \"Baloo 2\", \"Noto Sans SC\", sans-serif';\n  const unit = Math.min(W, H);\n  const breathe = 1 + 0.012 * (1 + Math.sin(t * 1.8)) / 2;\n\n  const shapes = ['circle', 'triangle', 'square', 'circle', 'triangle', 'square', 'circle', 'triangle'];\n  const shapeColor = (i) => [rose, cobalt, sun, jade][i % 4];\n\n  const T = (s) => s * fps;\n\n  // 弹入 helper：返回 {o 透明度, s 缩放}\n  const popIn = (start, dur, from, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.back(2.4)) });\n    return { o: k, s: from + (1 - from) * k };\n  };\n  const fadeUp = (start, dur, dist) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.sin) });\n    return { o: k, y: (1 - k) * dist };\n  };\n\n  const topShapes = shapes.map((s, i) => ({ ...popIn(0.15 + i * 0.05, 0.4, 0.3), shape: s, color: shapeColor(i) }));\n  const kickerStyle = fadeUp(0.3, 0.3, 12);\n  const headlinePop = popIn(0.4, 0.55, 0.55);\n  const subStyle = fadeUp(0.9, 0.4, 14);\n  const badgeItems = badges.map((b, i) => ({ ...popIn(1.05 + i * 0.12, 0.35, 0.5, Easing.out(Easing.back(2))), label: b, color: [rose, cobalt, jade][i % 3] }));\n  const bottomShapes = shapes.map((s, i) => ({ ...popIn(1.4 + i * 0.05, 0.4, 0.3), shape: s, color: shapeColor(i + 2) }));\n\n  const shapeStyle = (it, size, sqR) => ({\n    width: unit * size, height: unit * size,\n    borderRadius: it.shape === 'circle' ? '50%' : it.shape === 'square' ? sqR : '50% 50% 0 50%',\n    background: it.color,\n    transform: `${it.shape === 'triangle' ? 'rotate(45deg) ' : ''}scale(${it.s})`,\n    opacity: it.o\n  });\n\n  return (\n    <div style={{ width: W, height: H, background: bg, position: 'relative', overflow: 'hidden', boxSizing: 'border-box', fontFamily: round, color: ink }}>\n      {/* 顶部图案排 */}\n      <div style={{ position: 'absolute', left: 0, top: 0, right: 0, padding: `${H * 0.045}px ${W * 0.05}px 0`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>\n        {topShapes.map((it, i) => <div key={i} style={shapeStyle(it, 0.035, unit * 0.008)} />)}\n      </div>\n\n      {/* 标签 */}\n      <div style={{ position: 'absolute', left: 0, right: 0, top: H * 0.14, textAlign: 'center', fontSize: unit * 0.032, color: cobalt, letterSpacing: unit * 0.004, opacity: kickerStyle.o, transform: `translateY(${kickerStyle.y}px)` }}>{kicker}</div>\n\n      {/* 中央主词区 */}\n      <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: unit * 0.03 }}>\n        <div style={{\n          fontSize: vertical ? W * 0.26 : H * 0.26, color: ink,\n          transform: `scale(${breathe * headlinePop.s})`, opacity: headlinePop.o,\n          WebkitTextStroke: `${unit * 0.004}px ${bg}`,\n          textShadow: `${unit * 0.006}px ${unit * 0.006}px 0 ${sun}`\n        }}>{headline}</div>\n        <div style={{ fontSize: unit * 0.036, color: ink, opacity: 0.85 * subStyle.o, transform: `translateY(${subStyle.y}px)` }}>{sub}</div>\n        <div style={{ marginTop: unit * 0.03, display: 'flex', gap: unit * 0.02 }}>\n          {badgeItems.map((b, i) => (\n            <div key={b.label} style={{\n              background: b.color, color: '#FFFFFF', fontSize: unit * 0.032,\n              padding: `${unit * 0.012}px ${unit * 0.028}px`, borderRadius: unit * 0.04,\n              transform: `rotate(${i % 2 === 0 ? -3 : 3}deg) scale(${b.s})`, opacity: b.o\n            }}>{b.label}</div>\n          ))}\n        </div>\n      </div>\n\n      {/* 底部图案排（反序） */}\n      <div style={{ position: 'absolute', left: 0, right: 0, bottom: H * 0.05, padding: `0 ${W * 0.05}px`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', transform: 'rotate(180deg)' }}>\n        {bottomShapes.map((it, i) => <div key={i} style={shapeStyle(it, 0.03, unit * 0.006)} />)}\n      </div>\n    </div>\n  );\n};\n"
+  },
+  {
+    "id": "8b9a5691-c707-4dec-9261-cc72e47ae973",
+    "name": "柔光时刻",
+    "category": "pro-master",
+    "description": "柔光人文金句卡：奶油底、手写系衬线、手绘圈画重点、缓慢漂移。健康品牌、生活方式、个人叙事、播客金句等温暖亲密的一屏。",
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "durationInFrames": 150,
+    "props": {
+      "quote": "睡个好觉，是最被低估的养生。",
+      "highlight": "睡个好觉",
+      "attribution": "— 好眠研究所 · 第 12 期",
+      "bg": "#FFF8EC",
+      "ink": "#3D3A34",
+      "amber": "#F5A623",
+      "sage": "#8FAF8C",
+      "rose": "#C4A3A3",
+      "faint": "#EFE4CE"
+    },
+    "propSchema": [
+      {
+        "key": "quote",
+        "type": "text",
+        "defaultValue": "睡个好觉，是最被低估的养生。",
+        "label": "金句（一到两行）"
+      },
+      {
+        "key": "highlight",
+        "type": "text",
+        "defaultValue": "睡个好觉",
+        "label": "要圈画的词（须出现在金句中）"
+      },
+      {
+        "key": "attribution",
+        "type": "text",
+        "defaultValue": "— 好眠研究所 · 第 12 期",
+        "label": "署名"
+      },
+      {
+        "key": "bg",
+        "type": "color",
+        "defaultValue": "#FFF8EC",
+        "label": "背景色"
+      },
+      {
+        "key": "ink",
+        "type": "color",
+        "defaultValue": "#3D3A34",
+        "label": "主文字色"
+      },
+      {
+        "key": "amber",
+        "type": "color",
+        "defaultValue": "#F5A623",
+        "label": "琥珀色"
+      },
+      {
+        "key": "sage",
+        "type": "color",
+        "defaultValue": "#8FAF8C",
+        "label": "鼠尾草绿"
+      },
+      {
+        "key": "rose",
+        "type": "color",
+        "defaultValue": "#C4A3A3",
+        "label": "玫瑰色"
+      },
+      {
+        "key": "faint",
+        "type": "color",
+        "defaultValue": "#EFE4CE",
+        "label": "浅色分隔线"
+      }
+    ],
+    "thumb": null,
+    "code": "const SoftSignalMoment = ({item}) => {\n  const frame = useCurrentFrame();\n  const {fps} = useVideoConfig();\n  const p = item.props || {};\n  const W = item.width || 1280;\n  const H = item.height || 720;\n\n  const quote = p.quote || '睡个好觉，是最被低估的养生。';\n  const highlight = p.highlight || '睡个好觉';\n  const attribution = p.attribution || '— 好眠研究所 · 第 12 期';\n  const bg = p.bg || '#FFF8EC';\n  const ink = p.ink || '#3D3A34';\n  const amber = p.amber || '#F5A623';\n  const sage = p.sage || '#8FAF8C';\n  const rose = p.rose || '#C4A3A3';\n  const faint = p.faint || '#EFE4CE';\n\n  const t = frame / fps;\n  const vertical = H > W;\n\n  const T = (s) => s * fps;\n  const enter = (start, dur, dist, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.exp) });\n    return { opacity: k, transform: `translateY(${(1 - k) * dist}px)` };\n  };\n  const pop = (start, dur, from, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [from, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.exp) });\n    return { opacity: k, transform: `scale(${k})` };\n  };\n\n  // 整卡极缓上下漂移（唯一环境动效）\n  const drift = Math.sin(t * 0.7) * H * 0.006;\n\n  const parts = String(quote).split(highlight);\n  const before = parts[0];\n  const after = parts.length > 1 ? parts[1] : '';\n\n  const markStyle = enter(0.2, 0.4, -14, Easing.out(Easing.sin));\n  const line1Style = enter(0.45, 0.5, 18, Easing.out(Easing.sin));\n  const circleDraw = interpolate(frame, [T(1.6), T(2.1)], [640, 0],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.inOut(Easing.poly(1)) });\n  const attributionStyle = enter(2.1, 0.45, 10, Easing.inOut(Easing.sin));\n  const dotStyle = pop(2.35, 0.4, 0.5, Easing.out(Easing.back(1.8)));\n\n  const hand = \"'LXGW WenKai TC', serif\";\n  const sans = \"'Lato', 'Noto Sans SC', sans-serif\";\n  const quoteSize = vertical ? W * 0.075 : H * 0.1;\n  const circleW = quoteSize * highlight.length * 1.06;\n  const circleH = quoteSize * 1.5;\n\n  return (\n    <div style={{ width: W, height: H, background: bg, position: 'relative', overflow: 'hidden', boxSizing: 'border-box', transform: `translateY(${drift}px)` }}>\n      <div style={{ position: 'absolute', right: -W * 0.12, top: -H * 0.18, width: W * 0.55, height: W * 0.55, borderRadius: '50%', background: `${sage}22` }} />\n      <div style={{ position: 'absolute', left: -W * 0.1, bottom: -H * 0.22, width: W * 0.45, height: W * 0.45, borderRadius: '50%', background: `${rose}26` }} />\n      <div style={{ position: 'absolute', left: W * 0.12, top: H * 0.2, fontFamily: hand, fontSize: H * 0.08, color: amber, opacity: 0.9 * markStyle.opacity, transform: markStyle.transform }}>“</div>\n      <div style={{ position: 'absolute', left: W * 0.12, top: H * 0.34, right: W * 0.14 }}>\n        <div style={{ fontFamily: hand, fontSize: quoteSize, color: ink, lineHeight: 1.6, opacity: 0.96 * line1Style.opacity, transform: line1Style.transform }}>\n          {before}\n          <span style={{ position: 'relative', display: 'inline-block' }}>\n            {highlight}\n            <svg style={{ position: 'absolute', left: -quoteSize * 0.08, top: -circleH * 0.18 }} width={circleW} height={circleH} viewBox={`0 0 ${circleW} ${circleH}`}>\n              <ellipse cx={circleW / 2} cy={circleH / 2} rx={circleW / 2 - 6} ry={circleH / 2 - 6} fill=\"none\" stroke={sage} strokeWidth={quoteSize * 0.06} strokeLinecap=\"round\" strokeDasharray={640} strokeDashoffset={circleDraw} transform={`rotate(-2 ${circleW / 2} ${circleH / 2})`} />\n            </svg>\n          </span>\n          {after}\n        </div>\n        <div style={{ marginTop: H * 0.06, display: 'flex', alignItems: 'center', gap: W * 0.012 }}>\n          <div style={{ width: H * 0.014, height: H * 0.014, borderRadius: '50%', background: amber, opacity: dotStyle.opacity, transform: dotStyle.transform }} />\n          <div style={{ fontFamily: sans, fontStyle: 'italic', fontSize: H * 0.028, color: rose, letterSpacing: W * 0.002, opacity: attributionStyle.opacity, transform: attributionStyle.transform }}>{attribution}</div>\n        </div>\n      </div>\n      <div style={{ position: 'absolute', left: W * 0.12, bottom: H * 0.1, width: W * 0.1, height: 2, background: faint }} />\n    </div>\n  );\n};\n"
+  },
+  {
+    "id": "6b2574de-254c-4781-8e31-87f6587d7c15",
+    "name": "瑞士数据脉冲",
+    "category": "pro-master",
+    "description": "黑底电蓝、12 列网格、巨型数字滚动，临床精准的关键数字展示页。SaaS 面板、数据指标、季度成绩单。",
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "durationInFrames": 150,
+    "props": {
+      "kicker": "Q3 2026 · ACTIVE USERS",
+      "metricNumber": 1284500,
+      "metricSuffix": "",
+      "headline": "月活跃用户创新高",
+      "delta": "+23.6% 环比",
+      "footnote": "数据口径：滚动 30 天去重 · 截至 9 月 30 日",
+      "bg": "#111318",
+      "ink": "#F2F4F8",
+      "accent": "#2E6BFF",
+      "muted": "#7A8699",
+      "line": "#232833"
+    },
+    "propSchema": [
+      {
+        "key": "kicker",
+        "type": "text",
+        "defaultValue": "Q3 2026 · ACTIVE USERS",
+        "label": "小标"
+      },
+      {
+        "key": "metricNumber",
+        "type": "number",
+        "defaultValue": 1284500,
+        "label": "目标数字"
+      },
+      {
+        "key": "metricSuffix",
+        "type": "string",
+        "defaultValue": "",
+        "label": "数字后缀/单位"
+      },
+      {
+        "key": "headline",
+        "type": "text",
+        "defaultValue": "月活跃用户创新高",
+        "label": "标题"
+      },
+      {
+        "key": "delta",
+        "type": "text",
+        "defaultValue": "+23.6% 环比",
+        "label": "涨跌胶囊文案"
+      },
+      {
+        "key": "footnote",
+        "type": "text",
+        "defaultValue": "数据口径：滚动 30 天去重 · 截至 9 月 30 日",
+        "label": "脚注"
+      },
+      {
+        "key": "bg",
+        "type": "color",
+        "defaultValue": "#111318",
+        "label": "背景色"
+      },
+      {
+        "key": "ink",
+        "type": "color",
+        "defaultValue": "#F2F4F8",
+        "label": "主文字色"
+      },
+      {
+        "key": "accent",
+        "type": "color",
+        "defaultValue": "#2E6BFF",
+        "label": "强调色"
+      },
+      {
+        "key": "muted",
+        "type": "color",
+        "defaultValue": "#7A8699",
+        "label": "次要文字色"
+      },
+      {
+        "key": "line",
+        "type": "color",
+        "defaultValue": "#232833",
+        "label": "网格线色"
+      }
+    ],
+    "thumb": null,
+    "code": "const SwissPulseMetrics = ({item}) => {\n  const frame = useCurrentFrame();\n  const {fps} = useVideoConfig();\n  const p = item.props || {};\n  const W = item.width || 1280;\n  const H = item.height || 720;\n\n  const kicker = p.kicker || 'Q3 2026 · ACTIVE USERS';\n  const metricNumber = p.metricNumber != null ? Number(p.metricNumber) : 1284500;\n  const metricSuffix = p.metricSuffix || '';\n  const headline = p.headline || '月活跃用户创新高';\n  const delta = p.delta || '+23.6% 环比';\n  const footnote = p.footnote || '数据口径：滚动 30 天去重 · 截至 9 月 30 日';\n  const bg = p.bg || '#111318';\n  const ink = p.ink || '#F2F4F8';\n  const accent = p.accent || '#2E6BFF';\n  const muted = p.muted || '#7A8699';\n  const line = p.line || '#232833';\n\n  const T = (s) => s * fps;\n  const t = frame / fps;\n  const vertical = H > W;\n  const cols = vertical ? 6 : 12;\n  const colsList = Array.from({ length: cols + 1 }, (_, i) => i);\n\n  const enter = (start, dur, dist, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.exp) });\n    return { opacity: k, transform: `translateY(${(1 - k) * dist}px)` };\n  };\n  const enterX = (start, dur, dist, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.exp) });\n    return { opacity: k, transform: `translateX(${(1 - k) * dist}px)` };\n  };\n  const pop = (start, dur, from, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [from, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.exp) });\n    return { opacity: k, transform: `scale(${k})` };\n  };\n  const growX = (start, dur, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.poly(2)) });\n    return { transform: `scaleX(${k})` };\n  };\n  const growY = (start, dur, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.poly(2)) });\n    return { transform: `scaleY(${k})` };\n  };\n  const fade = (start, dur, ease) => interpolate(frame, [T(start), T(start + dur)], [0, 1],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || undefined });\n\n  // 数字滚动：0.4s 起跑、1.1s 滚完（frame 驱动，确定性）\n  const easeOutExpo = (x) => (x >= 1 ? 1 : 1 - Math.pow(2, -10 * x));\n  const rollP = Math.max(0, Math.min(1, (t - 0.4) / 1.1));\n  const value = Math.round(metricNumber * easeOutExpo(rollP));\n  // 定格期环境动效：径向光晕缓慢呼吸\n  const breathe = 0.1 + (0.05 * (1 + Math.sin(t * 1.4))) / 2;\n  const glowAlpha = Math.round(breathe * 255).toString(16).padStart(2, '0');\n\n  const gridAnim = colsList.map((_, i) => growY(0.15 + i * 0.03, 0.4, Easing.out(Easing.poly(3))));\n  const kickerStyle = enter(0.25, 0.35, 14, Easing.out(Easing.sin));\n  const metricStyle = enterX(0.4, 0.5, -48, Easing.out(Easing.exp));\n  const deltaStyle = pop(1.0, 0.45, 0.6, Easing.out(Easing.back(2)));\n  const rulerStyle = growX(1.5, 0.5, Easing.inOut(Easing.poly(2)));\n  const footnoteStyle = { opacity: fade(1.7, 0.4, Easing.out(Easing.sin)) };\n\n  const font = '\"Inter\", \"Noto Sans SC\", sans-serif';\n\n  return (\n    <div style={{ width: W, height: H, background: bg, position: 'relative', overflow: 'hidden', fontFamily: font, boxSizing: 'border-box' }}>\n      <div style={{ position: 'absolute', left: '50%', top: '38%', width: W * 0.9, height: H * 0.9, transform: 'translate(-50%, -50%)', background: `radial-gradient(ellipse at center, ${accent}${glowAlpha} 0%, ${bg}00 62%)`, opacity: 0.5 }} />\n      {colsList.map((i) => (\n        <div key={i} style={{ position: 'absolute', top: 0, left: (W / cols) * i, width: 1, height: H, background: line, opacity: 0.55, transformOrigin: 'center top', transform: gridAnim[i].transform }} />\n      ))}\n      <div style={{ position: 'absolute', left: W * (vertical ? 0.09 : 0.075), top: H * 0.18, right: W * 0.07 }}>\n        <div style={{ fontSize: H * 0.026, letterSpacing: W * 0.006, color: muted, fontWeight: 600, opacity: kickerStyle.opacity, transform: kickerStyle.transform }}>{kicker}</div>\n        <div style={{ marginTop: H * 0.03, fontSize: vertical ? W * 0.185 : H * 0.27, lineHeight: 1, fontWeight: 800, color: ink, letterSpacing: -W * 0.002, fontVariantNumeric: 'tabular-nums', opacity: metricStyle.opacity, transform: metricStyle.transform }}>\n          {value.toLocaleString('en-US')}\n          {metricSuffix ? <span style={{ fontSize: H * 0.06, color: muted, fontWeight: 600, marginLeft: W * 0.01 }}>{metricSuffix}</span> : null}\n        </div>\n        <div style={{ marginTop: H * 0.022, display: 'flex', alignItems: 'center', gap: W * 0.018 }}>\n          <div style={{ background: accent, color: '#FFFFFF', fontSize: H * 0.03, fontWeight: 700, padding: `${H * 0.008}px ${W * 0.014}px`, borderRadius: H * 0.015, opacity: deltaStyle.opacity, transform: deltaStyle.transform }}>{delta}</div>\n          <div style={{ fontSize: H * 0.034, color: ink, fontWeight: 500 }}>{headline}</div>\n        </div>\n      </div>\n      <div style={{ position: 'absolute', left: W * (vertical ? 0.09 : 0.075), bottom: H * 0.12, right: W * 0.075 }}>\n        <div style={{ height: 2, background: accent, width: '100%', transformOrigin: 'left center', transform: rulerStyle.transform }} />\n        <div style={{ marginTop: H * 0.018, fontSize: H * 0.022, color: muted, letterSpacing: W * 0.002, opacity: footnoteStyle.opacity }}>{footnote}</div>\n      </div>\n    </div>\n  );\n};\n"
+  },
+  {
+    "id": "8ebd0064-a36f-46f8-8344-102489db26ed",
+    "name": "瑞士网格标题卡",
+    "category": "pro-master",
+    "description": "网格线 + 几何形 + 大标题精确落格的瑞士风标题卡/章节页/引言页。高级感、编辑部、极简设计感风格。",
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "durationInFrames": 120,
+    "props": {
+      "kicker": "CHAPTER 02",
+      "headline": "产地决定风味",
+      "footnote": "埃塞俄比亚 · 耶加雪菲产区手记",
+      "bg": "#F4F1EA",
+      "ink": "#14181D",
+      "accent": "#C7442E",
+      "line": "#D8D2C4",
+      "muted": "#6B665C"
+    },
+    "propSchema": [
+      {
+        "key": "kicker",
+        "type": "text",
+        "defaultValue": "CHAPTER 02",
+        "label": "小标"
+      },
+      {
+        "key": "headline",
+        "type": "text",
+        "defaultValue": "产地决定风味",
+        "label": "大标题"
+      },
+      {
+        "key": "footnote",
+        "type": "text",
+        "defaultValue": "埃塞俄比亚 · 耶加雪菲产区手记",
+        "label": "脚注"
+      },
+      {
+        "key": "bg",
+        "type": "color",
+        "defaultValue": "#F4F1EA",
+        "label": "背景色"
+      },
+      {
+        "key": "ink",
+        "type": "color",
+        "defaultValue": "#14181D",
+        "label": "主文字色"
+      },
+      {
+        "key": "accent",
+        "type": "color",
+        "defaultValue": "#C7442E",
+        "label": "强调色"
+      },
+      {
+        "key": "line",
+        "type": "color",
+        "defaultValue": "#D8D2C4",
+        "label": "网格线色"
+      },
+      {
+        "key": "muted",
+        "type": "color",
+        "defaultValue": "#6B665C",
+        "label": "次要文字色"
+      }
+    ],
+    "thumb": null,
+    "code": "const SwissGridTitle = ({item}) => {\n  const frame = useCurrentFrame();\n  const {fps} = useVideoConfig();\n  const p = item.props || {};\n  const W = item.width || 1280;\n  const H = item.height || 720;\n\n  const kicker = p.kicker || 'CHAPTER 02';\n  const headline = p.headline || '产地决定风味';\n  const footnote = p.footnote || '埃塞俄比亚 · 耶加雪菲产区手记';\n  const bg = p.bg || '#F4F1EA';\n  const ink = p.ink || '#14181D';\n  const accent = p.accent || '#C7442E';\n  const line = p.line || '#D8D2C4';\n  const muted = p.muted || '#6B665C';\n\n  const T = (s) => s * fps;\n  const enter = (start, dur, dist, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.exp) });\n    return { opacity: k, transform: `translateY(${(1 - k) * dist}px)` };\n  };\n  const enterX = (start, dur, dist, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.exp) });\n    return { opacity: k, transform: `translateX(${(1 - k) * dist}px)` };\n  };\n  const pop = (start, dur, from, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [from, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.exp) });\n    return { opacity: k, transform: `scale(${k})` };\n  };\n  const growX = (start, dur, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.poly(2)) });\n    return { transform: `scaleX(${k})` };\n  };\n  const growY = (start, dur, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.poly(2)) });\n    return { transform: `scaleY(${k})` };\n  };\n  const fade = (start, dur, ease) => interpolate(frame, [T(start), T(start + dur)], [0, 1],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || undefined });\n\n  const hLines = [0.25, 0.5, 0.75, 1];\n  const vLines = [0.08, 0.5, 0.92];\n  const gridH = hLines.map((_, i) => growX(0.05 + i * 0.05, 0.45, Easing.out(Easing.poly(3))));\n  const gridV = vLines.map((_, i) => growY(0.05 + i * 0.05, 0.45, Easing.out(Easing.poly(3))));\n  const headlineStyle = enterX(0.3, 0.6, -60, Easing.out(Easing.exp));\n  const kickerStyle = { opacity: fade(0.7, 0.35, Easing.out(Easing.poly(2))) };\n  const footnoteStyle = enter(0.85, 0.35, 12, Easing.out(Easing.poly(2)));\n  const geoStyle = pop(1.1, 0.5, 0.4, Easing.out(Easing.back(1.6)));\n\n  return (\n    <div style={{ width: W, height: H, position: 'relative', background: bg, color: ink, fontFamily: \"Georgia, 'Noto Serif SC', serif\", overflow: 'hidden' }}>\n      {hLines.map((p, i) => (\n        <div key={`h${p}`} style={{ position: 'absolute', background: line, left: W * 0.08, width: W * 0.84, top: H * p - 0.5, height: 1, transformOrigin: 'left center', transform: gridH[i].transform }} />\n      ))}\n      {vLines.map((p, i) => (\n        <div key={`v${p}`} style={{ position: 'absolute', background: line, top: 0, height: H, left: W * p - 0.5, width: 1, transformOrigin: 'center top', transform: gridV[i].transform }} />\n      ))}\n      <div style={{ position: 'absolute', left: W * 0.08, top: H * 0.25 - 34, fontSize: 19, letterSpacing: '0.42em', color: accent, fontWeight: 700, opacity: kickerStyle.opacity }}>\n        {kicker}\n      </div>\n      <div style={{ position: 'absolute', left: W * 0.08, top: H * 0.5 - 76, fontSize: 96, fontWeight: 700, letterSpacing: '0.01em', lineHeight: 1.05, maxWidth: W * 0.7, opacity: headlineStyle.opacity, transform: headlineStyle.transform }}>\n        {headline}\n      </div>\n      {footnote.length > 0 && (\n        <div style={{ position: 'absolute', right: W * 0.08, bottom: H * 0.25 + 14, fontSize: 19, color: muted, letterSpacing: '0.08em', opacity: footnoteStyle.opacity, transform: footnoteStyle.transform }}>\n          {footnote}\n        </div>\n      )}\n      <div style={{ position: 'absolute', left: W * 0.5 - 56, top: H * 0.75 - 56, width: 112, height: 112, borderRadius: '50%', background: accent, opacity: geoStyle.opacity, transform: geoStyle.transform }} />\n    </div>\n  );\n};\n"
+  },
+  {
+    "id": "4858032f-f53e-465d-99fd-56c2e4b360aa",
+    "name": "数据漂移",
+    "category": "pro-master",
+    "description": "深空黑紫青、漂浮粒子网格、纤细未来感、数字凝聚的沉浸式科技感标题/指标页。AI 产品、机器学习、数据公司发布页。",
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "durationInFrames": 150,
+    "props": {
+      "kicker": "NEURAL ENGINE · LIVE",
+      "headline": "让数据自己说话",
+      "metricLabel": "PARAMS",
+      "metricValue": "72B",
+      "footnote": "多模态推理 · 端侧部署 · 毫秒级响应",
+      "bg": "#0A0B10",
+      "ink": "#EDF0F7",
+      "purple": "#6D28D9",
+      "cyan": "#06B6D4",
+      "muted": "#6E7687",
+      "line": "#1C2030"
+    },
+    "propSchema": [
+      {
+        "key": "kicker",
+        "type": "text",
+        "defaultValue": "NEURAL ENGINE · LIVE",
+        "label": "小标"
+      },
+      {
+        "key": "headline",
+        "type": "text",
+        "defaultValue": "让数据自己说话",
+        "label": "主句"
+      },
+      {
+        "key": "metricLabel",
+        "type": "text",
+        "defaultValue": "PARAMS",
+        "label": "指标标签"
+      },
+      {
+        "key": "metricValue",
+        "type": "text",
+        "defaultValue": "72B",
+        "label": "指标数值"
+      },
+      {
+        "key": "footnote",
+        "type": "text",
+        "defaultValue": "多模态推理 · 端侧部署 · 毫秒级响应",
+        "label": "脚注"
+      },
+      {
+        "key": "bg",
+        "type": "color",
+        "defaultValue": "#0A0B10",
+        "label": "背景色"
+      },
+      {
+        "key": "ink",
+        "type": "color",
+        "defaultValue": "#EDF0F7",
+        "label": "主文字色"
+      },
+      {
+        "key": "purple",
+        "type": "color",
+        "defaultValue": "#6D28D9",
+        "label": "紫色辉光"
+      },
+      {
+        "key": "cyan",
+        "type": "color",
+        "defaultValue": "#06B6D4",
+        "label": "青色辉光"
+      },
+      {
+        "key": "muted",
+        "type": "color",
+        "defaultValue": "#6E7687",
+        "label": "次要文字色"
+      },
+      {
+        "key": "line",
+        "type": "color",
+        "defaultValue": "#1C2030",
+        "label": "连线色"
+      }
+    ],
+    "thumb": null,
+    "code": "const DataDrift = ({item}) => {\n  const frame = useCurrentFrame();\n  const {fps} = useVideoConfig();\n  const p = item.props || {};\n  const W = item.width || 1280;\n  const H = item.height || 720;\n\n  const kicker = p.kicker || 'NEURAL ENGINE · LIVE';\n  const headline = p.headline || '让数据自己说话';\n  const metricLabel = p.metricLabel || 'PARAMS';\n  const metricValue = p.metricValue || '72B';\n  const footnote = p.footnote || '多模态推理 · 端侧部署 · 毫秒级响应';\n  const bg = p.bg || '#0A0B10';\n  const ink = p.ink || '#EDF0F7';\n  const purple = p.purple || '#6D28D9';\n  const cyan = p.cyan || '#06B6D4';\n  const muted = p.muted || '#6E7687';\n  const line = p.line || '#1C2030';\n\n  const T = (s) => s * fps;\n  const t = frame / fps;\n  const vertical = H > W;\n\n  const enter = (start, dur, dist, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.exp) });\n    return { opacity: k, transform: `translateY(${(1 - k) * dist}px)` };\n  };\n  const pop = (start, dur, from, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [from, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.exp) });\n    return { opacity: k, transform: `scale(${k})` };\n  };\n  const fade = (start, dur, ease) => interpolate(frame, [T(start), T(start + dur)], [0, 1],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || undefined });\n\n  // 确定性粒子（禁 Math.random）\n  const dots = Array.from({ length: 14 }, (_, i) => {\n    const phase = i * 1.7;\n    const x = (0.08 + 0.84 * ((i * 0.618) % 1)) * W + Math.sin(t * 0.5 + phase) * W * 0.012;\n    const y = (0.12 + 0.76 * ((i * 0.382) % 1)) * H + Math.cos(t * 0.4 + phase) * H * 0.014;\n    return { x, y, r: (1.5 + (i % 3)) * (W / 1280), i };\n  });\n  const poly = dots.slice(0, 6).map((d) => `${d.x.toFixed(1)},${d.y.toFixed(1)}`).join(' ');\n\n  const dotAnim = dots.map((_, i) => pop(0.15 + i * 0.02, 0.3, 0.4, Easing.out(Easing.sin)));\n  const webOpacity = fade(0.5, 0.5, Easing.inOut(Easing.sin));\n  const kickerStyle = enter(0.55, 0.4, 10, Easing.out(Easing.sin));\n  const headlineStyle = enter(0.8, 0.6, 22, Easing.inOut(Easing.sin));\n  const metricStyle = pop(1.4, 0.55, 0.75, Easing.out(Easing.exp));\n  const footnoteStyle = { opacity: fade(2.2, 0.45, Easing.out(Easing.sin)) };\n\n  const sans = '\"Lato\", \"Inter\", \"Noto Sans SC\", sans-serif';\n\n  return (\n    <div style={{ width: W, height: H, background: bg, position: 'relative', overflow: 'hidden', boxSizing: 'border-box', fontFamily: sans }}>\n      <div style={{ position: 'absolute', left: W * 0.18, top: H * 0.1, width: W * 0.5, height: H * 0.7, background: `radial-gradient(ellipse at center, ${purple}30 0%, ${bg}00 60%)` }} />\n      <div style={{ position: 'absolute', right: W * 0.05, bottom: H * 0.05, width: W * 0.45, height: H * 0.6, background: `radial-gradient(ellipse at center, ${cyan}26 0%, ${bg}00 62%)` }} />\n      <svg width={W} height={H} style={{ position: 'absolute', left: 0, top: 0, opacity: webOpacity }} viewBox={`0 0 ${W} ${H}`}>\n        <polyline points={poly} fill=\"none\" stroke={line} strokeWidth={1} />\n        {dots.slice(0, 6).map((d, i) => (\n          <line key={i} x1={d.x} y1={d.y} x2={dots[i + 1].x} y2={dots[i + 1].y} stroke={i % 2 ? cyan : purple} strokeWidth={0.6} opacity={0.5} />\n        ))}\n      </svg>\n      {dots.map((d) => {\n        const a = dotAnim[d.i];\n        const isCyan = d.i % 3 === 0;\n        return (\n          <div key={d.i} style={{ position: 'absolute', left: d.x, top: d.y, width: d.r * 2, height: d.r * 2, borderRadius: '50%', background: isCyan ? cyan : ink, opacity: (isCyan ? 0.9 : 0.55) * a.opacity, boxShadow: isCyan ? `0 0 ${d.r * 4}px ${cyan}` : 'none', transform: a.transform }} />\n        );\n      })}\n      <div style={{ position: 'absolute', left: W * (vertical ? 0.09 : 0.08), top: H * 0.30, right: W * 0.08 }}>\n        <div style={{ fontSize: H * 0.024, letterSpacing: W * 0.01, color: cyan, fontWeight: 400, opacity: kickerStyle.opacity, transform: kickerStyle.transform }}>{kicker}</div>\n        <div style={{ marginTop: H * 0.035, fontSize: vertical ? W * 0.082 : H * 0.12, color: ink, fontWeight: 300, letterSpacing: W * 0.004, lineHeight: 1.25, opacity: headlineStyle.opacity, transform: headlineStyle.transform }}>{headline}</div>\n        <div style={{ marginTop: H * 0.05, display: 'flex', alignItems: 'baseline', gap: W * 0.02, opacity: metricStyle.opacity, transform: metricStyle.transform, transformOrigin: 'left bottom' }}>\n          <div style={{ fontFamily: '\"Inter\", sans-serif', fontSize: H * 0.075, fontWeight: 700, color: purple, letterSpacing: W * 0.002, fontVariantNumeric: 'tabular-nums' }}>{metricValue}</div>\n          <div style={{ fontSize: H * 0.024, color: muted, letterSpacing: W * 0.008 }}>{metricLabel}</div>\n        </div>\n      </div>\n      <div style={{ position: 'absolute', left: W * (vertical ? 0.09 : 0.08), bottom: H * 0.12, fontSize: H * 0.024, color: muted, letterSpacing: W * 0.003, opacity: footnoteStyle.opacity }}>{footnote}</div>\n    </div>\n  );\n};\n"
+  },
+  {
+    "id": "d32f73f1-a10d-4098-b211-a300c0db47ce",
+    "name": "数据条形竞赛",
+    "category": "pro-master",
+    "description": "数据条形依次生长 + 名次标签 + 数字滚动 + 冠军定格，把一组对比数据做成动态图表动画。销量榜/投票结果/评分对比/年度盘点。",
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "durationInFrames": 240,
+    "props": {
+      "title": "2026 春季产地销量",
+      "unit": "袋",
+      "itemsJson": "[{\"label\":\"耶加雪菲\",\"value\":1280},{\"label\":\"瑰夏\",\"value\":960},{\"label\":\"曼特宁\",\"value\":720},{\"label\":\"肯尼亚 AA\",\"value\":540},{\"label\":\"哥伦比亚\",\"value\":380}]",
+      "bg": "#0E1116",
+      "ink": "#F5F7FA",
+      "accent": "#6CF3C0",
+      "bar": "#3A4654",
+      "muted": "#9AA4B2"
+    },
+    "propSchema": [
+      {
+        "key": "title",
+        "type": "text",
+        "defaultValue": "2026 春季产地销量",
+        "label": "标题"
+      },
+      {
+        "key": "unit",
+        "type": "string",
+        "defaultValue": "袋",
+        "label": "单位"
+      },
+      {
+        "key": "itemsJson",
+        "type": "text",
+        "defaultValue": "[{\"label\":\"耶加雪菲\",\"value\":1280},{\"label\":\"瑰夏\",\"value\":960},{\"label\":\"曼特宁\",\"value\":720},{\"label\":\"肯尼亚 AA\",\"value\":540},{\"label\":\"哥伦比亚\",\"value\":380}]",
+        "label": "数据项（JSON：label/value 数组，按值降序）"
+      },
+      {
+        "key": "bg",
+        "type": "color",
+        "defaultValue": "#0E1116",
+        "label": "背景色"
+      },
+      {
+        "key": "ink",
+        "type": "color",
+        "defaultValue": "#F5F7FA",
+        "label": "主文字色"
+      },
+      {
+        "key": "accent",
+        "type": "color",
+        "defaultValue": "#6CF3C0",
+        "label": "强调色"
+      },
+      {
+        "key": "bar",
+        "type": "color",
+        "defaultValue": "#3A4654",
+        "label": "条形色"
+      },
+      {
+        "key": "muted",
+        "type": "color",
+        "defaultValue": "#9AA4B2",
+        "label": "次要文字色"
+      }
+    ],
+    "thumb": null,
+    "code": "const DataBarRace = ({item}) => {\n  const frame = useCurrentFrame();\n  const {fps} = useVideoConfig();\n  const p = item.props || {};\n  const W = item.width || 1280;\n  const H = item.height || 720;\n\n  const title = p.title || '2026 春季产地销量';\n  const unit = p.unit || '袋';\n  const items = JSON.parse(p.itemsJson || '[{\"label\":\"耶加雪菲\",\"value\":1280},{\"label\":\"瑰夏\",\"value\":960},{\"label\":\"曼特宁\",\"value\":720},{\"label\":\"肯尼亚 AA\",\"value\":540},{\"label\":\"哥伦比亚\",\"value\":380}]');\n  const bg = p.bg || '#0E1116';\n  const ink = p.ink || '#F5F7FA';\n  const accent = p.accent || '#6CF3C0';\n  const bar = p.bar || '#3A4654';\n  const muted = p.muted || '#9AA4B2';\n\n  const T = (s) => s * fps;\n  const enter = (start, dur, dist, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.exp) });\n    return { opacity: k, transform: `translateY(${(1 - k) * dist}px)` };\n  };\n  const fade = (start, dur) => interpolate(frame, [T(start), T(start + dur)], [0, 1],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });\n  const count = (start, dur, target, ease) => Math.round(interpolate(frame, [T(start), T(start + dur)], [0, target],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.poly(2)) }));\n\n  const max = Math.max(...items.map((it) => it.value));\n  const barMaxW = W * 0.62;\n\n  const titleStyle = enter(0.1, 0.5, 30, Easing.out(Easing.poly(3)));\n  const unitStyle = { opacity: fade(0.45, 0.35) };\n\n  const rowAnim = items.map((it, i) => {\n    const start = 0.8 + i * 0.25;\n    const targetW = (it.value / max) * barMaxW;\n    const barW = interpolate(frame, [T(start), T(start + 0.7)], [0, targetW],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.poly(3)) });\n    const val = count(start, 0.7, it.value, Easing.out(Easing.poly(2)));\n    const valOpacity = fade(start + 0.1, 0.3);\n    return { barW, val, valOpacity, isTop: i === 0 };\n  });\n\n  // 冠军强调：accent 描边脉冲（5.6s 亮起 → 5.95s 落到 0.35 定格）\n  const ringIn = interpolate(frame, [T(5.6), T(5.9)], [0, 1],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.poly(2)) });\n  const ringSettle = interpolate(frame, [T(5.95), T(6.45)], [1, 0.35],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.inOut(Easing.poly(2)) });\n  const ringOpacity = Math.min(ringIn, ringSettle);\n\n  const sans = \"'Noto Sans SC', Helvetica, sans-serif\";\n\n  return (\n    <div style={{ width: W, height: H, position: 'relative', background: bg, color: ink, fontFamily: sans, overflow: 'hidden', boxSizing: 'border-box', padding: `${H * 0.1}px ${W * 0.08}px` }}>\n      <div style={{ fontSize: 44, fontWeight: 700, letterSpacing: '0.02em', opacity: titleStyle.opacity, transform: titleStyle.transform }}>{title}</div>\n      <div style={{ fontSize: 20, color: muted, marginTop: 8, letterSpacing: '0.2em', opacity: unitStyle.opacity }}>单位：{unit}</div>\n      <div style={{ marginTop: H * 0.07, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: H * 0.52 }}>\n        {items.map((it, i) => {\n          const a = rowAnim[i];\n          return (\n            <div key={it.label} style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>\n              <div style={{ width: W * 0.16, fontSize: 24, color: a.isTop ? ink : muted, textAlign: 'right', paddingRight: 22, fontWeight: a.isTop ? 700 : 400, boxSizing: 'border-box', whiteSpace: 'nowrap', overflow: 'hidden' }}>\n                {it.label}\n              </div>\n              <div style={{ position: 'relative', flex: 1, height: 44 }}>\n                <div style={{ height: '100%', width: a.barW, background: a.isTop ? accent : bar, borderRadius: 3 }} />\n                {a.isTop && (\n                  <div style={{ position: 'absolute', left: -6, top: -6, bottom: -6, width: (it.value / max) * barMaxW + 12, border: `2px solid ${accent}`, borderRadius: 6, opacity: ringOpacity, pointerEvents: 'none' }} />\n                )}\n              </div>\n              <div style={{ width: W * 0.12, fontSize: 30, marginLeft: 18, fontVariantNumeric: 'tabular-nums', color: a.isTop ? accent : ink, fontWeight: a.isTop ? 700 : 400, opacity: a.valOpacity }}>\n                {a.val}\n              </div>\n            </div>\n          );\n        })}\n      </div>\n    </div>\n  );\n};\n"
+  },
+  {
+    "id": "bbbd5c44-35f8-4357-9453-9fe79b9437ec",
+    "name": "天鹅绒宣言",
+    "category": "pro-master",
+    "description": "黑底金线衬线大字，居中对称、缓慢从容的品牌宣言/章节过渡页，背景暖光极缓呼吸。奢侈品、发布会 keynote 式仪式感页面。",
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "durationInFrames": 180,
+    "props": {
+      "eyebrow": "MAISON ATELIER · EST. 2012",
+      "headline": "时间从不辜负专注",
+      "sub": "每一件作品，都为百年而作",
+      "bg": "#101014",
+      "ink": "#F4EFE6",
+      "gold": "#C9A84C",
+      "muted": "#8E8878"
+    },
+    "propSchema": [
+      {
+        "key": "eyebrow",
+        "type": "text",
+        "defaultValue": "MAISON ATELIER · EST. 2012",
+        "label": "顶部小标"
+      },
+      {
+        "key": "headline",
+        "type": "text",
+        "defaultValue": "时间从不辜负专注",
+        "label": "宣言大字"
+      },
+      {
+        "key": "sub",
+        "type": "text",
+        "defaultValue": "每一件作品，都为百年而作",
+        "label": "副题"
+      },
+      {
+        "key": "bg",
+        "type": "color",
+        "defaultValue": "#101014",
+        "label": "背景色"
+      },
+      {
+        "key": "ink",
+        "type": "color",
+        "defaultValue": "#F4EFE6",
+        "label": "主文字色"
+      },
+      {
+        "key": "gold",
+        "type": "color",
+        "defaultValue": "#C9A84C",
+        "label": "金色"
+      },
+      {
+        "key": "muted",
+        "type": "color",
+        "defaultValue": "#8E8878",
+        "label": "次要文字色"
+      }
+    ],
+    "thumb": null,
+    "code": "const VelvetStandardDeck = ({item}) => {\n  const frame = useCurrentFrame();\n  const {fps} = useVideoConfig();\n  const p = item.props || {};\n  const W = item.width || 1280;\n  const H = item.height || 720;\n\n  const eyebrow = p.eyebrow || 'MAISON ATELIER · EST. 2012';\n  const headline = p.headline || '时间从不辜负专注';\n  const sub = p.sub || '每一件作品，都为百年而作';\n  const bg = p.bg || '#101014';\n  const ink = p.ink || '#F4EFE6';\n  const gold = p.gold || '#C9A84C';\n  const muted = p.muted || '#8E8878';\n\n  const t = frame / fps;\n  const vertical = H > W;\n\n  const T = (s) => s * fps;\n  const enter = (start, dur, dist, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.exp) });\n    return { opacity: k, transform: `translateY(${(1 - k) * dist}px)` };\n  };\n  const growX = (start, dur, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.poly(2)) });\n    return { transform: `scaleX(${k})` };\n  };\n\n  // 呼吸辉光：唯一环境动效，极缓循环（定格期仍呼吸）\n  const breathe = 0.06 + 0.035 * (1 + Math.sin(t * 0.9)) / 2;\n  const toRgba = (hex, a) => {\n    const h = hex.replace('#', '');\n    const full = h.length === 3 ? h.split('').map((c) => c + c).join('') : h;\n    const n = parseInt(full, 16);\n    return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;\n  };\n\n  const borderTop = growX(0.2, 0.5, Easing.out(Easing.poly(3)));\n  const borderBottom = growX(0.28, 0.5, Easing.out(Easing.poly(3)));\n  const eyebrowStyle = enter(0.5, 0.45, 10, Easing.out(Easing.sin));\n  const headlineStyle = enter(0.8, 0.9, 34, Easing.out(Easing.exp));\n  const headlineSpacing = interpolate(frame, [T(0.8), T(1.7)], [W * 0.012, W * 0.004],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.exp) });\n  const ruleTop = growX(1.8, 0.6, Easing.inOut(Easing.poly(2)));\n  const ruleBottom = growX(1.92, 0.6, Easing.inOut(Easing.poly(2)));\n  const subStyle = enter(2.2, 0.55, 12, Easing.inOut(Easing.sin));\n\n  const serif = \"'Playfair Display', 'Noto Serif SC', 'Songti SC', serif\";\n  const sans = \"'Inter', 'Noto Sans SC', sans-serif\";\n  const frameInset = Math.min(W, H) * 0.055;\n\n  return (\n    <div style={{ width: W, height: H, background: bg, position: 'relative', overflow: 'hidden', boxSizing: 'border-box' }}>\n      {/* 中心暖光呼吸 */}\n      <div style={{ position: 'absolute', left: '50%', top: '46%', width: W * 0.8, height: H * 0.8, transform: 'translate(-50%, -50%)', background: `radial-gradient(ellipse at center, ${toRgba(gold, breathe)} 0%, transparent 65%)`, opacity: 0.6 }} />\n\n      {/* 上下金色细边框 */}\n      <div style={{ position: 'absolute', top: frameInset, left: frameInset, right: frameInset, height: 1, background: gold, opacity: 0.75, transformOrigin: 'center', ...borderTop }} />\n      <div style={{ position: 'absolute', bottom: frameInset, left: frameInset, right: frameInset, height: 1, background: gold, opacity: 0.75, transformOrigin: 'center', ...borderBottom }} />\n\n      {/* 居中内容 */}\n      <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: W * 0.1 }}>\n        <div style={{ fontFamily: sans, fontSize: H * 0.022, letterSpacing: W * 0.012, color: gold, fontWeight: 500, textTransform: 'uppercase', opacity: eyebrowStyle.opacity, transform: eyebrowStyle.transform }}>{eyebrow}</div>\n        <div style={{ width: W * 0.07, height: 1, background: gold, opacity: 0.9, margin: `${H * 0.045}px 0 ${H * 0.04}px`, transformOrigin: 'center', ...ruleTop }} />\n        <div style={{ fontFamily: serif, fontSize: vertical ? W * 0.088 : H * 0.135, color: ink, fontWeight: 600, lineHeight: 1.18, textAlign: 'center', letterSpacing: `${headlineSpacing}px`, opacity: headlineStyle.opacity, transform: headlineStyle.transform }}>{headline}</div>\n        <div style={{ width: W * 0.07, height: 1, background: gold, opacity: 0.9, margin: `${H * 0.045}px 0`, transformOrigin: 'center', ...ruleBottom }} />\n        <div style={{ fontFamily: serif, fontSize: H * 0.034, color: muted, fontStyle: 'italic', letterSpacing: W * 0.003, opacity: subStyle.opacity, transform: subStyle.transform }}>{sub}</div>\n      </div>\n    </div>\n  );\n};\n"
+  },
+  {
+    "id": "b8fb4338-101b-472b-bdb2-e79d1bb0b20a",
+    "name": "最大化字体",
+    "category": "pro-master",
+    "description": "红黄撞色三层叠印快切三幕：幽灵词压场、主词砸入、标签块弹入，硬切节奏。重磅发布/里程碑/促销大字报。",
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "durationInFrames": 135,
+    "props": {
+      "ghost": "BREAK",
+      "act1": "全网首发",
+      "act2": "首日破 10 万",
+      "act3": "今晚 8 点 · 第二批开抢",
+      "chip1": "00:00 开售",
+      "chip2": "实时战报",
+      "chip3": "限量 5000 份",
+      "ink": "#101010",
+      "paper": "#FFFFFF",
+      "red": "#E63946",
+      "yellow": "#FFD60A"
+    },
+    "propSchema": [
+      {
+        "key": "ghost",
+        "type": "text",
+        "defaultValue": "BREAK",
+        "label": "背景幽灵词"
+      },
+      {
+        "key": "act1",
+        "type": "text",
+        "defaultValue": "全网首发",
+        "label": "第一幕主词"
+      },
+      {
+        "key": "act2",
+        "type": "text",
+        "defaultValue": "首日破 10 万",
+        "label": "第二幕主词"
+      },
+      {
+        "key": "act3",
+        "type": "text",
+        "defaultValue": "今晚 8 点 · 第二批开抢",
+        "label": "第三幕主词"
+      },
+      {
+        "key": "chip1",
+        "type": "text",
+        "defaultValue": "00:00 开售",
+        "label": "第一幕标签"
+      },
+      {
+        "key": "chip2",
+        "type": "text",
+        "defaultValue": "实时战报",
+        "label": "第二幕标签"
+      },
+      {
+        "key": "chip3",
+        "type": "text",
+        "defaultValue": "限量 5000 份",
+        "label": "第三幕标签"
+      },
+      {
+        "key": "ink",
+        "type": "color",
+        "defaultValue": "#101010",
+        "label": "墨色"
+      },
+      {
+        "key": "paper",
+        "type": "color",
+        "defaultValue": "#FFFFFF",
+        "label": "纸色"
+      },
+      {
+        "key": "red",
+        "type": "color",
+        "defaultValue": "#E63946",
+        "label": "红色"
+      },
+      {
+        "key": "yellow",
+        "type": "color",
+        "defaultValue": "#FFD60A",
+        "label": "黄色"
+      }
+    ],
+    "thumb": null,
+    "code": "const MaximalistType = ({item}) => {\n  const frame = useCurrentFrame();\n  const {fps} = useVideoConfig();\n  const p = item.props || {};\n  const W = item.width || 1280;\n  const H = item.height || 720;\n\n  const ghost = p.ghost || 'BREAK';\n  const acts = [p.act1 || '全网首发', p.act2 || '首日破 10 万', p.act3 || '今晚 8 点 · 第二批开抢'];\n  const chips = [p.chip1 || '00:00 开售', p.chip2 || '实时战报', p.chip3 || '限量 5000 份'];\n  const ink = p.ink || '#101010';\n  const paper = p.paper || '#FFFFFF';\n  const red = p.red || '#E63946';\n  const yellow = p.yellow || '#FFD60A';\n\n  const t = frame / fps;\n  const vertical = H > W;\n  const act = t < 1.5 ? 0 : t < 3.0 ? 1 : 2;\n  const actBg = [red, yellow, ink];\n  const actInk = [paper, ink, paper];\n  const heavy = '\"Archivo Black\", \"ZCOOL QingKe HuangYou\", sans-serif';\n  const sans = '\"Inter\", \"Noto Sans SC\", sans-serif';\n  const mainSize = vertical ? W * 0.13 : H * 0.17;\n\n  const T = (s) => s * fps;\n\n  // 幽灵词：0.15s back.out 弹入（scale 1.35→1，只入场一次）\n  const ghostK = interpolate(frame, [T(0.15), T(0.65)], [0, 1],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.back(1.6)) });\n  const ghostScale = interpolate(frame, [T(0.15), T(0.65)], [1.35, 1],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.back(1.6)) });\n\n  // 主词：每幕 power4.in 从上方砸入\n  const mainStart = [0.25, 1.55, 3.05][act];\n  const mainK = interpolate(frame, [T(mainStart), T(mainStart + 0.28)], [0, 1],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.in(Easing.poly(4)) });\n\n  // 标签块：back.out 旋转弹入\n  const chipStart = [0.55, 1.85, 3.35][act];\n  const chipK = interpolate(frame, [T(chipStart), T(chipStart + 0.35)], [0, 1],\n    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.back(2.2)) });\n\n  const ghostColor = act === 1 ? ink : paper;\n\n  return (\n    <div style={{ width: W, height: H, position: 'relative', overflow: 'hidden', boxSizing: 'border-box', background: actBg[act], color: actInk[act] }}>\n      {/* 幽灵背景词 */}\n      <div style={{\n        position: 'absolute', left: '50%', top: '50%',\n        transform: `translate(-50%, -50%) rotate(-4deg) scale(${ghostScale})`,\n        fontFamily: heavy, fontSize: vertical ? W * 0.34 : H * 0.52,\n        color: ghostColor, opacity: 0.14 * ghostK, whiteSpace: 'nowrap', letterSpacing: -W * 0.004\n      }}>{ghost}</div>\n\n      {/* 主词 + 标签 */}\n      <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: H * 0.03, padding: W * 0.08 }}>\n        <div style={{\n          fontFamily: heavy, fontSize: mainSize, color: actInk[act], lineHeight: 1.1,\n          textAlign: 'center', maxWidth: W * 0.86,\n          opacity: mainK, transform: `translateY(${-(1 - mainK) * H * 0.09}px)`\n        }}>{acts[act]}</div>\n        <div style={{\n          background: actInk[act], color: actBg[act], fontFamily: sans, fontSize: H * 0.032,\n          fontWeight: 700, padding: `${H * 0.012}px ${W * 0.02}px`,\n          transform: `rotate(${-8 + 6 * chipK}deg) scale(${0.7 + 0.3 * chipK})`, opacity: chipK\n        }}>{chips[act]}</div>\n      </div>\n    </div>\n  );\n};\n"
+  },
+  {
+    "id": "b56c2fd7-29ea-43e7-82b4-f1f80a6ce4fc",
+    "name": "Logo 落版尾板",
+    "category": "pro-master",
+    "description": "视频结尾 logo 落版：词标逐件组装、辉光呼吸一次、CTA 淡入后完全定格。片尾/logo 收尾/结尾行动号召画面。",
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "durationInFrames": 150,
+    "props": {
+      "name": "MOUNTAIN COFFEE",
+      "cta": "关注我们 · 每周一支产地视频",
+      "subLine": "EST. 2026",
+      "bg": "#0C0F12",
+      "ink": "#F5F7FA",
+      "accent": "#6CF3C0",
+      "muted": "#8A94A0"
+    },
+    "propSchema": [
+      {
+        "key": "name",
+        "type": "text",
+        "defaultValue": "MOUNTAIN COFFEE",
+        "label": "词标（空格分词）"
+      },
+      {
+        "key": "cta",
+        "type": "text",
+        "defaultValue": "关注我们 · 每周一支产地视频",
+        "label": "行动号召"
+      },
+      {
+        "key": "subLine",
+        "type": "text",
+        "defaultValue": "EST. 2026",
+        "label": "副行（可留空）"
+      },
+      {
+        "key": "bg",
+        "type": "color",
+        "defaultValue": "#0C0F12",
+        "label": "背景色"
+      },
+      {
+        "key": "ink",
+        "type": "color",
+        "defaultValue": "#F5F7FA",
+        "label": "主文字色"
+      },
+      {
+        "key": "accent",
+        "type": "color",
+        "defaultValue": "#6CF3C0",
+        "label": "强调色"
+      },
+      {
+        "key": "muted",
+        "type": "color",
+        "defaultValue": "#8A94A0",
+        "label": "次要文字色"
+      }
+    ],
+    "thumb": null,
+    "code": "const LogoOutro = ({item}) => {\n  const frame = useCurrentFrame();\n  const {fps} = useVideoConfig();\n  const p = item.props || {};\n  const W = item.width || 1280;\n  const H = item.height || 720;\n\n  const name = p.name || 'MOUNTAIN COFFEE';\n  const cta = p.cta || '关注我们 · 每周一支产地视频';\n  const subLine = p.subLine || 'EST. 2026';\n  const bg = p.bg || '#0C0F12';\n  const ink = p.ink || '#F5F7FA';\n  const accent = p.accent || '#6CF3C0';\n  const muted = p.muted || '#8A94A0';\n\n  const words = String(name).split(' ');\n\n  const T = (s) => s * fps;\n  const enter = (start, dur, dist, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.exp) });\n    return { opacity: k, transform: `translateY(${(1 - k) * dist}px)` };\n  };\n  const pop = (start, dur, from, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [from, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.exp) });\n    return { opacity: k, transform: `scale(${k})` };\n  };\n  const growX = (start, dur, ease) => {\n    const k = interpolate(frame, [T(start), T(start + dur)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: ease || Easing.out(Easing.poly(2)) });\n    return { transform: `scaleX(${k})` };\n  };\n\n  // 词标逐件组装：每词 opacity 0→1 + y 46→0 + scale 0.92→1\n  const wordItems = words.map((w, i) => {\n    const start = 0.2 + i * 0.16;\n    const k = interpolate(frame, [T(start), T(start + 0.5)], [0, 1],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.exp) });\n    return { word: w, opacity: k, transform: `translateY(${(1 - k) * 46}px) scale(${0.92 + 0.08 * k})` };\n  });\n  const dotStart = 0.2 + words.length * 0.16 + 0.05;\n  const dotStyle = pop(dotStart, 0.35, 0, Easing.out(Easing.back(2)));\n  const subStyle = enter(1.1, 0.4, 14, Easing.out(Easing.poly(2)));\n  const ctaStyle = enter(2.6, 0.45, 18, Easing.out(Easing.poly(3)));\n  const ctaRule = growX(2.7, 0.4, Easing.out(Easing.poly(2)));\n\n  // 辉光只呼吸一次（1.7→2.05 升至 0.55，2.05→2.75 回落到 0.12），之后定格不再循环\n  const glowOpacity = (() => {\n    if (frame < T(1.7)) return 0;\n    if (frame < T(2.05)) return interpolate(frame, [T(1.7), T(2.05)], [0, 0.55],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.poly(2)) });\n    if (frame < T(2.75)) return interpolate(frame, [T(2.05), T(2.75)], [0.55, 0.12],\n      { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.inOut(Easing.poly(2)) });\n    return 0.12;\n  })();\n\n  const serif = \"'Playfair Display', 'Noto Serif SC', 'Songti SC', serif\";\n\n  return (\n    <div style={{ width: W, height: H, position: 'relative', background: bg, color: ink, fontFamily: serif, overflow: 'hidden' }}>\n      <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>\n        <div style={{ display: 'flex', alignItems: 'baseline' }}>\n          {wordItems.map((w, i) => (\n            <span key={i}>\n              <span style={{ fontSize: 84, fontWeight: 700, letterSpacing: '0.06em', opacity: w.opacity, transform: w.transform }}>{w.word}</span>\n              {i < words.length - 1 && (\n                <span style={{ fontSize: 84, color: accent, margin: '0 18px', opacity: dotStyle.opacity, transform: dotStyle.transform }}>·</span>\n              )}\n            </span>\n          ))}\n        </div>\n        {subLine.length > 0 && (\n          <div style={{ marginTop: 16, fontSize: 20, letterSpacing: '0.4em', color: muted, opacity: subStyle.opacity, transform: subStyle.transform }}>{subLine}</div>\n        )}\n        <div style={{ width: 120, height: 2, background: accent, margin: '34px 0 22px', transformOrigin: 'center center', ...ctaRule }} />\n        <div style={{ fontSize: 26, letterSpacing: '0.12em', opacity: ctaStyle.opacity, transform: ctaStyle.transform }}>{cta}</div>\n      </div>\n      {/* 辉光层：中心径向渐变，透明度一次性呼吸 */}\n      <div style={{ position: 'absolute', inset: 0, opacity: glowOpacity, pointerEvents: 'none', background: `radial-gradient(ellipse ${W * 0.5}px ${H * 0.42}px at 50% 46%, ${accent}26 0%, transparent 70%)` }} />\n    </div>\n  );\n};\n"
+  }
+]
