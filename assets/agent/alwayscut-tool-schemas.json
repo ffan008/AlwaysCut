@@ -4262,6 +4262,48 @@
       }
     },
     {
+      "name": "read_project_doc",
+      "description": "Read the director project-memory documents for the current project. Call with NO arguments to list every doc (name + updatedAt + content length); pass name to read one doc in full. Names follow the six bases (brief/treatment/progress/analysis/timeline/objects) plus suffixed variants like analysis-<slug> or brief-<slug>. When taking over any already-started project, call this first (no args) to see what exists, then read progress and brief before acting.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Doc name to read in full; omit to list all docs."
+          },
+          "projectId": {
+            "type": "string",
+            "description": "Defaults to the current project."
+          }
+        }
+      }
+    },
+    {
+      "name": "write_project_doc",
+      "description": "Overwrite one director project-memory document (rewrite semantics, never append — a doc is the current truth, not a log). brief = what the user said that counts (goal/audience/constraints/budget); treatment = your creative answer (intent, not parameter values); progress = the present snapshot (current problem, next step, blockers, in-flight exports) — write before stopping mid-task or switching sessions, clear it to a one-liner once delivered; analysis/timeline/objects = reference truth about a source film (why it works, its objects over time, the object→asset map). Keep reference truth (what the source DID) separate from goal truth (what the new film SHOULD do).",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "One of brief/treatment/progress/analysis/timeline/objects, or a suffixed variant like analysis-<slug>."
+          },
+          "content": {
+            "type": "string",
+            "description": "Full new content (replaces the old content entirely)."
+          },
+          "projectId": {
+            "type": "string",
+            "description": "Defaults to the current project."
+          }
+        },
+        "required": [
+          "name",
+          "content"
+        ]
+      }
+    },
+    {
       "name": "import_media",
       "description": "Create a formal external import session with one short-lived, single-use upload slot. The slot is bound to session, project, asset, filename, POST method, MIME type, and exact byte size. Upload the declared bytes, then pass the opaque server receipt and echoed assetType to finalize_uploaded_asset. No media-pool asset is published before finalize succeeds. Provide assetId only to replace an existing pool asset; omit it for a new asset. Prefer download_media for public URLs.",
       "input_schema": {
@@ -4551,7 +4593,7 @@
     },
     {
       "name": "load_skill",
-      "description": "Load one bundled or selected custom skill under the active model round input budget. Omit selectors for SKILL.md; if it is paged, follow nextOffset until null before support files. Exactly one selector per call: either files=[...] to load whole omitted files, or file with offset and limit to page a single file. Never send file and files in the same call. Bundled skills: ai-cinematic-short-film, asset-import, batch-montage-variants, beat-sync-montage, create-motion-graphics, ecommerce-product-montage, explainer-video, export, image-gen, known-errors, livestream-to-clips, long-video-to-shorts, motion-graphic-placement, multi-clips-to-reels, music, music-intelligence, news-rough-cut, alwayscut-plugin-basics, product-ad-video-script, product-help, shader-gen, skill-creator, storyboard-shot-breakdown, talking-head-guide, transcription, verification, video-gen, video-thumbnail-generator, voice, widget-forms.",
+      "description": "Load one bundled or selected custom skill under the active model round input budget. Omit selectors for SKILL.md; if it is paged, follow nextOffset until null before support files. Exactly one selector per call: either files=[...] to load whole omitted files, or file with offset and limit to page a single file. Never send file and files in the same call. Bundled skills: aesthetic-standards, ai-cinematic-short-film, ai-enhance-guide, alwayscut-plugin-basics, asset-import, audio-fade-polish, audio-mix-voice-bgm, audio-noise-cleanup, b-roll-layering, batch-montage-variants, beat-sync-montage, cinematic-teal-orange, clean-bright-tutorial, course-chapter-cut, create-motion-graphics, critique-review, director, ecommerce-product-montage, end-card-cta, explainer-video, export, film-grain-look, image-gen, interview-two-cam, knowledge-card-video, known-errors, livestream-to-clips, long-video-to-shorts, moody-duotone, motion-graphic-placement, multi-clips-to-reels, multi-scene-organization, music, music-intelligence, narration-led-demo, native-subtitle-quote-image, neon-night-city, news-rough-cut, product-ad-video-script, product-help, ranking-listicle, reference-breakdown, reference-project-apply, scene-script, shader-gen, short-drama, short-video-hook, skill-creator, skin-tone-fix, sound-design-pack, storyboard-shot-breakdown, street-interview, talking-head-guide, talking-head-packaging, transcription, two-person-podcast, verification, video-gen, video-thumbnail-generator, visual-continuity, voice, widget-forms.",
       "input_schema": {
         "type": "object",
         "properties": {
@@ -6056,7 +6098,7 @@
     },
     {
       "name": "load_skill",
-      "description": "Load one bundled or selected custom skill under the active model round input budget. Omit selectors for SKILL.md; if it is paged, follow nextOffset until null before support files. Exactly one selector per call: either files=[...] to load whole omitted files, or file with offset and limit to page a single file. Never send file and files in the same call. Bundled skills: ai-cinematic-short-film, asset-import, batch-montage-variants, beat-sync-montage, create-motion-graphics, ecommerce-product-montage, explainer-video, export, image-gen, known-errors, livestream-to-clips, long-video-to-shorts, motion-graphic-placement, multi-clips-to-reels, music, music-intelligence, news-rough-cut, alwayscut-plugin-basics, product-ad-video-script, product-help, shader-gen, skill-creator, storyboard-shot-breakdown, talking-head-guide, transcription, verification, video-gen, video-thumbnail-generator, voice, widget-forms.",
+      "description": "Load one bundled or selected custom skill under the active model round input budget. Omit selectors for SKILL.md; if it is paged, follow nextOffset until null before support files. Exactly one selector per call: either files=[...] to load whole omitted files, or file with offset and limit to page a single file. Never send file and files in the same call. Bundled skills: aesthetic-standards, ai-cinematic-short-film, ai-enhance-guide, alwayscut-plugin-basics, asset-import, audio-fade-polish, audio-mix-voice-bgm, audio-noise-cleanup, b-roll-layering, batch-montage-variants, beat-sync-montage, cinematic-teal-orange, clean-bright-tutorial, course-chapter-cut, create-motion-graphics, critique-review, director, ecommerce-product-montage, end-card-cta, explainer-video, export, film-grain-look, image-gen, interview-two-cam, knowledge-card-video, known-errors, livestream-to-clips, long-video-to-shorts, moody-duotone, motion-graphic-placement, multi-clips-to-reels, multi-scene-organization, music, music-intelligence, narration-led-demo, native-subtitle-quote-image, neon-night-city, news-rough-cut, product-ad-video-script, product-help, ranking-listicle, reference-breakdown, reference-project-apply, scene-script, shader-gen, short-drama, short-video-hook, skill-creator, skin-tone-fix, sound-design-pack, storyboard-shot-breakdown, street-interview, talking-head-guide, talking-head-packaging, transcription, two-person-podcast, verification, video-gen, video-thumbnail-generator, visual-continuity, voice, widget-forms.",
       "input_schema": {
         "type": "object",
         "properties": {
