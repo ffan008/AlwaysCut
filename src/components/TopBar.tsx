@@ -81,7 +81,13 @@ export function TopBar({ projectId, projectName, canUndo, canRedo, exporting, ex
             onKeyDown={(e) => { if (e.key === 'Enter') commit(); if (e.key === 'Escape') setEditing(false); }}
             style={{ font: 'inherit', fontSize: 14, textAlign: 'center', background: theme.panelAlt, color: theme.text, border: `0.5px solid ${theme.accent}`, borderRadius: 5, padding: '2px 8px', minWidth: 200 }} />
         ) : (
-          <span onDoubleClick={() => { if (onRename) { setDraft(projectName); setEditing(true); } }} title={onRename ? t('双击重命名') : undefined} style={{ cursor: onRename ? 'text' : 'default' }}>{projectName}</span>
+          <>
+            <span onDoubleClick={() => { if (onRename) { setDraft(projectName); setEditing(true); } }} title={onRename ? t('双击重命名') : undefined} style={{ cursor: onRename ? 'text' : 'default' }}>{projectName}</span>
+            {/* Pro: filename + muted "✓ saved" status (AlwaysCut auto-persists, so it is always saved). */}
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, fontSize: 11, color: theme.textDim, fontWeight: 400 }}>
+              <Icon name="check" size={11} /> {t('已保存')}
+            </span>
+          </>
         )}
       </div>
 
@@ -105,10 +111,9 @@ export function TopBar({ projectId, projectName, canUndo, canRedo, exporting, ex
         className="cc-tip cc-tip-r"
         data-tip={exporting ? t('查看后台导出任务') : t('导出 MP4')}
         aria-label={exporting ? t('查看后台导出任务') : t('导出 MP4')}
-        style={{ minWidth: 58, height: 26, background: theme.accent, color: theme.onAccent, border: 'none', borderRadius: 2, padding: '0 8px', fontSize: 12, fontWeight: 600, cursor: 'pointer', marginLeft: 4 }}>
+        style={{ minWidth: 58, height: 26, background: theme.accent, color: theme.onAccent, border: 'none', borderRadius: 6, padding: '0 10px', fontSize: 12, fontWeight: 600, cursor: 'pointer', marginLeft: 4 }}>
         {exporting ? t('{n} 个导出', { n: Math.max(1, exportJobCount) }) : t('导出')}
       </button>
-      <div title={t('账户')} style={{ width: 20, height: 20, borderRadius: '50%', marginLeft: 2, background: 'conic-gradient(from 210deg, #6d6cff, #ff5f9e, #ffb35f, #6d6cff)', flexShrink: 0 }} />
       </div>
       {/* No fallback: a dialog that is still loading shows nothing, exactly as it
           did before it was opened — the same treatment the other overlays get. */}

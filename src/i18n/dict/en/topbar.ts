@@ -12,6 +12,8 @@ export default {
   '导出 MP4': 'Export MP4',
   '导出中…': 'Exporting…',
   '导出': 'Export',
+  '导出记录': 'Export records',
+  '已保存': 'Saved',
   '账户': 'Account',
   '窗口控制': 'Window controls',
   '关闭窗口': 'Close window',

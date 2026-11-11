@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { theme, themeAlpha } from '../theme';
 import { Icon } from './icons';
-import { TopBarIconButton } from './TopBarIconButton';
 import { listExportHistory, clearExportHistory, type ExportRecord } from '../persist/exportHistoryStore';
 import { t, useT } from '../i18n/locale';
 
@@ -54,7 +53,17 @@ export function ExportHistory() {
 
   return (
     <>
-      <TopBarIconButton icon="download" label={t('导出历史')} onClick={() => setOpen(true)} />
+      {/* Pro: muted-grey text button "导出记录" (was an icon-only trigger). */}
+      <button
+        type="button"
+        className="cc-tip cc-tip-r"
+        data-tip={t('导出历史')}
+        aria-label={t('导出记录')}
+        onClick={() => setOpen(true)}
+        style={{ height: 26, padding: '0 10px', background: theme.panelAlt, color: theme.text, border: `0.5px solid ${theme.border}`, borderRadius: 6, fontSize: 12, fontWeight: 500, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 5, marginLeft: 4, whiteSpace: 'nowrap' }}
+      >
+        <Icon name="clock" size={13} /> {t('导出记录')}
+      </button>
 
       {open && (
         <div onClick={() => setOpen(false)} style={backdrop}>
