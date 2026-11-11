@@ -182,9 +182,23 @@ export function fxHoverOverrides(def: FxDef, phase: number): FxOverrides {
   return spatialHoverOverrides(def.id, p) ?? animatedHoverOverrides(def.id, p);
 }
 
+/** Identity pass used for matting cards: the matting shader needs a per-frame
+ * segmenter mask the single-input thumb path cannot produce, so the card shows
+ * the sample frame as-is rather than a black square. */
+const PASSTHROUGH_FRAG = `#version 300 es
+precision highp float;
+uniform sampler2D u_input;
+in vec2 v_texCoord;
+out vec4 fragColor;
+void main() { fragColor = texture(u_input, v_texCoord); }`;
+
 function renderFx(def: FxDef, time: number, overrides?: Record<string, UniformValue>): boolean {
   const sample = getSampleFrame('fx');
   if (!sample || !ensureRuntime() || !rt || !glCanvas) return false;
+  if (def.matting) {
+    rt.renderFx(PASSTHROUGH_FRAG, sample);
+    return true;
+  }
   const u = { ...fxUniforms(def, overrides), u_time: time };
   const lut3d = def.cube ? activeOrPreviewLut(def.cube) ?? undefined : undefined;
   if (def.cube && !lut3d) return false;

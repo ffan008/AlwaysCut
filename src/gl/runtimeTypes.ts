@@ -42,18 +42,18 @@ export interface GlRuntime {
   ) => void;
   renderFxChain: (passes: FxPass[], input: TexImageSource) => void;
   /**
-   * Three-texture AI matting composite (background replacement). Binds
-   * `u_input` (foreground person), `u_background` (replacement) and `u_mask`
-   * (per-pixel foreground alpha from the selfie segmenter) to units 0/1/2 and
-   * draws the fullscreen quad. The mask is uploaded as a single-channel R8
-   * texture so `u_mask.r` is the foreground confidence, matching
-   * src/gl/fx/ai-matting.frag. The mask must share the foreground's dimensions
-   * (src/matting/segment.ts already resizes it to the source frame).
+   * Two-texture AI matting (transparent cutout). Binds `u_input` (foreground
+   * person) and `u_mask` (per-pixel foreground alpha from the selfie segmenter)
+   * to units 0/1 and draws the fullscreen quad, emitting a transparent
+   * foreground so the lower timeline tracks show through as the replacement
+   * background — the same convention as chroma-key. The mask is uploaded as a
+   * single-channel R8 texture so `u_mask.r` is the foreground confidence,
+   * matching src/gl/fx/ai-matting.frag. The mask must share the foreground's
+   * dimensions (src/matting/segment.ts already resizes it to the source frame).
    */
   renderMatting: (
     frag: string,
     foreground: TexImageSource,
-    background: TexImageSource,
     mask: MattingMask,
     extra?: Record<string, UniformValue>,
   ) => void;

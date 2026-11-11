@@ -13,6 +13,7 @@ export default {
   '手持运镜': 'Handheld Camera',
   '移轴镜头': 'Tilt-Shift',
   '色度键/绿幕': 'Chroma Key / Green Screen',
+  'AI 抠像': 'AI Matting',
   '暗角': 'Vignette',
   '胶片颗粒': 'Film Grain',
   'RGB 分离': 'RGB Split',
@@ -52,6 +53,8 @@ export default {
     'Simulates a tilt-shift lens: a sharp focus band blurring above and below + saturation/vignette. Two-pass separable Gaussian blur.',
   '按键色（默认绿幕）抠除背景，可调容差/羽化/溢色抑制。':
     'Keys out the background by key color (green screen by default); adjustable similarity/feather/spill suppression.',
+  'AI 人像抠图：自动识别人物并抠出，背景变透明（下层轨道透出）。':
+    'AI portrait matting: detects the person and cuts them out automatically, making the background transparent so the lower tracks show through.',
   '四周压暗，突出中心主体。可调强度/柔和/圆度。':
     'Darkens the edges to emphasize the center subject. Adjustable amount/softness/roundness.',
   '动态胶片噪点质感。动画。': 'Dynamic film-grain texture. Animated.',

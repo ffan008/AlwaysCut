@@ -457,7 +457,7 @@ export function createGlRuntime(canvas: HTMLCanvasElement): GlRuntime {
       }
       gl.bindFramebuffer(gl.FRAMEBUFFER, null); // restore for later single-pass draws
     },
-    renderMatting(frag, foreground, background, mask, extra) {
+    renderMatting(frag, foreground, mask, extra) {
       assertContextAvailable();
       gl.bindFramebuffer(gl.FRAMEBUFFER, null);
       gl.viewport(0, 0, canvas.width, canvas.height);
@@ -469,13 +469,9 @@ export function createGlRuntime(canvas: HTMLCanvasElement): GlRuntime {
       const locIn = gl.getUniformLocation(prog, 'u_input');
       if (locIn) gl.uniform1i(locIn, 0);
 
-      upload(texIn, 1, background);
-      const locBg = gl.getUniformLocation(prog, 'u_background');
-      if (locBg) gl.uniform1i(locBg, 1);
-
-      uploadMask(texMask, 2, mask);
+      uploadMask(texMask, 1, mask);
       const locMask = gl.getUniformLocation(prog, 'u_mask');
-      if (locMask) gl.uniform1i(locMask, 2);
+      if (locMask) gl.uniform1i(locMask, 1);
 
       setUniform(prog, 'u_resolution', [canvas.width, canvas.height]);
       setUniform(prog, 'u_aspect', canvas.width / Math.max(1, canvas.height));

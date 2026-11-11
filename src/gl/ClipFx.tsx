@@ -11,6 +11,9 @@ import type { AspectFit, TimelineItem } from '../editor/types';
 import { sourceFrameAt } from '../editor/sourceLimit';
 import { offthreadTrimBefore, offthreadVideoTransparent, useRuntimeVideoDecoder } from '../editor/serverVideoDecoder';
 import { glEffects } from './clipEffects';
+import { getMattingSegmenter } from '../matting/segmenterCache';
+import type { MattingSegmenter } from '../matting/segment';
+import aiMattingFrag from './fx/ai-matting.frag.ts';
 
 // One video/image clip rendered through a builtin:fx-* single-input WebGL pass.
 // Mounts a hidden, frame-synced media
@@ -88,6 +91,27 @@ export function ClipFx({ item, fit, width, height, frameOffset = 0, onPreviewSta
   }, [width, height]);
 
   const active = useMemo(() => glEffects(item), [item]);
+  // AI matting is the one effect that needs a per-frame segmenter mask, which
+  // the single-input FxPass graph cannot express. When present it takes over
+  // the render path below (renderMatting instead of renderFxChain).
+  const mattingEntry = useMemo(() => active.find(({ def }) => def.matting) ?? null, [active]);
+  const segmenterRef = useRef<MattingSegmenter | null>(null);
+  const [mattingReady, setMattingReady] = useState(false);
+
+  useEffect(() => {
+    if (!mattingEntry) return;
+    let cancelled = false;
+    segmenterRef.current = null;
+    setMattingReady(false);
+    getMattingSegmenter().then((segmenter) => {
+      if (cancelled) return;
+      segmenterRef.current = segmenter;
+      setMattingReady(true);
+    }).catch((error) => {
+      if (!cancelled) console.error('[clip-fx] matting segmenter load failed', error);
+    });
+    return () => { cancelled = true; };
+  }, [mattingEntry?.def.id]);
   const definitionKey = useMemo(
     () => active.map(({ def }) => `${def.id}:${def.frag}`).join('\u0000'),
     [active],
@@ -183,17 +207,27 @@ export function ClipFx({ item, fit, width, height, frameOffset = 0, onPreviewSta
         : !!imageRef.current?.complete;
       if (!mediaReady) { reportWaiting(); raf = requestAnimationFrame(tick); return; }
       if (active.some(({ def }) => def.cube && !cubeSettled(def.cube))) { reportWaiting(); raf = requestAnimationFrame(tick); return; }
+      if (mattingEntry && !mattingReady) { reportWaiting(); raf = requestAnimationFrame(tick); return; }
       try {
         const runtime = ensureRuntimeSlot(runtimeRef, () => createGlRuntime(canvas));
         const ctx = staging.getContext('2d');
         if (!ctx) throw new Error('2d context unavailable');
         if (!decodedVideo && imageRef.current) drawFit(ctx, imageRef.current, fit);
-        const shaderFrame = buildEffectShaderFrame(
-          active.map(({ fx, def }) => ({ def, overrides: fx.overrides })),
-          frame,
-          fps,
-        );
-        runtime.renderFxChain(shaderFrame.passes, staging);
+        if (mattingEntry && segmenterRef.current) {
+          const rawSoftness = mattingEntry.fx.overrides?.softness;
+          const softness = typeof rawSoftness === 'number'
+            ? Math.min(0.4, Math.max(0, rawSoftness))
+            : 0.05;
+          const result = segmenterRef.current.segment(staging);
+          runtime.renderMatting(aiMattingFrag, staging, result.mask, { u_softness: softness });
+        } else {
+          const shaderFrame = buildEffectShaderFrame(
+            active.map(({ fx, def }) => ({ def, overrides: fx.overrides })),
+            frame,
+            fps,
+          );
+          runtime.renderFxChain(shaderFrame.passes, staging);
+        }
         // Make the freshly drawn canvas authoritative before unblocking export;
         // React state then preserves the same choice for subsequent renders.
         canvas.style.opacity = '1';
@@ -214,7 +248,7 @@ export function ClipFx({ item, fit, width, height, frameOffset = 0, onPreviewSta
     };
     tick();
     return () => { cancelAnimationFrame(raf); finish(); };
-  }, [active, definitionKey, fit, staging, item.id, item.kind, frame, fps, isRendering, renderKey, onPreviewStatus]);
+  }, [active, definitionKey, fit, staging, item.id, item.kind, frame, fps, isRendering, renderKey, onPreviewStatus, mattingEntry?.def.id, mattingReady]);
 
   useEffect(() => () => {
     disposeRuntimeSlot(runtimeRef);

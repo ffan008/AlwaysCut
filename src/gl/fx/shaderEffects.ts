@@ -20,6 +20,7 @@ import asciiRainFrag from './ascii-rain.frag.ts';
 import asciiRainBlurFrag from './ascii-rain-blur.frag.ts';
 import asciiRainCompositeFrag from './ascii-rain-composite.frag.ts';
 import chromaKeyFrag from './chroma-key.frag.ts';
+import aiMattingFrag from './ai-matting.frag.ts';
 import colorWheelsFrag from './color-wheels.frag.ts';
 import levelsFrag from './levels.frag.ts';
 import highlightsShadowsFrag from './highlights-shadows.frag.ts';
@@ -190,6 +191,16 @@ export const FX_EFFECTS: Record<string, FxDef> = {
       { key: 'similarity', label: '容差', default: 0.18, min: 0, max: 0.6, step: 0.01 },
       { key: 'smoothness', label: '羽化', default: 0.08, min: 0.001, max: 0.4, step: 0.005 },
       { key: 'spill', label: '溢色抑制', default: 0.5, min: 0, max: 1, step: 0.01 },
+    ],
+  },
+  'builtin:fx-ai-matting': {
+    id: 'builtin:fx-ai-matting',
+    name: 'AI 抠像',
+    desc: 'AI 人像抠图：自动识别人物并抠出，背景变透明（下层轨道透出）。',
+    frag: aiMattingFrag,
+    matting: true,
+    props: [
+      { key: 'softness', label: '羽化', default: 0.05, min: 0, max: 0.4, step: 0.005 },
     ],
   },
 
@@ -457,6 +468,7 @@ export const FX_ORDER = [
   'builtin:fx-shake',
   'builtin:fx-luma-key',
   'builtin:fx-chroma-key',
+  'builtin:fx-ai-matting',
   'builtin:fx-color-wheels',
   'builtin:fx-levels',
   'builtin:fx-highlights-shadows',

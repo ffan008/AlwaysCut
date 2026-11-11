@@ -1,29 +1,28 @@
 #version 300 es
 precision highp float;
 
-// AI portrait matting — background replacement (AlwaysCut).
+// AI portrait matting — transparent cutout (AlwaysCut).
 //
-// Composites the foreground clip (u_input) over a replacement background
-// (u_background) using a per-pixel alpha mask (u_mask) produced by the MediaPipe
-// selfie segmenter (src/matting/segment.ts). The mask's red channel is the
-// foreground confidence: 1 keeps the foreground, 0 shows the background.
+// Multiplies the foreground clip (u_input) by a per-pixel alpha mask (u_mask)
+// produced by the MediaPipe selfie segmenter (src/matting/segment.ts), emitting
+// a TRANSPARENT foreground (rgb kept, alpha = mask) so the timeline layers
+// below it show through as the replacement background — the same convention as
+// chroma-key/luma-key. The mask's red channel is the foreground confidence:
+// 1 keeps the foreground, 0 makes it transparent.
 //
-// Unlike the pure shader effects (e.g. chroma-key.frag), this shader needs two
-// external textures — the replacement background and the per-frame inference
-// mask — which the per-clip FxDef registry cannot express today; see the
-// feat/matting notes on how those samplers are bound.
+// The per-frame mask is bound by GlRuntime.renderMatting (units 0/1); the
+// per-clip FxDef registry cannot express a mask input, so ClipFx routes the
+// builtin:fx-ai-matting entry through this dedicated path.
 
-uniform sampler2D u_input;      // Foreground clip (the person to keep).
-uniform sampler2D u_background; // Replacement background image/video.
-uniform sampler2D u_mask;       // Alpha mask; red channel = foreground confidence 0..1.
-uniform float u_softness;       // Edge feather width around the 0.5 threshold, 0..0.5.
+uniform sampler2D u_input; // Foreground clip (the person to keep).
+uniform sampler2D u_mask;  // Alpha mask; red channel = foreground confidence 0..1.
+uniform float u_softness;  // Edge feather width around the 0.5 threshold, 0..0.5.
 
 in vec2 v_texCoord;
 out vec4 fragColor;
 
 void main() {
-  vec3 foreground = texture(u_input, v_texCoord).rgb;
-  vec3 background = texture(u_background, v_texCoord).rgb;
+  vec4 foreground = texture(u_input, v_texCoord);
 
   // Raw foreground confidence from the segmenter mask (already anti-aliased).
   float mask = texture(u_mask, v_texCoord).r;
@@ -32,9 +31,7 @@ void main() {
   // so u_softness=0 gives a binary cutout and larger values feather the edge.
   float alpha = smoothstep(0.5 - u_softness, 0.5 + u_softness, mask);
 
-  // Blend foreground over background; the result is a fully opaque frame.
-  vec3 composited = mix(background, foreground, alpha);
-
-  // Premultiplied-alpha convention with opaque output (rgb * 1.0, 1.0).
-  fragColor = vec4(composited, 1.0);
+  // Transparent foreground: keep the person, drop the background. The result
+  // composites over whatever the lower timeline tracks show.
+  fragColor = vec4(foreground.rgb, foreground.a * alpha);
 }

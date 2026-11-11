@@ -41,6 +41,12 @@ export interface FxDef {
   pipeline?: (uniforms: Record<string, UniformValue>) => FxPass[];
   /** .cube 3D LUT URL(/luts/<file>);frag should be universal lut.frag(u_lut+u_intensity) */
   cube?: string;
+  /**
+   * AI matting: the frag consumes a per-frame segmenter mask bound as `u_mask`,
+   * which the single-input FxPass graph cannot express. ClipFx detects this flag
+   * and renders through GlRuntime.renderMatting instead of renderFxChain.
+   */
+  matting?: boolean;
 }
 
 /** Serializable subset of FxDef (without pipeline function field): persisted with TimelineState.fxDefs,
