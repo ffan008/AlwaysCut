@@ -77,7 +77,7 @@ export default {
   compression: 'maximum',
   publish: [{
     provider: 'github',
-    owner: '0xsline',
+    owner: 'ffan008',
     repo: 'AlwaysCut',
     channel: updateChannel,
   }],
@@ -132,6 +132,14 @@ export default {
     // Sign the bundle ad hoc without a Developer ID so Finder still treats it as executable.
     // When CI injects CSC_LINK / CSC_NAME, electron-builder selects the official certificate automatically.
     ...(hasMacSigningCertificate ? {} : { identity: '-' }),
+    // Recording line (screen + mic + camera): usage descriptions shown in the
+    // macOS TCC permission prompts. Screen capture is granted via the system
+    // "Screen Recording" TCC service triggered by getDisplayMedia/desktopCapturer.
+    extendInfo: {
+      NSMicrophoneUsageDescription: 'AlwaysCut records your microphone for narration and voice-overs.',
+      NSScreenCaptureUsageDescription: 'AlwaysCut captures your screen to record tutorials and demos.',
+      NSCameraUsageDescription: 'AlwaysCut records your camera for picture-in-picture video.',
+    },
   },
   win: {
     target: ['nsis'],

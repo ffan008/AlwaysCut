@@ -20,6 +20,9 @@ interface ExtensionCenterProps {
   onClose: () => void;
 }
 
+// Extension registry endpoint. Override via VITE_RESOURCE_REGISTRY_URL before
+// public distribution; the fallback points at the AlwaysCut community registry
+// (replace once the project's own endpoint exists).
 const REGISTRY_URL = import.meta.env.VITE_RESOURCE_REGISTRY_URL
   || 'https://alwayscut.com/api/resources/extensions';
 const registryCacheKey = (locale: Locale) => `cc.extension-registry.${locale}`;

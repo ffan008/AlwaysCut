@@ -8,5 +8,12 @@
   <true/>
   <key>com.apple.security.cs.disable-library-validation</key>
   <true/>
+  <!-- Recording (screen + mic + camera) line: hardened runtime must explicitly
+       grant audio/camera device access, and screen capture needs the TCC prompt
+       triggered by getDisplayMedia/desktopCapturer at runtime. -->
+  <key>com.apple.security.device.audio-input</key>
+  <true/>
+  <key>com.apple.security.device.camera</key>
+  <true/>
 </dict>
 </plist>

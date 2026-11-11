@@ -2,11 +2,12 @@ import { ipcMain } from 'electron';
 import { assertTrustedDesktopSenderUrl } from './page-origin.ts';
 import {
   DESKTOP_ENHANCE_CHANNELS,
+  isDesktopEnhanceRequestId,
   parseEnhanceRequest,
   type EnhanceCapabilities,
   type EnhanceResult,
 } from '../shared/desktop-enhance.ts';
-import { runDenoise } from '../server/enhance-runner.ts';
+import { cancelDenoise, runDenoise } from '../server/enhance-runner.ts';
 
 export interface InstalledDesktopEnhance {
   dispose(): void;
@@ -39,8 +40,7 @@ export function installDesktopEnhanceIpc(trustedOrigin: string): InstalledDeskto
 
   ipcMain.handle(DESKTOP_ENHANCE_CHANNELS.cancel, (event, requestId: unknown): void => {
     assertTrustedDesktopSenderUrl(event.senderFrame?.url ?? '', trustedOrigin);
-    // TODO(feat/enhance): cancel an in-flight job keyed by requestId.
-    void requestId;
+    if (isDesktopEnhanceRequestId(requestId)) cancelDenoise(requestId);
   });
 
   return {
