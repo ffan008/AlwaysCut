@@ -1,0 +1,18 @@
+export default {
+  '屏幕录制': 'Screen recording',
+  '录制中': 'Recording',
+  '未在录制': 'Not recording',
+  '录制未产生数据。': 'Recording produced no data.',
+  '仅在桌面应用中支持保存到媒体池。': 'Saving to the media pool is only supported in the desktop app.',
+  '已保存到媒体池：{name}': 'Saved to media pool: {name}',
+  '保存失败：桌面桥接未接受该文件。': 'Save failed: the desktop bridge rejected the file.',
+  '保存失败：{reason}': 'Save failed: {reason}',
+  '麦克风': 'Microphone',
+  '屏幕源': 'Screen source',
+  '正在加载屏幕源…': 'Loading screen sources…',
+  '未找到可录制的屏幕或窗口。': 'No recordable screen or window found.',
+  '屏幕': 'Screen',
+  '窗口': 'Window',
+  '刷新': 'Refresh',
+  '开始录制': 'Start recording',
+} as Record<string, string>;
