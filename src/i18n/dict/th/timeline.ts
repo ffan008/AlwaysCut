@@ -1,6 +1,8 @@
 // TH dictionary (field fragmentation, key = Chinese original text). Data files are exempt from the upper limit of row count.
 // Source: src/components/timeline/*
 export default {
+  // ── TimelineArea.tsx ──
+  '时间链': 'ไทม์ไลน์',
   // ── Timeline.tsx ──
   '该轨道还没有可用文字稿': 'แทร็กนี้ยังไม่มีทรานสคริปต์ที่ใช้ได้',
   '导出 MG 动画中（ProRes 4444）…': 'กำลังส่งออกแอนิเมชัน MG (ProRes 4444)…',

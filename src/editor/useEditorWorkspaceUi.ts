@@ -25,6 +25,7 @@ import { useAutomaticVersions } from '../persist/useAutomaticVersions';
 import { useEditorActions } from '../shortcuts/useEditorActions';
 import type { TimelineShortcutApi } from '../shortcuts/timelineApi';
 import type { Tpl } from '../types';
+import type { LibraryMainTab } from '../library/LibraryPanel';
 import type { EditorCommands } from './store';
 import { revisionAfterRelink } from './mediaSourceRevision';
 import type { MediaAsset, MediaAssetRelinkPatch, ProjectDoc } from './types';
@@ -101,6 +102,9 @@ export interface EditorWorkspacePanels {
   inspectorCollapsed: boolean;
   setInspectorCollapsed: Dispatch<SetStateAction<boolean>>;
   addTemplate: (template: Tpl) => void;
+  /** Controlled library main tab (lifted so the transcript panel can jump to captions). */
+  libraryTab: LibraryMainTab;
+  setLibraryTab: Dispatch<SetStateAction<LibraryMainTab>>;
 }
 
 interface EditorWorkspacePanelsInput {
@@ -113,6 +117,7 @@ export function useEditorWorkspacePanels({
   const [chatCollapsed, setChatCollapsed] = usePersistedState('cc.chatCollapsed', false);
   const panelLayout = useEditorPanelLayout(chatCollapsed);
   const [inspectorCollapsed, setInspectorCollapsed] = usePersistedState('cc.inspectorCollapsed', false);
+  const [libraryTab, setLibraryTab] = useState<LibraryMainTab>('我的素材');
   const addTemplate = useCallback((template: Tpl) => commands.addMotionGraphic(template), [commands]);
 
   return {
@@ -122,6 +127,8 @@ export function useEditorWorkspacePanels({
     inspectorCollapsed,
     setInspectorCollapsed,
     addTemplate,
+    libraryTab,
+    setLibraryTab,
   };
 }
 

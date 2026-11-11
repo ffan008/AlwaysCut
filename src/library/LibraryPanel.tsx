@@ -8,12 +8,10 @@ import type { MediaAsset, MediaAssetRelinkPatch, MediaFolder, TimelineItem, Trac
 import type { MobileUploadRecord } from '../media/mobileUploadApi';
 import { AUDIO_TRANSITION_ORDER, TRANSITION_LABELS, TRANSITION_ORDER, ZOOM_SHAPE_LABELS, ZOOM_SHAPE_ORDER } from '../editor/types';
 import type { CaptionsData } from '../captions/types';
-import type { TranscriptWord } from '../transcript/types';
 import type { AudioAsset } from '../audio/library';
 import { FX_EFFECTS, FX_IDS, LUT_EFFECTS, LUT_IDS } from '../gl/fx/effects';
-import { TranscriptPanel, type TranscriptTrackOption } from '../transcript/TranscriptPanel';
+import type { TranscriptTrackOption } from '../transcript/TranscriptPanel';
 import { CaptionsPanel } from '../captions/CaptionsPanel';
-import { newManualCaptions } from '../captions/manualCaptions';
 import { MediaPoolPanel } from '../media/MediaPoolPanel';
 import { useDirectoryImport } from '../media/useDirectoryImport';
 import { SkillsTabPanel } from './SkillsTabPanel';
@@ -31,7 +29,6 @@ import { isPluginAssetId } from '../plugins/types';
 import { customTransitionUniforms, getCustomTransition } from '../gl/customTransitions';
 import type { ZoomEffect } from '../editor/types';
 import { Icon } from '../components/icons';
-import { parseSrt } from '../captions/srt';
 
 // Two built-in LUTs implemented with published camera-log transfer functions.
 // They apply through the same pipeline as other effects.
@@ -59,19 +56,12 @@ interface LibraryPanelProps {
   items: TimelineItem[];
   getSequenceOptions: () => SequenceLibraryOption[];
   onAddSequence: (timelineId: string) => void;
-  /** A1/V1 aliases + names for script track picker */
-  trackOptions: TranscriptTrackOption[];
+  /** Controlled active main tab (lifted so the transcript panel can switch to captions). */
+  mainTab: LibraryMainTab;
+  onMainTabChange: (tab: LibraryMainTab) => void;
   captionTracks: Array<TranscriptTrackOption & { captions: CaptionsData | null }>;
   onSetCaptions: (c: CaptionsData | null, track?: TrackId) => void;
-  onCreateCaptionTrack: (captions: CaptionsData, opts?: { name?: string; order?: number }) => TrackId;
   onUpdateCaptions: (patch: Partial<CaptionsData>, track?: TrackId) => void;
-  onSetItemTranscript: (id: string, words: TranscriptWord[]) => void;
-  onToggleWord: (id: string, idx: number) => void;
-  onCleanScript: (id: string, opts: { silenceFrames?: number; removeFillers: boolean }) => void;
-  onSetGapCap: (id: string, afterWordIndex: number, maxMs: number | null) => void;
-  onSetTranscriptPlayOrder: (id: string, playOrder: number[] | null) => void;
-  onReorderTrackItems: (track: string, orderedIds: string[]) => void;
-  onClearEdits: (id: string) => void;
   assets: MediaAsset[];
   mediaFolders: MediaFolder[];
   usedAssetIds: ReadonlySet<string>;
@@ -119,17 +109,17 @@ interface LibraryPanelProps {
   onApplyZoom: (zoom: ZoomEffect) => void;
 }
 
-const MAIN_TABS = ['我的素材', '序列', '资源库', '文字稿', '字幕', '技能'] as const;
+export const MAIN_TABS = ['我的素材', '序列', '资源库', '字幕', '技能'] as const;
+export type LibraryMainTab = (typeof MAIN_TABS)[number];
 const SUB_TABS = ['MG 动画', '音效', '转场', '特效', '缩放', 'LUT'] as const;
 function localizeDefaultSequenceName(name: string, t: ReturnType<typeof useT>): string {
   const match = /^序列 (\d+)$/.exec(name);
   return match ? t('序列 {n}', { n: match[1]! }) : name;
 }
-export function LibraryPanel({ semanticScopeId, templates, onAddTemplate, onAddAudio, playerRef, fps, items, getSequenceOptions, onAddSequence, trackOptions, captionTracks, onSetCaptions, onCreateCaptionTrack, onUpdateCaptions, onSetItemTranscript, onToggleWord, onCleanScript, onSetGapCap, onSetTranscriptPlayOrder, onReorderTrackItems, onClearEdits, assets, mediaFolders, usedAssetIds, offlineAssetIds, onAssetLoadError, onImportMedia, onImportMobileMedia, onIngestDirectoryAsset, onTranscribeAsset, onAddMediaItem, onAddMediaAssetsToTimeline, onUseMediaAI, onCreateMediaFolder, onRenameMediaFolder, onDeleteMediaFolder, onMoveMediaAssets, onRenameMediaAsset, onRenameMediaAssets, onSetMediaAssetFavorite, onSetMediaAssetsFavorite, onRemoveMediaAsset, onRemoveMediaAssets, onPasteMediaAssets, onRelinkMediaAsset, creativeMode, onCreativeModeChange, onAddSolid, onUseTemplateAI, selectedItem, onApplyTransition, onApplyFx, onApplyZoom }: LibraryPanelProps) {
+export function LibraryPanel({ semanticScopeId, templates, onAddTemplate, onAddAudio, playerRef, fps, items, getSequenceOptions, onAddSequence, mainTab, onMainTabChange, captionTracks, onSetCaptions, onUpdateCaptions, assets, mediaFolders, usedAssetIds, offlineAssetIds, onAssetLoadError, onImportMedia, onImportMobileMedia, onIngestDirectoryAsset, onTranscribeAsset, onAddMediaItem, onAddMediaAssetsToTimeline, onUseMediaAI, onCreateMediaFolder, onRenameMediaFolder, onDeleteMediaFolder, onMoveMediaAssets, onRenameMediaAsset, onRenameMediaAssets, onSetMediaAssetFavorite, onSetMediaAssetsFavorite, onRemoveMediaAsset, onRemoveMediaAssets, onPasteMediaAssets, onRelinkMediaAsset, creativeMode, onCreativeModeChange, onAddSolid, onUseTemplateAI, selectedItem, onApplyTransition, onApplyFx, onApplyZoom }: LibraryPanelProps) {
   const t = useT();
   const selKind = selectedItem?.kind ?? null;
   const isVisual = selKind != null && selKind !== 'audio';
-  const [mainTab, setMainTab] = useState<(typeof MAIN_TABS)[number]>('我的素材');
   const [subTab, setSubTab] = useState<(typeof SUB_TABS)[number]>('MG 动画');
   const [extensionOpen, setExtensionOpen] = useState(false);
   const [directoryImportError, setDirectoryImportError] = useState<string | null>(null);
@@ -159,39 +149,17 @@ export function LibraryPanel({ semanticScopeId, templates, onAddTemplate, onAddA
   };
   // Audio transition: The source catalog has no independent entries and the false entry has been hidden (§4.2)
   const showSfx = mainTab === '资源库' && subTab === '音效';     // sound effects
-  const isTranscript = mainTab === '文字稿';
   const isCaptions = mainTab === '字幕';
   const isMyAssets = mainTab === '我的素材';
   const isSequences = mainTab === '序列';
   const sequenceOptions = useMemo(() => isSequences ? getSequenceOptions() : [], [isSequences, getSequenceOptions]);
   const isSkills = mainTab === '技能';
-  const openCaptionStyles = (sourceItemIds: string[]) => {
-    const target = captionTracks[0];
-    if (!target?.captions && sourceItemIds.length) {
-      onSetCaptions({ enabled: true, template: 'black-bar', pacing: 'phrase', sourceItemId: sourceItemIds[0]!, sources: sourceItemIds.length > 1 ? sourceItemIds : undefined, sourceMode: sourceItemIds.length > 1 ? 'item' : undefined, bilingual: false }, target?.id);
-    }
-    setMainTab('字幕');
-  };
-  const importSrt = async (file: File) => {
-    try {
-      const words = parseSrt(await file.text());
-      const entryId = `srt_${crypto.randomUUID()}`;
-      onCreateCaptionTrack({
-        ...newManualCaptions(),
-        sourceEntries: [{ id: entryId, itemId: `manual:${entryId}`, label: file.name, words }],
-      }, { name: file.name.replace(/\.srt$/i, '') || file.name });
-      setMainTab('字幕');
-    } catch (error) {
-      const detail = error instanceof Error ? error.message : String(error);
-      window.alert(`${t('SRT 导入失败')}：${t(detail)}`);
-    }
-  };
 
   return (
     <section className="cc-library-panel">
       <div className="cc-main-tabs">
         {MAIN_TABS.map((tab) => (
-          <button key={tab} onClick={() => { setExtensionOpen(false); setMainTab(tab); }}
+          <button key={tab} onClick={() => { setExtensionOpen(false); onMainTabChange(tab); }}
             className={`cc-main-tab${mainTab === tab ? ' selected' : ''}`}>{t(tab)}</button>
         ))}
       </div>
@@ -199,10 +167,6 @@ export function LibraryPanel({ semanticScopeId, templates, onAddTemplate, onAddA
         <ExtensionCenter onClose={() => setExtensionOpen(false)} />
       ) : isCaptions ? (
         <CaptionsPanel playerRef={playerRef} fps={fps} items={items} captionTracks={captionTracks} onSetCaptions={onSetCaptions} onUpdateCaptions={onUpdateCaptions} />
-      ) : isTranscript ? (
-        <div style={{ flex: 1, overflowY: 'auto', minHeight: 0, borderTop: `0.5px solid ${theme.border}` }}>
-          <TranscriptPanel playerRef={playerRef} fps={fps} items={items} trackOptions={trackOptions} onSetItemTranscript={onSetItemTranscript} onToggleWord={onToggleWord} onCleanScript={onCleanScript} onSetGapCap={onSetGapCap} onSetTranscriptPlayOrder={onSetTranscriptPlayOrder} onReorderTrackItems={onReorderTrackItems} onClearEdits={onClearEdits} onImportSrt={(file) => { void importSrt(file); }} onOpenCaptionStyles={openCaptionStyles} />
-        </div>
       ) : isSequences ? (
         <div className="cc-sequence-panel">
           <div className="cc-sequence-hint">

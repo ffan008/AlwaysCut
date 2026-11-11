@@ -5,8 +5,7 @@ import { ChatPanel } from '../components/chat/ChatPanel';
 import { LibraryPanel } from '../library/LibraryPanel';
 import { PreviewPanel } from '../components/PreviewPanel';
 import { InspectorPanel } from '../components/InspectorPanel';
-import { Timeline } from '../components/timeline/Timeline';
-import { TimelineTabs } from '../components/timeline/TimelineTabs';
+import { TimelineArea } from '../components/timeline/TimelineArea';
 import { Divider } from '../components/Divider';
 import { AppToastHost } from '../ui/AppToastHost';
 // Opened on demand, so they load on demand — see workspaceDialogs.tsx.
@@ -32,8 +31,7 @@ export interface EditorWorkspaceViewProps {
   previewPanel: ComponentProps<typeof PreviewPanel>;
   inspectorPanel: ComponentProps<typeof InspectorPanel> | null;
   onResizeTimeline: ComponentProps<typeof Divider>['onResize'];
-  timelineTabs: ComponentProps<typeof TimelineTabs>;
-  timeline: ComponentProps<typeof Timeline>;
+  timelineArea: ComponentProps<typeof TimelineArea>;
 }
 
 
@@ -57,8 +55,7 @@ function renderPreview(props: EditorWorkspaceViewProps) {
 function renderTimeline(props: EditorWorkspaceViewProps) {
   return (
     <div style={{ gridColumn: '3 / -1', gridRow: 4, display: 'flex', flexDirection: 'column', minHeight: 0, overflow: 'hidden' }}>
-      <TimelineTabs {...props.timelineTabs} />
-      <Timeline {...props.timeline} />
+      <TimelineArea {...props.timelineArea} />
     </div>
   );
 }

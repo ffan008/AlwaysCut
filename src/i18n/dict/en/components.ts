@@ -398,4 +398,5 @@ export default {
   '预览画布片段变换': 'Preview canvas clip transform',
   '适配': 'Fit',
   '适配：素材在画布内完整显示': 'Fit: show the whole clip inside the canvas',
+  '画布比例': 'Canvas aspect ratio',
 } as Record<string, string>;

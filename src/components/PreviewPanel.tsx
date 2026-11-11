@@ -87,10 +87,11 @@ const ASPECT_PRESETS: readonly { label: string; w: number; h: number }[] = [
 ];
 
 function AspectSelector({ width, height, onSetAspect }: { width: number; height: number; onSetAspect: (w: number, h: number, fit?: AspectFit) => void }) {
+  const t = useT();
   const match = ASPECT_PRESETS.find((p) => p.w === width && p.h === height);
   return (
     <select
-      aria-label="画布比例"
+      aria-label={t('画布比例')}
       value={match ? `${match.w}x${match.h}` : 'custom'}
       onChange={(event) => {
         const value = event.target.value;

@@ -1,5 +1,6 @@
 // KO dictionary (field fragmentation mirroring dict/en, key = Chinese original text).
 export default {
+  '时间链': '타임라인',
   '该轨道还没有可用文字稿': '이 트랙에는 아직 사용할 수 있는 전사 텍스트가 없습니다',
   '导出 MG 动画中（ProRes 4444）…': 'MG 애니메이션 내보내는 중(ProRes 4444)…',
   '导出失败': '내보내기 실패',

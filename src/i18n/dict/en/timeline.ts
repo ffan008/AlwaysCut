@@ -2,6 +2,8 @@
 // Source: src/components/timeline/*(Timeline/Toolbar/TrackHead/TrackLane/ClipContextMenu/
 // MarkerEditor/TimelineRuler/TimelineTabs/libraryDropActions).
 export default {
+  // ── TimelineArea.tsx (时间链 / 文字稿 dual-view tab) ──
+  '时间链': 'Timeline',
   // ── Timeline.tsx ──
   '该轨道还没有可用文字稿': 'This track has no usable transcript yet',
   '导出 MG 动画中（ProRes 4444）…': 'Exporting MG animation (ProRes 4444)…',

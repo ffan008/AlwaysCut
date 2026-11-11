@@ -7,7 +7,7 @@
 // Panels report picks via a window event (window "alwayscut:items-clicked|time-marked|
 // canvas-region-marked|transcript-selected"); a module store carries the
 // selection-mode flag (isSelectionMode) so panels deep inside other
-// panels (transcript lives in LibraryPanel) need no prop drilling.
+// panels (transcript lives in the timeline area) need no prop drilling.
 
 import { useSyncExternalStore } from 'react';
 import {
@@ -400,7 +400,7 @@ export function transcriptRefFromDomSelection(
 // The composer toggle drives the flag; Timeline/Preview/Transcript read it via
 // useSelectionRefMode() and report picks with emitSelectionRef(). This uses an
 // isSelectionMode flag + window "alwayscut:*" CustomEvents and avoids
-// prop-drilling through LibraryPanel (transcript panel lives inside it).
+// prop-drilling through the timeline area (transcript panel lives inside it).
 
 let selectionModeOn = false;
 const modeSubs = new Set<() => void>();
