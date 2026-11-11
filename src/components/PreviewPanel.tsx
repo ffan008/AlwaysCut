@@ -33,6 +33,7 @@ import {
   type PreviewSourceMode,
 } from '../media/qualityPolicy';
 import type { SlipPreview } from '../editor/slip';
+import type { AspectFit } from '../editor/aspectTypes';
 import { SlipTwoUpPreview } from './SlipTwoUpPreview';
 import { PREVIEW_SHARED_AUDIO_TAGS } from './previewAudioPool';
 import { SafeZoneOverlay } from './SafeZoneOverlay';
@@ -77,11 +78,46 @@ function PreviewSourceToggle() {
   );
 }
 
+/** Pro-style canvas aspect presets (16:9 ▾ dropdown in the preview transport). */
+const ASPECT_PRESETS: readonly { label: string; w: number; h: number }[] = [
+  { label: '16:9', w: 1920, h: 1080 },
+  { label: '9:16', w: 1080, h: 1920 },
+  { label: '1:1', w: 1080, h: 1080 },
+  { label: '4:3', w: 1440, h: 1080 },
+];
+
+function AspectSelector({ width, height, onSetAspect }: { width: number; height: number; onSetAspect: (w: number, h: number, fit?: AspectFit) => void }) {
+  const match = ASPECT_PRESETS.find((p) => p.w === width && p.h === height);
+  return (
+    <select
+      aria-label="画布比例"
+      value={match ? `${match.w}x${match.h}` : 'custom'}
+      onChange={(event) => {
+        const value = event.target.value;
+        if (value === 'custom') return;
+        const [w, h] = value.split('x').map(Number);
+        if (w && h) onSetAspect(w, h);
+      }}
+      style={{
+        height: 22, padding: '0 6px', background: theme.panelAlt, color: theme.text,
+        border: `0.5px solid ${theme.border}`, borderRadius: 5, fontSize: 11, cursor: 'pointer',
+        fontFamily: 'inherit',
+      }}
+    >
+      {!match && <option value="custom">{`${width}×${height}`}</option>}
+      {ASPECT_PRESETS.map((p) => (
+        <option key={p.label} value={`${p.w}x${p.h}`}>{p.label}</option>
+      ))}
+    </select>
+  );
+}
+
 interface PreviewPanelProps {
   state: TimelineState;
   project: ProjectDoc;
   playerRef: RefObject<PlayerRef | null>;
   onImport: (file: File) => Promise<void>;
+  onSetAspect: (width: number, height: number, fit?: AspectFit) => void;
   offlineSrcs?: ReadonlySet<string>;
   /** Direct editing of canvas captions (check box + floating toolbar). If it has not been transmitted (such as proposal preview status), it is read-only. */
   onUpdateCaptions?: (patch: Partial<CaptionsData>, track?: TrackId) => void;
@@ -108,7 +144,7 @@ interface PreviewPanelProps {
 }
 
 export const PreviewPanel = memo(function PreviewPanel({
-  state, project, playerRef, onImport, offlineSrcs, onUpdateCaptions, onSelectCaption, activeCaptionSelection, onSeedChat,
+  state, project, playerRef, onImport, onSetAspect, offlineSrcs, onUpdateCaptions, onSelectCaption, activeCaptionSelection, onSeedChat,
   onSelectItem, onSetItemTransform, onSetItemKeyframe, onBeginHistoryGesture, onEndHistoryGesture,
   onItemPropChange,
   projectId, timelineId, reviewState, selectedItem, reviewRequest, inspectorOpen, onToggleInspector,
@@ -455,6 +491,19 @@ export const PreviewPanel = memo(function PreviewPanel({
             ) : null)}
           </div>
         )}
+      </div>
+      {/* Pro-style preview transport: aspect preset + fit toggle. Play/timecode
+          stay on the timeline transport (single source of truth). */}
+      <div className="cc-preview-transport" style={{ height: 34, padding: '0 12px', display: 'flex', alignItems: 'center', gap: 10, borderTop: `0.5px solid ${theme.border}`, flexShrink: 0 }}>
+        <AspectSelector width={state.width} height={state.height} onSetAspect={onSetAspect} />
+        <button
+          type="button"
+          onClick={() => onSetAspect(state.width, state.height, (state.fit ?? 'contain') === 'cover' ? 'contain' : 'cover')}
+          title={t('适配：素材在画布内完整显示')}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 11, lineHeight: 1, padding: '3px 8px', borderRadius: 5, cursor: 'pointer', border: `0.5px solid ${theme.border}`, background: 'transparent', color: theme.textDim }}
+        >
+          <Icon name="fit" size={13} /> {t('适配')}
+        </button>
       </div>
     </section>
   );

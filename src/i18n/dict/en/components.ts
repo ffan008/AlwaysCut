@@ -396,4 +396,6 @@ export default {
   '边框阴影': 'Border shadow',
   '边框颜色': 'Border color',
   '预览画布片段变换': 'Preview canvas clip transform',
+  '适配': 'Fit',
+  '适配：素材在画布内完整显示': 'Fit: show the whole clip inside the canvas',
 } as Record<string, string>;
