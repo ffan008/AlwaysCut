@@ -24,6 +24,7 @@ import { GL_COLOR_PIPELINE } from './colorPipeline.js';
 import type { CubeLut } from './fx/cube.js';
 import { SOURCE_OPACITY_FRAG } from './sourceOpacity.js';
 import type { FxPass, GlRuntime, UniformValue } from './runtimeTypes.js';
+import type { MattingMask } from '../../shared/matting.ts';
 export type { FxPass, GlRuntime, UniformValue } from './runtimeTypes.js';
 
 let activeGlRuntimes = 0;
@@ -103,6 +104,7 @@ export function createGlRuntime(canvas: HTMLCanvasElement): GlRuntime {
   const texOut = makeTexture(gl);
   const texIn = makeTexture(gl);
   const texFx = makeTexture(gl);
+  const texMask = makeTexture(gl);
   const programs = new Map<string, WebGLProgram>();
 
   // One retained output per intermediate pass. ASCII rain needs its sharp base
@@ -146,6 +148,18 @@ export function createGlRuntime(canvas: HTMLCanvasElement): GlRuntime {
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true); // DOM sources are top-down
     gl.pixelStorei(gl.UNPACK_COLORSPACE_CONVERSION_WEBGL, gl.NONE);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, src);
+  };
+
+  // Single-channel alpha mask upload. The selfie segmenter emits a top-down
+  // Uint8Array (ImageData order), so it flips exactly like the foreground
+  // upload above — otherwise the mask would be vertically mirrored against the
+  // person it is supposed to cut out. R8 keeps it one byte per pixel.
+  const uploadMask = (tex: WebGLTexture, unit: number, mask: MattingMask) => {
+    gl.activeTexture(gl.TEXTURE0 + unit);
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    gl.pixelStorei(gl.UNPACK_COLORSPACE_CONVERSION_WEBGL, gl.NONE);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8, mask.width, mask.height, 0, gl.RED, gl.UNSIGNED_BYTE, mask.alpha);
   };
 
   const setUniform = (prog: WebGLProgram, name: string, v: UniformValue) => {
@@ -443,6 +457,34 @@ export function createGlRuntime(canvas: HTMLCanvasElement): GlRuntime {
       }
       gl.bindFramebuffer(gl.FRAMEBUFFER, null); // restore for later single-pass draws
     },
+    renderMatting(frag, foreground, background, mask, extra) {
+      assertContextAvailable();
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      const prog = getProgram(frag);
+      gl.useProgram(prog);
+      bindQuad(prog);
+
+      upload(texOut, 0, foreground);
+      const locIn = gl.getUniformLocation(prog, 'u_input');
+      if (locIn) gl.uniform1i(locIn, 0);
+
+      upload(texIn, 1, background);
+      const locBg = gl.getUniformLocation(prog, 'u_background');
+      if (locBg) gl.uniform1i(locBg, 1);
+
+      uploadMask(texMask, 2, mask);
+      const locMask = gl.getUniformLocation(prog, 'u_mask');
+      if (locMask) gl.uniform1i(locMask, 2);
+
+      setUniform(prog, 'u_resolution', [canvas.width, canvas.height]);
+      setUniform(prog, 'u_aspect', canvas.width / Math.max(1, canvas.height));
+      for (const [key, value] of Object.entries(extra ?? {})) setUniform(prog, key, value);
+
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    },
     dispose() {
       if (disposed) return;
       disposed = true;
@@ -453,6 +495,7 @@ export function createGlRuntime(canvas: HTMLCanvasElement): GlRuntime {
       gl.deleteTexture(texOut);
       gl.deleteTexture(texIn);
       gl.deleteTexture(texFx);
+      gl.deleteTexture(texMask);
       for (const t of lutTextures.values()) gl.deleteTexture(t);
       lutTextures.clear();
       if (dummyLut) { gl.deleteTexture(dummyLut); dummyLut = null; }
