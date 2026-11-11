@@ -26,6 +26,7 @@ import {
   type ProjectMigrationProgress,
 } from './migrations';
 import { clearSemanticVectors } from '../media/semantic-search/vectorStore';
+import { purgeProjectDocs } from './projectDocs';
 import {
   ProjectIndexCoordinator,
   SaveCoordinator,
@@ -463,6 +464,7 @@ export async function purgeProject(id: string, options?: ProjectPurgeOptions): P
   projectSaveCoordinator.invalidate(id);
   await projectSaveCoordinator.flush(id);
   await clearProjectSemanticVectors(id, options);
+  await purgeProjectDocs(id);
   await kvPurgeProject(id);
   await mutateProjectIndex((index) => ({
     next: index.filter((meta) => meta.id !== id),

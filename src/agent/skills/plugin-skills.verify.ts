@@ -19,6 +19,17 @@ const EXPECTED = [
   'product-help', 'shader-gen', 'skill-creator', 'storyboard-shot-breakdown', 'talking-head-guide',
   'transcription', 'verification', 'video-gen', 'video-thumbnail-generator', 'voice',
   'widget-forms',
+  // director 总流程 + Pro 垂直工作流（color/audio/talking/social/workflow）
+  'director',
+  'cinematic-teal-orange', 'film-grain-look', 'moody-duotone', 'neon-night-city',
+  'clean-bright-tutorial', 'skin-tone-fix',
+  'audio-mix-voice-bgm', 'audio-noise-cleanup', 'sound-design-pack', 'audio-fade-polish',
+  'talking-head-packaging', 'two-person-podcast', 'interview-two-cam', 'street-interview',
+  'course-chapter-cut', 'knowledge-card-video',
+  'short-video-hook', 'short-drama', 'ranking-listicle', 'end-card-cta', 'native-subtitle-quote-image',
+  'reference-breakdown', 'reference-project-apply', 'narration-led-demo', 'multi-scene-organization',
+  'critique-review', 'visual-continuity', 'aesthetic-standards', 'ai-enhance-guide',
+  'scene-script', 'b-roll-layering',
 ];
 
 // Every expected skill dir is present, and no extras.

@@ -41,6 +41,7 @@ import { FONT_TOOL_NAMES, FONT_TOOL_SCHEMAS } from './tools/schemas/font-tools';
 import { SEARCH_TOOL_NAMES, SEARCH_TOOL_SCHEMAS } from './tools/schemas/search-tools';
 import { FOLLOWUP_TOOL_NAMES, FOLLOWUP_TOOL_SCHEMAS } from './tools/schemas/followup-tools';
 import { PROJECT_TOOL_NAMES, PROJECT_TOOL_SCHEMAS } from './tools/schemas/project-tools';
+import { PROJECT_DOC_TOOL_NAMES, PROJECT_DOC_TOOL_SCHEMAS } from './tools/schemas/project-doc-tools';
 import { UPLOAD_TOOL_NAMES, UPLOAD_TOOL_SCHEMAS } from './tools/schemas/upload-tools';
 import { FRICTION_TOOL_NAMES, FRICTION_TOOL_SCHEMAS } from './tools/schemas/friction-tools';
 import { READ_PROJECT_TOOL_NAMES, READ_PROJECT_TOOL_SCHEMAS } from './tools/schemas/read-project-tools';
@@ -150,6 +151,8 @@ export const TOOL_SCHEMAS: AgentToolSchema[] = [
   ...FOLLOWUP_TOOL_SCHEMAS,
   // Project session: create/list/delete/duplicate/edit/restore/target_project + get_editor_url
   ...PROJECT_TOOL_SCHEMAS,
+  // Director project memory: read_project_doc / write_project_doc (6-doc model, cross-session)
+  ...PROJECT_DOC_TOOL_SCHEMAS,
   // Verified import session/finalize receipt chain plus media download.
   ...UPLOAD_TOOL_SCHEMAS,
   // Silent friction reporting through a localStorage ring buffer; no backend.
@@ -259,6 +262,7 @@ const EXECUTOR_GROUPS: ReadonlyArray<readonly [ReadonlySet<string>, ToolExecutor
   [SEARCH_TOOL_NAMES, async () => (await import('./tools/search-tools')).execSearchTool],
   [FOLLOWUP_TOOL_NAMES, async () => (await import('./tools/followup-tools')).execFollowupTool],
   [PROJECT_TOOL_NAMES, async () => (await import('./tools/project-tools')).execProjectTool],
+  [PROJECT_DOC_TOOL_NAMES, async () => (await import('./tools/project-doc-tools')).execProjectDocTool],
   [UPLOAD_TOOL_NAMES, async () => (await import('./tools/upload-tools')).execUploadTool],
   [FRICTION_TOOL_NAMES, async () => (await import('./tools/friction-tools')).execFrictionTool],
   [READ_PROJECT_TOOL_NAMES, async () => (await import('./tools/read-project-tools')).execReadProjectTool],

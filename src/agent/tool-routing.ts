@@ -132,7 +132,7 @@ const ROUTING_GROUPS: readonly RoutingGroup[] = [
     tools: [
       'manage_timelines', 'manage_versions', 'manage_markers', 'manage_design_style', 'list_projects',
       'create_project', 'delete_project', 'restore_project', 'duplicate_project', 'edit_project',
-      'target_project', 'get_editor_url',
+      'target_project', 'get_editor_url', 'read_project_doc', 'write_project_doc',
     ],
   },
   {
