@@ -1,8 +1,8 @@
 import { execFile } from 'node:child_process';
 import { constants } from 'node:fs';
-import { access, stat } from 'node:fs/promises';
+import { access, readdir, stat } from 'node:fs/promises';
 import { homedir } from 'node:os';
-import { delimiter, isAbsolute, join, resolve, sep } from 'node:path';
+import { delimiter, dirname, isAbsolute, join, resolve, sep } from 'node:path';
 import { codexCommand } from './command.ts';
 
 const VERSION_TIMEOUT_MS = 10_000;
@@ -55,6 +55,52 @@ function commonCandidates(): string[] {
   ];
 }
 
+/**
+ * Version-manager installs (`npm i -g` under nvm/fnm/asdf/n) place the CLI
+ * inside `…/node/<version>/bin`, which neither the GUI process's trimmed PATH
+ * nor the hard-coded `commonCandidates` list covers. Scan those directories so
+ * a CLI installed through a Node version manager is still detected. Version ids
+ * sort newest-first so the latest toolchain (which usually ships the newest CLI)
+ * wins the first-executable selection below.
+ */
+function versionIdParts(value: string): readonly number[] {
+  return value.replace(/^v/i, '').split(/[._-]/, 3).map((part) => Number.parseInt(part, 10) || 0);
+}
+
+function compareVersionIds(a: string, b: string): number {
+  const pa = versionIdParts(a);
+  const pb = versionIdParts(b);
+  for (let index = 0; index < 3; index += 1) {
+    if (pa[index] !== pb[index]) return pa[index] - pb[index];
+  }
+  return 0;
+}
+
+async function nodeManagerCandidates(name: string): Promise<string[]> {
+  if (process.platform === 'win32') return [];
+  const home = homedir();
+  const roots: ReadonlyArray<{ readonly root: string; readonly suffix: readonly string[] }> = [
+    { root: join(home, '.nvm', 'versions', 'node'), suffix: ['bin'] },
+    { root: join(home, '.fnm', 'node-versions'), suffix: ['installation', 'bin'] },
+    { root: join(home, '.asdf', 'installs', 'nodejs'), suffix: ['bin'] },
+    { root: join(home, '.n', 'versions', 'node'), suffix: ['bin'] },
+  ];
+  const candidates: string[] = [];
+  for (const { root, suffix } of roots) {
+    let entries: string[];
+    try {
+      entries = await readdir(root);
+    } catch {
+      continue;
+    }
+    entries.sort((a, b) => compareVersionIds(b, a));
+    for (const entry of entries) candidates.push(join(root, entry, ...suffix, name));
+  }
+  // nvm `current` / `default` aliases, which resolve to the active version.
+  candidates.push(join(home, '.nvm', 'current', 'bin', name));
+  return candidates;
+}
+
 async function executable(candidate: string): Promise<boolean> {
   try {
     const info = await stat(candidate);
@@ -71,6 +117,7 @@ export async function resolveCodexCli(): Promise<string | null> {
     ...configuredCandidates(),
     ...pathCandidates('codex'),
     ...commonCandidates(),
+    ...await nodeManagerCandidates('codex'),
   ];
   const unique = [...new Set(candidates)];
   const checks = await Promise.all(unique.map(async (candidate) => ({
@@ -99,6 +146,17 @@ export function isSupportedCodexVersion(version: string | null): boolean {
   return !version.includes('-');
 }
 
+/**
+ * Prepend the CLI's own bin directory to PATH so a `#!/usr/bin/env node` shebang
+ * resolves even inside the GUI process, whose PATH omits Node version-manager
+ * directories (nvm/fnm/asdf). Codex ships as a JS entry that requires Node.
+ */
+function cliChildEnv(cliPath: string): NodeJS.ProcessEnv {
+  const binDir = dirname(cliPath);
+  const existing = process.env.PATH ?? process.env.Path ?? '';
+  return { ...process.env, PATH: `${binDir}${delimiter}${existing}` };
+}
+
 async function readVersion(path: string): Promise<string | null> {
   const command = codexCommand(path, ['--version']);
   const { promise, resolve } = Promise.withResolvers<string | null>();
@@ -108,6 +166,7 @@ async function readVersion(path: string): Promise<string | null> {
     maxBuffer: VERSION_OUTPUT_LIMIT,
     windowsHide: true,
     windowsVerbatimArguments: command.windowsVerbatimArguments,
+    env: cliChildEnv(path),
   }, (error, stdout, stderr) => {
     resolve(error ? null : parseVersion(`${stdout}\n${stderr}`));
   });

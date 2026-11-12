@@ -1,5 +1,6 @@
 import { spawn } from 'node:child_process';
 import { tmpdir } from 'node:os';
+import { dirname } from 'node:path';
 import { createInterface } from 'node:readline';
 import type { ClaudeCodeAgentModel, ClaudeCodeAgentModelsResponse } from '../../shared/claude-code-agent.ts';
 import { claudeCodeCommand } from './command.ts';
@@ -100,7 +101,7 @@ export async function requestClaudeCodeModels(
     '-p', '--input-format', 'stream-json', '--output-format', 'stream-json', '--verbose', '--restricted',
   ]);
   const child = spawn(command.executable, command.args, {
-    env: childEnvironment(),
+    env: childEnvironment(dirname(claudePath)),
     // Not the app checkout: nothing there (CLAUDE.md, .mcp.json) is needed.
     cwd: tmpdir(),
     windowsHide: true,

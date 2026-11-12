@@ -3,7 +3,7 @@ import { spawn, spawnSync, type ChildProcess } from 'node:child_process';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { createInterface } from 'node:readline';
 import { tmpdir } from 'node:os';
-import { dirname, join } from 'node:path';
+import { dirname, join, delimiter } from 'node:path';
 import type { ClaudeCodeTurnRequest, ClaudeCodeTurnStreamEvent } from '../../shared/claude-code-agent.ts';
 import { claudeCodeCommand } from './command.ts';
 
@@ -102,11 +102,17 @@ export class ClaudeCodeProcessError extends Error {
 }
 
 /** The allow-listed environment every Claude Code child gets (turns and the model query). */
-export function childEnvironment(): NodeJS.ProcessEnv {
+export function childEnvironment(extraBinDir?: string): NodeJS.ProcessEnv {
   const environment: NodeJS.ProcessEnv = {};
   for (const name of CHILD_ENV_NAMES) {
     const value = process.env[name];
     if (value !== undefined) environment[name] = value;
+  }
+  // Prepend the CLI's own bin dir so an npm-installed (JS) `claude` whose shebang
+  // is `#!/usr/bin/env node` still finds Node inside the GUI's trimmed PATH.
+  if (extraBinDir) {
+    const existing = environment.PATH ?? environment.Path ?? '';
+    environment.PATH = `${extraBinDir}${delimiter}${existing}`;
   }
   return environment;
 }
@@ -319,7 +325,7 @@ export async function runClaudeCodeTurn(
     if (request.sessionId) args.push('--resume', request.sessionId);
     const command = claudeCodeCommand(claudePath, args);
     const child = spawn(command.executable, command.args, {
-      env: childEnvironment(),
+      env: childEnvironment(dirname(claudePath)),
       // Restricted mode scopes the CLI's file tools to its working directory.
       // Point that at the same throwaway directory as the MCP config (removed in
       // the finally below) instead of inheriting the app's checkout, where the

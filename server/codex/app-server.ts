@@ -1,7 +1,7 @@
 import { spawn, type ChildProcessWithoutNullStreams } from 'node:child_process';
 import { copyFile, mkdir, mkdtemp, readFile, rm, chmod } from 'node:fs/promises';
 import { homedir, tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { delimiter, dirname, join } from 'node:path';
 import { createInterface } from 'node:readline';
 import type { CodexLoginMode } from '../../shared/codex-agent.ts';
 import { codexCommand } from './command.ts';
@@ -124,11 +124,15 @@ function record(value: unknown): Record<string, unknown> | null {
     : null;
 }
 
-function childEnvironment(): NodeJS.ProcessEnv {
+function childEnvironment(extraBinDir?: string): NodeJS.ProcessEnv {
   const environment: NodeJS.ProcessEnv = { CODEX_HOME };
   for (const name of CHILD_ENV_NAMES) {
     const value = process.env[name];
     if (value !== undefined) environment[name] = value;
+  }
+  if (extraBinDir) {
+    const existing = environment.PATH ?? environment.Path ?? '';
+    environment.PATH = `${extraBinDir}${delimiter}${existing}`;
   }
   return environment;
 }
@@ -267,7 +271,7 @@ export class CodexAppServerClient {
     const command = codexCommand(this.executablePath, [...this.argsPrefix, ...APP_SERVER_ARGS]);
     const child = spawn(command.executable, command.args, {
       cwd: runtimeCwd,
-      env: childEnvironment(),
+      env: childEnvironment(dirname(this.executablePath)),
       shell: false,
       windowsVerbatimArguments: command.windowsVerbatimArguments,
       windowsHide: true,
